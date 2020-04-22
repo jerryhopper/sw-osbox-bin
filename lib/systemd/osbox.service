@@ -1,0 +1,13 @@
+[Unit]
+Description=OsBox service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=forking
+Restart=always
+RestartSec=10
+User=root
+ExecStart=/usr/bin/env /root/standalone/osbox-service
+TasksMax=100
+[Install]
+WantedBy=multi-user.target

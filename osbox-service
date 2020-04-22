@@ -1,0 +1,98 @@
+#!/bin/bash 
+
+# Must be root to use this tool
+if [[ ! $EUID -eq 0 ]];then
+  if [[ -x "$(command -v sudo)" ]]; then
+    exec sudo bash "$0" "$@"
+    exit $?
+  else
+    echo -e "  ${CROSS} sudo is needed to run osbox commands.  Please run this script as root or install sudo."
+    exit 1
+  fi
+fi
+
+is_command() {
+    # Checks for existence of string passed in as only function argument.
+    # Exit value of 0 when exists, 1 if not exists. Value is the result
+    # of the `command` shell built-in call.
+    local check_command="$1"
+
+    command -v "${check_command}" >/dev/null 2>&1
+}
+
+
+# must use aarch64
+if [ "$(uname -m)" != "aarch64" ]; then
+  echo "invalid platform"
+  exit;
+fi
+
+if ! is_command avahi-browse ;then
+   apt-get -f install avahi-utils
+fi
+
+if ! is_command nmap ;then
+   apt-get -f install nmap
+fi
+
+if ! is_command git ;then
+   apt-get -f install git
+fi
+
+OSBOXMASTER=$(avahi-browse -rtp _osboxmaster._tcp|grep "=;eth0;IPv4")
+
+if [ "$OSBOXMASTER" == "" ] ; then
+ echo "yes, nothing"
+else
+ echo "no - result!"
+fi
+
+OSBOXMASTERHOST=$OSBOXMASTER|awk -F';' '{ print $7}'
+OSBOXMASTERIP=$OSBOXMASTER|awk -F';' '{ print $8}'
+OSBOXMASTERPORT=$OSBOXMASTER|awk -F';' '{ print $9}'
+
+
+echo $(ip addr | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+
+
+#sleep 5
+
+# Check port 80
+HTTPPID=$(fuser 80/tcp 2>/dev/null)
+if [ $HTTPPID ]; then
+  HTTPPROG=$( ps -p $HTTPPID |grep $HTTPPID |awk '{ print $4 }' )
+  echo "HTTP  in use by $HTTPPROG"
+else
+  echo "n"
+fi
+
+# Check port 443
+HTTPSPID=$(fuser 443/tcp 2>/dev/null)
+if [ $HTTPSPID ]; then
+  HTTPSPROG=$( ps -p $HTTPSPID |grep $HTTPSPID |awk '{ print $4 }' )
+  echo "HTTPS in use by $HTTPSPROG"
+else
+  echo "n"
+fi
+
+
+
+
+
+#BIN=$( ps -f -p $PID|grep $PID|awk '{ print $8 }' )
+
+
+#if is_command lighttpd ; then
+#echo "lighthttpd is available"
+#fi
+echo $PROG
+#echo $BIN
+
+
+
+
+cd /root/standalone
+
+PHP_INI_SCAN_DIR=./bin/conf.d 
+./bin/osboxd -c ./bin/osboxd.ini -f ./project/osbox-core/src/osbox-service.php
+
