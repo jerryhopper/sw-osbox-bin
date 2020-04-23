@@ -135,9 +135,8 @@ mkdir /usr/local/osbox/project
 echo "Installing files."
 log "Installing files."
 cp -R ./osbox* /usr/local/osbox
-cp -R ./bin /usr/local/osbox
-cp -R ./20180731 /usr/local/osbox
 cp -R ./lib /usr/local/osbox
+mv -R /usr/local/osbox/lib/arch/$(uname -m) /usr/local/osbox
 
 
 
