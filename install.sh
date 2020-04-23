@@ -119,7 +119,7 @@ mkdir /usr/local/osbox/project
 # copy the contents of the archive.
 echo "Installing files."
 log "Installing files."
-cp -R ./osbox-* /usr/local/osbox
+cp -R ./osbox* /usr/local/osbox
 
 # set permissions
 echo "Setting permissions."
