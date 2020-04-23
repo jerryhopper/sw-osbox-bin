@@ -30,7 +30,7 @@ is_command() {
 
 # installation log
 log(){
-    echo "$(date) : $1">>./install.log
+    echo "$(date) : $1">>/var/log/osbox-install.log
 }
 
 log "Osbox installation started."
@@ -38,11 +38,11 @@ log "Osbox installation started."
 # Software requirements.
 
 # check if dietpi-software command exists.
-if ! is_command dietpi-software ; then
-    echo "FATAL Operating System Error. Are you running this on dietpi? "
-    log "FATAL Operating System Error. Are you running this on dietpi? "
-    exit
-fi
+#if ! is_command dietpi-software ; then
+    #echo "FATAL Operating System Error. Are you running this on dietpi? "
+    #log "FATAL Operating System Error. Are you running this on dietpi? "
+    #exit
+#fi
 
 # check if git command exists.
 if ! is_command git ; then
