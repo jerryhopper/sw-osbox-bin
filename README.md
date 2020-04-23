@@ -3,7 +3,8 @@
 osbox binary files.
 
 OS: DietPi
-Architecture: aarch64
+
+Architecture: armv7l,aarch64,x86_64
 
 
 Installation: 
