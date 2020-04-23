@@ -1,7 +1,17 @@
 #!/bin/bash
 
-cd /usr/local/osbox/project/sw-osbox-core
-git pull
+cd /usr/local/osbox/project
+
+for d in */ ; do
+    cd $d
+    echo "Updating repository for $d"
+    git pull
+    if [ -f update.sh ]; then
+       echo "Running updatescript for $d"
+       bash ./update.sh
+    fi
+    cd ..
+done
 
 bash /usr/local/osbox/project/sw-osbox-core/osbox-update.sh
 
