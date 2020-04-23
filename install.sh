@@ -180,7 +180,7 @@ if [ -f /etc/avahi/services/osbox.service ]; then
   rm -f /etc/avahi/services/osbox.service
 fi
 cp ./lib/avahi/osbox.service /etc/avahi/services/osbox.service
-
+systemctl restart avahi-daemon
 
 # copy systemd config & enable start on boot
 echo "Configuring osbox service."
