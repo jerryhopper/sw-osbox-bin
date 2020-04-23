@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" == "update" ]; then
-    /usr/local/osbox/osbox-update
-fi
+bash /usr/local/osbox/project/sw-osbox-core/osbox.sh
+
+
 
