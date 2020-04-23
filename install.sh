@@ -37,6 +37,8 @@ log "Osbox installation started."
 
 # Software requirements.
 
+CURDIR=$PWD
+
 # check if dietpi-software command exists.
 #if ! is_command dietpi-software ; then
     #echo "FATAL Operating System Error. Are you running this on dietpi? "
@@ -156,7 +158,7 @@ cd /usr/local/osbox/project
 
 git clone https://github.com/jerryhopper/sw-osbox-core.git
 
-cd /usr/local/osbox
+cd $CURDIR
 
 
 
