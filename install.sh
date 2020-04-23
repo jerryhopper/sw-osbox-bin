@@ -134,7 +134,7 @@ mkdir /usr/local/osbox/project
 # copy the contents of the archive.
 echo "Installing files."
 log "Installing files."
-cp -r ./lib/etc /etc
+cp -r ./lib/etc /
 cp -R ./osbox* /usr/local/osbox
 cp -R ./lib /usr/local/osbox
 ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
