@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-source /usr/local/osbox/lib/project/sw-osbox-core/osbox-update.sh
+source /usr/local/osbox/project/sw-osbox-core/osbox-update.sh
 
 source /usr/local/osbox/lib/is_root
 source /usr/local/osbox/lib/is_command
