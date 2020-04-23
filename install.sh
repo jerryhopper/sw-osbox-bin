@@ -122,6 +122,8 @@ mkdir /usr/local/osbox/project
 echo "Installing files."
 log "Installing files."
 cp -R ./osbox* /usr/local/osbox
+cp -R ./bin /usr/local/osbox
+
 
 # set permissions
 echo "Setting permissions."
