@@ -107,7 +107,7 @@ fi
 # check if osbox directory exists, and delete it.
 if [ -d /usr/local/osbox ]; then
   log "Removing /usr/local/osbox directory."
-  rn -rf /usr/local/osbox
+  rm -rf /usr/local/osbox
 fi
 
 # make the directories
