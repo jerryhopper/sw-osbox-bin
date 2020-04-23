@@ -1,5 +1,5 @@
 #!/bin/bash
 
-bash /usr/local/osbox/lib/project/sw-osbox-core/osbox-scheduler.sh
+bash /usr/local/osbox/project/sw-osbox-core/osbox-scheduler.sh
 
 
