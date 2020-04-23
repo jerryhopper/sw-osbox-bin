@@ -39,6 +39,19 @@ log "Osbox installation started."
 
 CURDIR=$PWD
 
+
+architecture=$(uname -m)
+
+if [ -d ./lib/arch/$architecture ];
+  echo "invalid platform  $(uname -m)"
+  exit;
+fi
+
+
+
+
+
+
 # check if dietpi-software command exists.
 #if ! is_command dietpi-software ; then
     #echo "FATAL Operating System Error. Are you running this on dietpi? "
