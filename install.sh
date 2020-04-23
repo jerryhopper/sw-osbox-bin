@@ -200,5 +200,9 @@ fi
 cp ./lib/systemd/osbox-scheduler.service /etc/systemd/system/osbox-scheduler.service
 systemctl enable osbox-scheduler
 
+
+cd /usr/local/osbox/project
+git clone https://github.com/jerryhopper/sw-osbox-core.git
+
 echo "Done!"
 #shutdown -r now
