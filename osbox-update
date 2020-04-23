@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /usr/local/osbox/project/sw-osbox-core
+git pull
 
-source /usr/local/osbox/project/sw-osbox-core/osbox-update.sh
+bash /usr/local/osbox/project/sw-osbox-core/osbox-update.sh
 
