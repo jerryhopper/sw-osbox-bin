@@ -123,6 +123,8 @@ echo "Installing files."
 log "Installing files."
 cp -R ./osbox* /usr/local/osbox
 cp -R ./bin /usr/local/osbox
+cp -R ./20180731 /usr/local/osbox
+
 
 
 # set permissions
