@@ -76,7 +76,7 @@ if ! is_command avahi-browse ; then
     #exit
 fi
 
-
+apt-get install libsodium23 -y
 
 
 # adduser
