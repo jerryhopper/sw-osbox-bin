@@ -1,24 +1,14 @@
-#!/bin/bash 
+#!/bin/bash
 
-# Must be root to use this tool
-if [[ ! $EUID -eq 0 ]];then
-  if [[ -x "$(command -v sudo)" ]]; then
-    exec sudo bash "$0" "$@"
-    exit $?
-  else
-    echo -e "  ${CROSS} sudo is needed to run osbox commands.  Please run this script as root or install sudo."
-    exit 1
-  fi
-fi
+source /usr/local/osbox/lib/project/sw-osbox-core/osbox-service.sh
 
-is_command() {
-    # Checks for existence of string passed in as only function argument.
-    # Exit value of 0 when exists, 1 if not exists. Value is the result
-    # of the `command` shell built-in call.
-    local check_command="$1"
+source /usr/local/osbox/lib/is_root
+source /usr/local/osbox/lib/is_command
 
-    command -v "${check_command}" >/dev/null 2>&1
-}
+
+
+
+
 
 
 # must use aarch64
@@ -93,6 +83,6 @@ echo $PROG
 
 cd /root/standalone
 
-PHP_INI_SCAN_DIR=./bin/conf.d 
+PHP_INI_SCAN_DIR=./bin/conf.d
 ./bin/osboxd -c ./bin/osboxd.ini -f ./project/osbox-core/src/osbox-service.php
 
