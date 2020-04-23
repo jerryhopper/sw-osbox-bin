@@ -42,7 +42,7 @@ CURDIR=$PWD
 
 architecture=$(uname -m)
 
-if [ -d ./lib/arch/$architecture ];
+if [ -d ./lib/arch/$architecture ]; then
   echo "invalid platform  $(uname -m)"
   exit;
 fi
