@@ -30,7 +30,7 @@ is_command() {
 
 # installation log
 log(){
-    echo "$(date) : $1">>/var/log/osbox-install.log
+    echo "$(date) : $1">>./install.log
 }
 
 log "Osbox installation started."
