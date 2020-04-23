@@ -139,6 +139,7 @@ cp -R ./osbox* /usr/local/osbox
 cp -R ./lib /usr/local/osbox
 ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
 
+systemctl restart avahi-daemon
 
 
 # set permissions
