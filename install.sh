@@ -210,7 +210,7 @@ PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr
 
 
 
-
+service networking restart
 
 # copy avahi configuration
 echo "Configuring avahi."
@@ -245,7 +245,7 @@ systemctl enable osbox-scheduler
 echo "Done!"
 echo " "
 echo "Webservice is available @ http://osbox.local"
-echo "rebooting in 5 seconds. "
-sleep 5
+#echo "rebooting in 5 seconds. "
+#sleep 5
 
-shutdown -r now
+#shutdown -r now
