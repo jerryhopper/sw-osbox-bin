@@ -175,11 +175,11 @@ cd $CURDIR
 
 
 
-#echo "CHECK! "
-#echo "swoole > "
-#PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re swoole
-#echo " end swoole result < "
-#echo "--------- "
+echo "CHECK! "
+echo "swoole > "
+PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re swoole
+echo " end swoole result < "
+echo "--------- "
 
 #echo "CHECK! "
 #echo "phar > "
