@@ -49,6 +49,9 @@ fi
 
 
 
+# required stuff
+echo "Updating requirements."
+apt-get install -y git avahi-daemon avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1
 
 
 
@@ -64,7 +67,7 @@ if ! is_command git ; then
     echo "Error. git is not available."
     echo "Trying to install git. You might have to run the installer again."
     log "Trying to install git. You might have to run the installer again."
-    dietpi-software install 17
+    /boot/dietpi/dietpi-software install 17
     #exit
 fi
 
@@ -78,18 +81,6 @@ if ! is_command avahi-daemon ; then
     /boot/dietpi/dietpi-software install 152
     #exit
 fi
-
-# check if avahi-daemon command exists.
-if ! is_command avahi-browse ; then
-    echo "Error. avahi-browse is not available."
-    echo "Trying to install avahi-browse."
-    log "Trying to install avahi-browse."
-    apt-get install -y avahi-utils
-    #exit
-fi
-
-apt-get install -y libsodium23 libgd3 libzip4
-
 
 
 
