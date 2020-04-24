@@ -53,7 +53,7 @@ fi
 
 
 # check if dietpi-software command exists.
-if ! -f /boot/dietpi/dietpi-software ; then
+if ! -f "/boot/dietpi/dietpi-software" ; then
     echo "FATAL Operating System Error. Are you running this on dietpi? "
     log "FATAL Operating System Error. Are you running this on dietpi? "
     exit
