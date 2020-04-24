@@ -82,7 +82,7 @@ if ! is_command avahi-daemon ; then
     #exit
 fi
 
-
+hostnamectl set-hostname osbox
 
 # adduser
 echo "Adding osbox user."
@@ -131,7 +131,6 @@ cp -R ./osbox* /usr/local/osbox
 cp -R ./lib /usr/local/osbox
 ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
 
-systemctl restart avahi-daemon
 
 
 bash /usr/local/osbox/bin/install.sh
@@ -210,6 +209,7 @@ PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr
 
 
 
+
 service networking restart
 
 # copy avahi configuration
@@ -244,7 +244,7 @@ systemctl enable osbox-scheduler
 
 echo "Done!"
 echo " "
-echo "Webservice is available @ http://osbox.local"
+echo "The Webservice is available @ http://osbox.local"
 #echo "rebooting in 5 seconds. "
 #sleep 5
 
