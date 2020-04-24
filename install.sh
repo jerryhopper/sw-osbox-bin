@@ -210,7 +210,6 @@ PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr
 
 
 
-service networking restart
 
 # copy avahi configuration
 echo "Configuring avahi."
