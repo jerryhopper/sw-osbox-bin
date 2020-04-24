@@ -53,18 +53,17 @@ fi
 
 
 # check if dietpi-software command exists.
-#if ! is_command dietpi-software ; then
-    #echo "FATAL Operating System Error. Are you running this on dietpi? "
-    #log "FATAL Operating System Error. Are you running this on dietpi? "
-    #exit
-#fi
+if ! f /boot/dietpi/dietpi-software ; then
+    echo "FATAL Operating System Error. Are you running this on dietpi? "
+    log "FATAL Operating System Error. Are you running this on dietpi? "
+    exit
+fi
 
 # check if git command exists.
 if ! is_command git ; then
     echo "Error. git is not available."
     echo "Trying to install git. You might have to run the installer again."
     log "Trying to install git. You might have to run the installer again."
-
     dietpi-software install 17
     #exit
 fi
@@ -76,7 +75,7 @@ if ! is_command avahi-daemon ; then
     echo "Error. avahi-daemon is not available."
     echo "Trying to install avahi-daemon."
     log "Trying to install avahi-daemon."
-    dietpi-software install 152
+    /boot/dietpi/dietpi-software install 152
     #exit
 fi
 
@@ -89,7 +88,9 @@ if ! is_command avahi-browse ; then
     #exit
 fi
 
-apt-get install libsodium23 -y
+apt-get install -y libsodium23 libgd3 libzip4
+
+
 
 
 # adduser
@@ -142,6 +143,8 @@ ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
 systemctl restart avahi-daemon
 
 
+bash /usr/local/osbox/bin/install.sh
+
 # set permissions
 echo "Setting permissions."
 log "Setting permissions."
@@ -168,8 +171,7 @@ chmod +x /usr/local/osbox/bin/osboxd
 
 # set executable bit for composer
 chmod +x /usr/local/osbox/bin/composer.phar
-# symlink php for composer
-ln -s /usr/local/osbox/bin/composer.phar /usr/local/osbox/bin/php
+
 
 log "Cloning osbox-core repository"
 # get the core files.
