@@ -12,7 +12,7 @@ Supported architectures : armv7l, aarch64, x86_64
 
 Download and extract files, run the installer as root : ./install.sh
 
-
+If you want to prepare a image with this installer embedded on it, checkout the osbox-base repo. (https://github.com/jerryhopper/sw-osbox-base)
 
 ## What is osbox ?
 
