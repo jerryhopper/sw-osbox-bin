@@ -14,6 +14,8 @@ Download and extract files, run the installer as root : ./install.sh
 
 If you want to prepare a image with this installer embedded on it, checkout the osbox-base repo. (https://github.com/jerryhopper/sw-osbox-base)
 
+Once installed ( this could take a while ) ,  goto http://osbox.local 
+
 ## What is osbox ?
 
 osbox (short for OpenSourceBox) is a easy deployable system that allows easy installation of popular opensource software like NextCloud, piHole and many others.
