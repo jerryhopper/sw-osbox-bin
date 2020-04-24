@@ -176,22 +176,20 @@ cd $CURDIR
 
 
 
-echo "CHECK! "
-echo "swoole > "
-PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re swoole
-echo " end swoole result < "
-echo "--------- "
+#echo "CHECK! "
+#echo "swoole > "
+#PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re swoole
+#echo " end swoole result < "
+#echo "--------- "
 
-echo "CHECK! "
-echo "phar > "
-PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re phar
-echo " end phar result < "
-echo "--------- "
-
-
-PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini /usr/local/osbox/bin/composer.phar
+#echo "CHECK! "
+#echo "phar > "
+#PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re phar
+#echo " end phar result < "
+#echo "--------- "
 
 
+#PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini /usr/local/osbox/bin/composer.phar
 
 
 
@@ -202,7 +200,9 @@ PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr
 
 
 
-echo "Running composer..."
+
+
+echo "Satisfying osbox-core requirements."
 PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini /usr/local/osbox/bin/composer.phar install --working-dir=/usr/local/osbox/project/sw-osbox-core
 
 #PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d
