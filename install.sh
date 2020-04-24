@@ -243,4 +243,9 @@ systemctl enable osbox-scheduler
 
 
 echo "Done!"
-#shutdown -r now
+echo " "
+echo "Webservice is available @ http://osbox.local"
+echo "rebooting in 5 seconds. "
+sleep 5
+
+shutdown -r now
