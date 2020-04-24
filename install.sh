@@ -90,7 +90,7 @@ if id -u osbox >/dev/null 2>&1; then
     echo "Skipping, user already exists."
     log "Osbox user already exists."
 else
-    sudo useradd osbox
+    useradd osbox
     log "Adding osbox user."
 fi
 
