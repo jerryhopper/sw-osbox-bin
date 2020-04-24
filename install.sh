@@ -179,6 +179,36 @@ git clone https://github.com/jerryhopper/sw-osbox-core.git
 
 cd $CURDIR
 
+
+
+
+
+
+echo "CHECK! "
+echo "swoole > "
+PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re swoole
+echo " end swoole result < "
+echo "--------- "
+
+echo "CHECK! "
+echo "phar > "
+PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re phar
+echo " end phar result < "
+echo "--------- "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 echo "Running composer..."
 PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d
 /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini /usr/local/osbox/bin/composer.phar --working-dir=/usr/local/osbox/project/sw-osbox-core install
