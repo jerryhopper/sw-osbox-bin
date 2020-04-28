@@ -3,7 +3,7 @@
 
 <!--
   This file is part of avahi.
- 
+
   avahi is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
   published by the Free Software Foundation; either version 2 of the
@@ -29,11 +29,9 @@
   <service protocol="ipv4">
     <type>_osboxmaster._tcp</type>
     <domain-name>local</domain-name>
-    
-    <port>9501</port>
-    <txt-record>this=is</txt-record>
-    <txt-record>a=really</txt-record>
-    <txt-record>bad=example</txt-record>
+
+    <port>9502</port>
+    <txt-record>ssl=true</txt-record>
   </service>
 
 </service-group>
