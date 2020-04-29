@@ -132,8 +132,11 @@ cp -R ./lib /usr/local/osbox
 ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
 
 
-
+# run architecture specific stuff.
 bash /usr/local/osbox/bin/install.sh
+
+
+
 
 # set permissions
 echo "Setting permissions."
@@ -175,10 +178,10 @@ cd $CURDIR
 
 
 
-echo "CHECK! "
-echo "swoole > "
-PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re swoole
-echo " end swoole result < "
+#echo "CHECK! "
+#echo "swoole > "
+#PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini --re swoole
+#echo " end swoole result < "
 echo "--------- "
 
 #echo "CHECK! "
@@ -206,6 +209,12 @@ PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr
 
 #PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d
 #/usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini /usr/local/osbox/bin/composer.phar --working-dir=/usr/local/osbox/project/sw-osbox-core install
+
+
+if [ ! -f /etc/osbox/osbox.db ]; else
+    touch /etc/osbox/osbox.db
+    chown osbox:osbox /etc/osbox/osbox.db
+fi
 
 
 
