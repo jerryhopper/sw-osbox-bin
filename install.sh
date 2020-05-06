@@ -248,7 +248,7 @@ fi
 cp ./lib/systemd/osbox-scheduler.service /etc/systemd/system/osbox-scheduler.service
 systemctl enable osbox-scheduler
 
-echo "base,10,Pre-installation state">/etc/osbox/setup.state
+echo "preinstall,10,Pre-installation state">/etc/osbox/setup.state
 
 echo "Done!"
 echo " "
