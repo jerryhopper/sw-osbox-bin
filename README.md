@@ -1,8 +1,18 @@
 # sw-osbox-bin
 
+Requires Requires [sw-osbox-core](https://github.com/jerryhopper/sw-osbox-core), [sw-osbox-core-web](https://github.com/jerryhopper/sw-osbox-core-web)
 
 
-Target OS: DietPi  
+Required by [sw-osbox-base](https://github.com/jerryhopper/sw-osbox-base)
+
+
+##What is this?
+
+This is the binaries repo for the osbox software.
+
+
+### Requirements
+OS: [Dietpi](https://dietpi.com)
 
 Supported architectures : armv7l, aarch64, x86_64
 
