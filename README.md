@@ -44,3 +44,9 @@ If you want to build your own 'blackbox',  this is the recommended hardware for 
 https://www.antratek.nl/nanopi-neo2-1g
 
 https://www.antratek.nl/neo2-metal-case-with-heat-sink
+
+
+
+## External resources
+
+the osbox software uses some external resources: setup.surfwijzer.nl , for which the code is not public (yet)
