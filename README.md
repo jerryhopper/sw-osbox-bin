@@ -3,7 +3,7 @@
 Requires Requires [sw-osbox-core](https://github.com/jerryhopper/sw-osbox-core), [sw-osbox-core-web](https://github.com/jerryhopper/sw-osbox-core-web)
 
 
-Required by [sw-osbox-base](https://github.com/jerryhopper/sw-osbox-base)
+Required by [sw-osbox-image](https://github.com/jerryhopper/sw-osbox-image)
 
 
 ##What is this?
