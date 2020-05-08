@@ -6,9 +6,9 @@ Requires Requires [sw-osbox-core](https://github.com/jerryhopper/sw-osbox-core),
 Required by [sw-osbox-image](https://github.com/jerryhopper/sw-osbox-image)
 
 
-##What is this?
+## What is this?
 
-This is the binaries repo for the osbox software.
+This is the binaries repo for the osbox software, including the installation script
 
 
 ### Requirements
