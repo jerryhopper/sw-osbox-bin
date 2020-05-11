@@ -211,10 +211,11 @@ PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr
 #/usr/local/osbox/bin/osboxd -c /usr/local/osbox/bin/osboxd.ini /usr/local/osbox/bin/composer.phar --working-dir=/usr/local/osbox/project/sw-osbox-core install
 
 
-if [ ! -f /etc/osbox/osbox.db ]; then
-    touch /etc/osbox/osbox.db
-    chown osbox:osbox /etc/osbox/osbox.db
-    chmod a+w /etc/osbox/osbox.db
+if [ ! -f /etc/osbox/db/osbox.db ]; then
+    touch /etc/osbox/db/osbox.db
+    chown osbox:osbox /etc/osbox/db/osbox.db
+    chmod a+w /etc/osbox/db/osbox.db
+    chmod a+w /etc/osbox/db
 fi
 
 
