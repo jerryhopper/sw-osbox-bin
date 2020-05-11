@@ -214,6 +214,7 @@ PHP_INI_SCAN_DIR=/usr/local/osbox/bin/conf.d /usr/local/osbox/bin/osboxd -c /usr
 if [ ! -f /etc/osbox/osbox.db ]; then
     touch /etc/osbox/osbox.db
     chown osbox:osbox /etc/osbox/osbox.db
+    chmod a+w /etc/osbox/osbox.db
 fi
 
 
