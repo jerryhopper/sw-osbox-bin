@@ -6,9 +6,9 @@ Requires Requires [sw-osbox-core](https://github.com/jerryhopper/sw-osbox-core),
 Required by [sw-osbox-image](https://github.com/jerryhopper/sw-osbox-image)
 
 
-##What is this?
+## What is this?
 
-This is the binaries repo for the osbox software.
+This is the binaries repo for the osbox software, including the installation script
 
 
 ### Requirements
@@ -44,3 +44,9 @@ If you want to build your own 'blackbox',  this is the recommended hardware for 
 https://www.antratek.nl/nanopi-neo2-1g
 
 https://www.antratek.nl/neo2-metal-case-with-heat-sink
+
+
+
+## External resources
+
+the osbox software uses some external resources: setup.surfwijzer.nl , for which the code is not public (yet)
