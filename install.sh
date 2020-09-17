@@ -150,17 +150,25 @@ log "Creating directories"
 mkdir /usr/local/osbox
 mkdir /usr/local/osbox/project
 
+ln -s /home/osbox/.osbox /usr/local/osbox/project
+
+
+#bash /home/osbox/.osbox/sw-osbox-bin/osbox-update
+
+
 
 exit 1
-
 
 # copy the contents of the archive.
 echo "Installing files."
 log "Installing files."
-cp -r ./lib/etc /
-cp -R ./osbox* /usr/local/osbox
-cp -R ./lib /usr/local/osbox
-ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
+#cp -r ./lib/etc /
+cp -R /home/osbox/.osbox/sq-osbox-bin/osbox* /usr/local/osbox
+
+
+exit 1
+#cp -R ./lib /usr/local/osbox
+#ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
 
 
 # run architecture specific stuff.
