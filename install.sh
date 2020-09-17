@@ -3,6 +3,7 @@
 #
 # Osbox installation script.
 #
+exit 1
 
 # Required functions.
 
