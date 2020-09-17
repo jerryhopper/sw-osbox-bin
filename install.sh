@@ -3,7 +3,7 @@
 #
 # Osbox installation script.
 #
-exit 0
+
 
 
 # Required functions.
@@ -69,7 +69,7 @@ if ! is_command git ; then
     echo "Error. git is not available."
     echo "Trying to install git. You might have to run the installer again."
     log "Trying to install git. You might have to run the installer again."
-    /boot/dietpi/dietpi-software install 17
+    /boot/dietpi/dietpi-software install 17 --unattended
     #exit
 fi
 
@@ -80,9 +80,10 @@ if ! is_command avahi-daemon ; then
     echo "Error. avahi-daemon is not available."
     echo "Trying to install avahi-daemon."
     log "Trying to install avahi-daemon."
-    /boot/dietpi/dietpi-software install 152
+    /boot/dietpi/dietpi-software install 152 --unattended
     #exit
 fi
+
 
 hostnamectl set-hostname osbox
 
@@ -112,6 +113,8 @@ if [ -d /etc/osbox ]; then
 else
   mkdir /etc/osbox
 fi
+
+exit 0
 
 # check if osbox directory exists, and delete it.
 if [ -d /usr/local/osbox ]; then
