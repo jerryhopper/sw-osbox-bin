@@ -46,7 +46,7 @@ architecture=$(uname -m)
 
 if [ ! -d "./lib/arch/$architecture" ]; then
   echo "invalid platform  $(uname -m)"
-  exit;
+  #  exit;
 fi
 
 
