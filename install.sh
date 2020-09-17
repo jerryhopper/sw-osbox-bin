@@ -148,10 +148,10 @@ fi
 # make the directories
 log "Creating directories"
 mkdir /usr/local/osbox
-mkdir /usr/local/osbox/project
+#mkdir /usr/local/osbox/project
 
 ln -s /home/osbox/.osbox /usr/local/osbox/project
-
+ln -s /home/osbox/.osbox/sw-osbox-bin/lib /usr/local/osbox/lib
 
 #bash /home/osbox/.osbox/sw-osbox-bin/osbox-update
 
@@ -215,7 +215,7 @@ chmod +x /usr/local/osbox/osbox-update
 chmod +x /usr/local/osbox/bin/osboxd
 
 # set executable bit for composer
-chmod +x /usr/local/osbox/bin/composer.phar
+#chmod +x /usr/local/osbox/bin/composer.phar
 
 
 
