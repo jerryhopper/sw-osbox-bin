@@ -49,7 +49,9 @@ if [ ! -d "./lib/arch/$architecture" ]; then
   #  exit;
 fi
 
-
+if [ -d /home/osbox/.osbox ]; then
+  rm -rf /home/osbox/.osbox
+fi
 
 # required stuff
 echo "Updating requirements."
@@ -125,9 +127,8 @@ else
 fi
 
 
-if [ -d /home/osbox/.osbox/sw-osbox-core ]; then
-  rm -rf /home/osbox/.osbox/sw-osbox-core
-fi
+
+
 git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw-osbox-core
 
 
