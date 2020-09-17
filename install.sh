@@ -212,7 +212,7 @@ chmod +x /usr/local/osbox/osbox-scheduler
 chmod +x /usr/local/osbox/osbox-service
 chmod +x /usr/local/osbox/osbox-update
 
-chmod +x /usr/local/osbox/bin/osboxd
+#chmod +x /usr/local/osbox/bin/osboxd
 
 # set executable bit for composer
 #chmod +x /usr/local/osbox/bin/composer.phar
