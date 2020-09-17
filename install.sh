@@ -128,21 +128,8 @@ fi
 
 
 
-
+git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
 git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw-osbox-core
-
-
-exit 1
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -164,6 +151,7 @@ mkdir /usr/local/osbox
 mkdir /usr/local/osbox/project
 
 
+exit 1
 
 
 # copy the contents of the archive.
