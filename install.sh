@@ -53,7 +53,6 @@ fi
 
 # required stuff
 echo "Updating requirements."
-apt-get install -y git avahi-daemon avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1
 
 
 
@@ -81,6 +80,7 @@ if ! is_command avahi-daemon ; then
     echo "Trying to install avahi-daemon."
     log "Trying to install avahi-daemon."
     /boot/dietpi/dietpi-software install 152 --unattended
+    apt-get install -y avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1
     #exit
 fi
 
@@ -124,12 +124,11 @@ else
   mkdir /etc/osbox
 fi
 
-if [ -d /etc/osbox ]; then
-  mkdir /home/osbox/.osbox
-  chown osbox /home/osbox/.osbox
-fi
 
-git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox
+if [ -d /home/osbox/.osbox/sw-osbox-core ]; then
+  rm -rf /home/osbox/.osbox/sw-osbox-core
+fi
+git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw-osbox-core
 
 
 exit 1
