@@ -188,7 +188,7 @@ exit 1
 echo "Installing files."
 log "Installing files."
 #cp -r ./lib/etc /
-cp -R /home/osbox/.osbox/sq-osbox-bin/osbox* /usr/local/osbox
+cp -R /home/osbox/.osbox/sw-osbox-bin/osbox* /usr/local/osbox
 
 
 
