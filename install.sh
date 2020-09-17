@@ -159,6 +159,31 @@ ln -s /home/osbox/.osbox /usr/local/osbox/project
 
 exit 1
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # copy the contents of the archive.
 echo "Installing files."
 log "Installing files."
@@ -166,7 +191,50 @@ log "Installing files."
 cp -R /home/osbox/.osbox/sq-osbox-bin/osbox* /usr/local/osbox
 
 
+
+
+# set permissions
+echo "Setting permissions."
+log "Setting permissions."
+chmod +x /usr/local/osbox/osbox
+# remove symlink if exists
+if [ -f /bin/osbox ]; then
+  log "removing symlink /bin/osbox"
+  rm -f /bin/osbox
+fi
+# make symlink
+log "create symlink /bin/osbox"
+ln -s /usr/local/osbox/osbox /bin/osbox
+
+
+
+# set permissions
+log "Set permissions."
+chmod +x /usr/local/osbox/osbox-boot
+chmod +x /usr/local/osbox/osbox-scheduler
+chmod +x /usr/local/osbox/osbox-service
+chmod +x /usr/local/osbox/osbox-update
+
+chmod +x /usr/local/osbox/bin/osboxd
+
+# set executable bit for composer
+chmod +x /usr/local/osbox/bin/composer.phar
+
+
+
+
 exit 1
+
+
+
+
+
+
+
+
+
+
+
 #cp -R ./lib /usr/local/osbox
 #ln -s /usr/local/osbox/lib/arch/$(uname -m)/bin /usr/local/osbox/bin
 
