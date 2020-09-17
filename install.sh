@@ -157,9 +157,6 @@ ln -s /home/osbox/.osbox /usr/local/osbox/project
 
 
 
-exit 1
-
-
 
 
 
