@@ -85,6 +85,16 @@ if ! is_command avahi-daemon ; then
 fi
 
 
+# check if avahi-daemon command exists.
+if ! is_command docker ; then
+    echo "Error. avahi-daemon is not available."
+    echo "Trying to install avahi-daemon."
+    log "Trying to install avahi-daemon."
+    /boot/dietpi/dietpi-software install 162 --unattended
+    #exit
+fi
+
+
 hostnamectl set-hostname osbox
 
 # adduser
@@ -93,7 +103,7 @@ if id -u osbox >/dev/null 2>&1; then
     echo "Skipping, user already exists."
     log "Osbox user already exists."
 else
-    useradd osbox
+    useradd -m osbox
     log "Adding osbox user."
 fi
 
@@ -114,7 +124,33 @@ else
   mkdir /etc/osbox
 fi
 
-exit 0
+if [ -d /etc/osbox ]; then
+  mkdir /home/osbox/.osbox
+  chown osbox /home/osbox/.osbox
+fi
+
+git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox
+
+
+exit 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # check if osbox directory exists, and delete it.
 if [ -d /usr/local/osbox ]; then
@@ -126,6 +162,8 @@ fi
 log "Creating directories"
 mkdir /usr/local/osbox
 mkdir /usr/local/osbox/project
+
+
 
 
 # copy the contents of the archive.
