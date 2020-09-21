@@ -119,6 +119,8 @@ fi
 echo "osbox ALL=NOPASSWD: /usr/local/osbox/osbox">/etc/sudoers.d/osbox
 
 
+
+
 # check if there is a existing installation.
 if [ -d /etc/osbox ]; then
   echo "Existing installation found."
@@ -128,6 +130,9 @@ else
 fi
 
 
+
+
+exit 1
 
 #git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
 #git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw-osbox-core
