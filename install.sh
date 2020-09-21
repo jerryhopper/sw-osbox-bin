@@ -5,7 +5,6 @@
 #
 
 
-
 # Required functions.
 
 # Root check
@@ -44,11 +43,13 @@ CURDIR=$PWD
 
 architecture=$(uname -m)
 
+
 if [ ! -d "./lib/arch/$architecture" ]; then
   echo "invalid platform  $(uname -m)"
   #  exit;
 fi
 
+# remove osbox file.
 if [ -d /home/osbox/.osbox ]; then
   rm -rf /home/osbox/.osbox
 fi
@@ -89,15 +90,15 @@ fi
 
 # check if avahi-daemon command exists.
 if ! is_command docker ; then
-    echo "Error. avahi-daemon is not available."
-    echo "Trying to install avahi-daemon."
-    log "Trying to install avahi-daemon."
+    echo "Error. docker is not available."
+    echo "Trying to install docker"
+    log "Trying to install docker."
     /boot/dietpi/dietpi-software install 162 --unattended
     #exit
 fi
 
 
-hostnamectl set-hostname osbox
+#hostnamectl set-hostname osbox
 
 # adduser
 echo "Adding osbox user."
@@ -128,8 +129,8 @@ fi
 
 
 
-git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
-git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw-osbox-core
+#git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
+#git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw-osbox-core
 
 
 
@@ -140,18 +141,18 @@ git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw
 
 
 # check if osbox directory exists, and delete it.
-if [ -d /usr/local/osbox ]; then
-  log "Removing /usr/local/osbox directory."
-  rm -rf /usr/local/osbox
-fi
+#if [ -d /usr/local/osbox ]; then
+#  log "Removing /usr/local/osbox directory."
+#  rm -rf /usr/local/osbox
+#fi
 
 # make the directories
-log "Creating directories"
-mkdir /usr/local/osbox
+#log "Creating directories"
+#mkdir /usr/local/osbox
 #mkdir /usr/local/osbox/project
 
-ln -s /home/osbox/.osbox /usr/local/osbox/project
-ln -s /home/osbox/.osbox/sw-osbox-bin/lib /usr/local/osbox/lib
+#ln -s /home/osbox/.osbox /usr/local/osbox/project
+#ln -s /home/osbox/.osbox/sw-osbox-bin/lib /usr/local/osbox/lib
 
 #bash /home/osbox/.osbox/sw-osbox-bin/osbox-update
 
@@ -182,35 +183,35 @@ ln -s /home/osbox/.osbox/sw-osbox-bin/lib /usr/local/osbox/lib
 
 
 # copy the contents of the archive.
-echo "Installing files."
-log "Installing files."
+#echo "Installing files."
+#log "Installing files."
 #cp -r ./lib/etc /
-cp -R /home/osbox/.osbox/sw-osbox-bin/osbox* /usr/local/osbox
+#cp -R /home/osbox/.osbox/sw-osbox-bin/osbox* /usr/local/osbox
 
 
 
 
 # set permissions
-echo "Setting permissions."
-log "Setting permissions."
-chmod +x /usr/local/osbox/osbox
+#echo "Setting permissions."
+#log "Setting permissions."
+#chmod +x /usr/local/osbox/osbox
 # remove symlink if exists
-if [ -f /bin/osbox ]; then
-  log "removing symlink /bin/osbox"
-  rm -f /bin/osbox
-fi
+#if [ -f /bin/osbox ]; then
+#  log "removing symlink /bin/osbox"
+#  rm -f /bin/osbox
+#fi
 # make symlink
-log "create symlink /bin/osbox"
-ln -s /usr/local/osbox/osbox /bin/osbox
+#log "create symlink /bin/osbox"
+#ln -s /usr/local/osbox/osbox /bin/osbox
 
 
 
 # set permissions
-log "Set permissions."
-chmod +x /usr/local/osbox/osbox-boot
-chmod +x /usr/local/osbox/osbox-scheduler
-chmod +x /usr/local/osbox/osbox-service
-chmod +x /usr/local/osbox/osbox-update
+#log "Set permissions."
+#chmod +x /usr/local/osbox/osbox-boot
+#chmod +x /usr/local/osbox/osbox-scheduler
+#chmod +x /usr/local/osbox/osbox-service
+#chmod +x /usr/local/osbox/osbox-update
 
 #chmod +x /usr/local/osbox/bin/osboxd
 
@@ -279,6 +280,8 @@ git clone https://github.com/jerryhopper/sw-osbox-core.git
 cd $CURDIR
 
 
+#  docker run -d --rm -ti --name osbox-core test:latest
+#  -v /var/run/docker.sock:/var/run/docker.sock
 
 
 
