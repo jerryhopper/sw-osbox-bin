@@ -117,7 +117,9 @@ if [ ! -f /var/lib/dietpi/postboot.d/requirements.sh  ]; then
   echo "#!/bin/bash">/var/lib/dietpi/postboot.d/requirements.sh
   echo "if ! is_command docker ; then">>/var/lib/dietpi/postboot.d/requirements.sh
   echo "   /boot/dietpi/dietpi-software install 162 --unattended">>/var/lib/dietpi/postboot.d/requirements.sh
+  #  echo "   ">>/var/lib/dietpi/postboot.d/requirements.sh
   echo "fi">>/var/lib/dietpi/postboot.d/requirements.sh
+
 
 fi
 
@@ -182,6 +184,17 @@ echo "osbox">/etc/hostname
 hostnamectl set-hostname osbox
 
 
+git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
+
+
+# copy avahi configuration
+echo "Configuring avahi."
+log "Configuring avahi."
+if [ -f /etc/avahi/services/osbox.service ]; then
+  rm -f /etc/avahi/services/osbox.service
+fi
+cp /home/osbox/.osbox/sw-osbox-bin/lib/avahi/osbox.service /etc/avahi/services/osbox.service
+systemctl restart avahi-daemon
 
 
 exit 1
@@ -421,14 +434,6 @@ fi
 
 
 
-# copy avahi configuration
-echo "Configuring avahi."
-log "Configuring avahi."
-if [ -f /etc/avahi/services/osbox.service ]; then
-  rm -f /etc/avahi/services/osbox.service
-fi
-cp ./lib/avahi/osbox.service /etc/avahi/services/osbox.service
-systemctl restart avahi-daemon
 
 # copy systemd config & enable start on boot
 echo "Configuring osbox service."
