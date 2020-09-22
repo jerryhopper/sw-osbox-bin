@@ -54,10 +54,80 @@ if [ -d /home/osbox/.osbox ]; then
   rm -rf /home/osbox/.osbox
 fi
 
+# adduser
+echo "Adding osbox user."
+if id -u osbox >/dev/null 2>&1; then
+    echo "Skipping, user already exists."
+    log "Osbox user already exists."
+else
+    useradd -m osbox
+    log "Adding osbox user."
+fi
+
+
+
+# add to sudoers
+if [ -f /etc/sudoers.d/osbox ]; then
+   rm -f /etc/sudoers.d/osbox
+fi
+echo "osbox ALL=NOPASSWD: /usr/local/osbox/osbox">/etc/sudoers.d/osbox
+
+
+
+
+
+# check if there is a existing installation.
+if [ -d /etc/osbox ]; then
+  echo "Existing installation found."
+  log "Existing installation found."
+else
+  mkdir /etc/osbox
+fi
+
+
+
+if [ ! -d /var/lib/dietpi/postboot.d  ]; then
+   echo "Not dietpi? "
+   exit 0
+fi
+
+
+
+if [ ! -f /var/lib/dietpi/postboot.d/requirements.sh  ]; then
+  echo '#!/bin/bash'>/var/lib/dietpi/postboot.d/requirements.sh
+  chmod +x /var/lib/dietpi/postboot.d/requirements.sh
+
+  echo "is_command() {">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "  local check_command=\"\$1\" ">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "  command -v \"\${check_command}\"  >/dev/null 2>&1">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "}">>/var/lib/dietpi/postboot.d/requirements.sh
+
+
+
+  echo "if ! is_command git ; then">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "   /boot/dietpi/dietpi-software install 17 --unattended">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "fi">>/var/lib/dietpi/postboot.d/requirements.sh
+
+  echo "#!/bin/bash">/var/lib/dietpi/postboot.d/requirements.sh
+  echo "if ! is_command avahi-daemon ; then">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "   /boot/dietpi/dietpi-software install 152 --unattended">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "   apt-get install -y avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "fi">>/var/lib/dietpi/postboot.d/requirements.sh
+
+  echo "#!/bin/bash">/var/lib/dietpi/postboot.d/requirements.sh
+  echo "if ! is_command docker ; then">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "   /boot/dietpi/dietpi-software install 162 --unattended">>/var/lib/dietpi/postboot.d/requirements.sh
+  echo "fi">>/var/lib/dietpi/postboot.d/requirements.sh
+
+fi
+
+
+
+
+
+
 # required stuff
 echo "Updating requirements."
-
-
 
 # check if dietpi-software command exists.
 #if ! -f "/boot/dietpi/dietpi-software" ; then
@@ -98,43 +168,60 @@ if ! is_command docker ; then
 fi
 
 
-#hostnamectl set-hostname osbox
-
-# adduser
-echo "Adding osbox user."
-if id -u osbox >/dev/null 2>&1; then
-    echo "Skipping, user already exists."
-    log "Osbox user already exists."
-else
-    useradd -m osbox
-    log "Adding osbox user."
-fi
 
 
+# Set the hostname
+echo "127.0.0.1 localhost">/etc/hosts
+echo "127.0.1.1 osbox">>/etc/hosts
+echo "::1       localhost ip6-localhost ip6-loopback">>/etc/hosts
+echo "ff02::1   ip6-allnodes">>/etc/hosts
+echo "ff02::2   ip6-allrouters">>/etc/hosts
 
-# add to sudoers
-if [ -f /etc/sudoers.d/osbox ]; then
-   rm -f /etc/sudoers.d/osbox
-fi
-echo "osbox ALL=NOPASSWD: /usr/local/osbox/osbox">/etc/sudoers.d/osbox
+echo "osbox">/etc/hostname
 
-
-
-
-# check if there is a existing installation.
-if [ -d /etc/osbox ]; then
-  echo "Existing installation found."
-  log "Existing installation found."
-else
-  mkdir /etc/osbox
-fi
+hostnamectl set-hostname osbox
 
 
 
 
 exit 1
 
-#git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
+
+
+
+
+
+
+
+
+
+echo "Configuring osbox service."
+log "Configuring osbox service."
+if [ -f /etc/systemd/system/osbox.service ]; then
+  rm -f /etc/systemd/system/osbox.service
+fi
+
+
+echo "[Unit]">/etc/systemd/system/osbox.service
+echo "Description=OsBox web-service">>/etc/systemd/system/osbox.service
+echo "After=network.target">>/etc/systemd/system/osbox.service
+echo "StartLimitIntervalSec=0">>/etc/systemd/system/osbox.service
+echo "">>/etc/systemd/system/osbox.service
+echo "[Service]">>/etc/systemd/system/osbox.service
+echo "Type=forking">>/etc/systemd/system/osbox.service
+echo "Restart=always">>/etc/systemd/system/osbox.service
+echo "RestartSec=10">>/etc/systemd/system/osbox.service
+echo "User=root">>/etc/systemd/system/osbox.service
+echo "ExecStart=/usr/local/osbox/osbox-service">>/etc/systemd/system/osbox.service
+echo "TasksMax=100">>/etc/systemd/system/osbox.service
+echo "[Install]">>/etc/systemd/system/osbox.service
+echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox.service
+
+systemctl enable osbox
+
+
+
+git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
 #git clone https://github.com/jerryhopper/sw-osbox-core.git /home/osbox/.osbox/sw-osbox-core
 
 
@@ -146,14 +233,14 @@ exit 1
 
 
 # check if osbox directory exists, and delete it.
-#if [ -d /usr/local/osbox ]; then
-#  log "Removing /usr/local/osbox directory."
-#  rm -rf /usr/local/osbox
-#fi
+if [ -d /usr/local/osbox ]; then
+  log "Removing /usr/local/osbox directory."
+  rm -rf /usr/local/osbox
+f
 
 # make the directories
-#log "Creating directories"
-#mkdir /usr/local/osbox
+log "Creating directories"
+mkdir /usr/local/osbox
 #mkdir /usr/local/osbox/project
 
 #ln -s /home/osbox/.osbox /usr/local/osbox/project
