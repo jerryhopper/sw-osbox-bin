@@ -147,19 +147,8 @@ setpermissions() {
 }
 
 
-log "Osbox installation started.  Architecture: $(uname -m)"
-# Development or production install.
-if [ "$MODE" = "dev" ]; then
-    requireGit
-    download_bin_dev
-    download_core_dev
-else
-    download_bin_release
-    download_core_dev
-fi
-# set permissions
-setpermissions
 
+log "Osbox installation started.  Architecture: $(uname -m)"
 
 
 # check if there is a existing installation.
@@ -170,7 +159,21 @@ else
 fi
 
 
-/usr/local/osbox/osbox setup
+# Development or production install.
+if [ "$MODE" = "dev" ]; then
+    requireGit
+    download_bin_dev
+    download_core_dev
+    touch /etc/osbox/dev
+else
+    download_bin_release
+    download_core_dev
+fi
+# set permissions
+setpermissions
+
+
+/usr/local/osbox/osbox install
 
 
 
