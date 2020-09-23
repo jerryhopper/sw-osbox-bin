@@ -146,6 +146,46 @@ setpermissions() {
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
 }
 
+configureAvahi(){
+
+  # check if avahi-daemon command exists.
+  if ! is_command avahi-daemon ; then
+      echo "Error. avahi-daemon is not available."
+      echo "Trying to install avahi-daemon."
+      log "Trying to install avahi-daemon."
+      /boot/dietpi/dietpi-software install 152 --unattended
+      #exit
+  else
+      log "avahi-daemon is available"
+  fi
+
+
+  # copy avahi configuration
+  echo "Configuring avahi."
+  log "Configuring avahi."
+  if [ -f /etc/avahi/services/osbox.service ]; then
+    rm -f /etc/avahi/services/osbox.service
+  fi
+  if [ -f /etc/avahi/services/osbox.master.service ]; then
+    rm -f /etc/avahi/services/osbox.master.service
+  fi
+  cp /usr/local/lib/avahi/osbox.service /etc/avahi/services/osbox.service
+  systemctl restart avahi-daemon
+}
+
+sethostname() {
+    # Set the hostname
+    echo "127.0.0.1 localhost">/etc/hosts
+    echo "127.0.1.1 osbox">>/etc/hosts
+    echo "::1       localhost ip6-localhost ip6-loopback">>/etc/hosts
+    echo "ff02::1   ip6-allnodes">>/etc/hosts
+    echo "ff02::2   ip6-allrouters">>/etc/hosts
+    echo "osbox">/etc/hostname
+    hostnamectl set-hostname osbox
+}
+
+
+
 
 
 log "Osbox installation started.  Architecture: $(uname -m)"
@@ -172,6 +212,26 @@ fi
 # set permissions
 setpermissions
 
+# setup and configure avahi
+configureAvahi
+
+sethostname
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /usr/local/osbox/osbox install
 
@@ -194,23 +254,6 @@ exit 1
 
 
 
-
-function createUser{
-    # adduser
-    log "Adding $OSBOX_BIN_USR user."
-    if id -u osbox >/dev/null 2>&1; then
-        log "Skipping, user '${OSBOX_BIN_USR}' already exists."
-    else
-        useradd -m osbox
-        log "Adding ${OSBOX_BIN_USR} user."
-    fi
-
-    # add to sudoers
-    if [ -f /etc/sudoers.d/${OSBOX_BIN_USR} ]; then
-       rm -f /etc/sudoers.d/${OSBOX_BIN_USR}
-    fi
-    echo "${OSBOX_BIN_USR} ALL=NOPASSWD: ${OSBOX_BIN_INSTALLDIR}osbox">/etc/sudoers.d/${OSBOX_BIN_USR}
-}
 
 
 
@@ -253,36 +296,6 @@ fi
 
 
 
-if [ ! -f /var/lib/dietpi/postboot.d/requirements.sh  ]; then
-  echo '#!/bin/bash'>/var/lib/dietpi/postboot.d/requirements.sh
-  chmod +x /var/lib/dietpi/postboot.d/requirements.sh
-
-  echo "is_command() {">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "  local check_command=\"\$1\" ">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "  command -v \"\${check_command}\"  >/dev/null 2>&1">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "}">>/var/lib/dietpi/postboot.d/requirements.sh
-
-
-
-  echo "if ! is_command git ; then">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "   /boot/dietpi/dietpi-software install 17 --unattended">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "fi">>/var/lib/dietpi/postboot.d/requirements.sh
-
-  echo "#!/bin/bash">/var/lib/dietpi/postboot.d/requirements.sh
-  echo "if ! is_command avahi-daemon ; then">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "   /boot/dietpi/dietpi-software install 152 --unattended">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "   apt-get install -y avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "fi">>/var/lib/dietpi/postboot.d/requirements.sh
-
-  echo "#!/bin/bash">/var/lib/dietpi/postboot.d/requirements.sh
-  echo "if ! is_command docker ; then">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "   /boot/dietpi/dietpi-software install 162 --unattended">>/var/lib/dietpi/postboot.d/requirements.sh
-  #  echo "   ">>/var/lib/dietpi/postboot.d/requirements.sh
-  echo "fi">>/var/lib/dietpi/postboot.d/requirements.sh
-
-
-fi
-
 
 
 
@@ -301,60 +314,11 @@ echo "Updating requirements."
 
 
 
-# check if avahi-daemon command exists.
-if ! is_command avahi-daemon ; then
-    echo "Error. avahi-daemon is not available."
-    echo "Trying to install avahi-daemon."
-    log "Trying to install avahi-daemon."
-    /boot/dietpi/dietpi-software install 152 --unattended
-    apt-get install -y avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1
-    #exit
-fi
-
-
-# check if avahi-daemon command exists.
-if ! is_command docker ; then
-    echo "Error. docker is not available."
-    echo "Trying to install docker"
-    log "Trying to install docker."
-    /boot/dietpi/dietpi-software install 162 --unattended
-    #exit
-fi
 
 
 
 
 
-
-
-function sethostname {
-    # Set the hostname
-    echo "127.0.0.1 localhost">/etc/hosts
-    echo "127.0.1.1 osbox">>/etc/hosts
-    echo "::1       localhost ip6-localhost ip6-loopback">>/etc/hosts
-    echo "ff02::1   ip6-allnodes">>/etc/hosts
-    echo "ff02::2   ip6-allrouters">>/etc/hosts
-    echo "osbox">/etc/hostname
-    hostnamectl set-hostname osbox
-}
-
-
-
-
-
-
-
-
-
-
-# copy avahi configuration
-echo "Configuring avahi."
-log "Configuring avahi."
-if [ -f /etc/avahi/services/osbox.service ]; then
-  rm -f /etc/avahi/services/osbox.service
-fi
-cp /home/osbox/.osbox/sw-osbox-bin/lib/avahi/osbox.service /etc/avahi/services/osbox.service
-systemctl restart avahi-daemon
 
 
 exit 1
