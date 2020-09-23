@@ -169,7 +169,7 @@ configureAvahi(){
   if [ -f /etc/avahi/services/osbox.master.service ]; then
     rm -f /etc/avahi/services/osbox.master.service
   fi
-  cp /usr/local/lib/avahi/osbox.service /etc/avahi/services/osbox.service
+  cp /usr/local/osbox/lib/avahi/osbox.service /etc/avahi/services/osbox.service
   systemctl restart avahi-daemon
 }
 
