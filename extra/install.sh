@@ -217,23 +217,16 @@ configureAvahi
 
 sethostname
 
+if [ -f /sbin/osbox ]; then
+  rm -rf /sbin/osbox
+fi
+
+ln -s ${OSBOX_BIN_INSTALLDIR}osbox /sbin/osbox
+chmod +x /sbin/osbox
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/usr/local/osbox/osbox install
+osbox install
 
 
 
