@@ -4,9 +4,36 @@
 # Osbox installation script.
 #
 
+#MODE='prod'
+MODE="dev"
+OSBOX_BIN_USR="osbox"
+
+OSBOX_BIN_RELEASENAME="v0.1.2"
+OSBOX_BIN_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-bin"
+
+
+OSBOX_CORE_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-core"
+OSBOX_core_RELEASENAME="v0.1.1"
+
+
+OSBOX_CORE_REPO="${OSBOX_CORE_GITREPO_URL}.git"
+OSBOX_CORE_RELEASEARCHIVE="${OSBOX_CORE_RELEASENAME}.tar.gz"
+#OSBOX_CORE_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
+OSBOX_CORE_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/project/"
+
+# variable construction
+OSBOX_ETC="/etc/${OSBOX_BIN_USR}"
+
+OSBOX_BIN_REPO="${OSBOX_BIN_GITREPO_URL}.git"
+OSBOX_BIN_RELEASEARCHIVE="${OSBOX_BIN_RELEASENAME}.tar.gz"
+OSBOX_BIN_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
+OSBOX_BIN_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/"
+OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEASEARCHIVE}"
+
+
+echo "$(date) : Start ">./install.log
 
 # Required functions.
-
 # Root check
 if [[ ! $EUID -eq 0 ]];then
   if [[ -x "$(command -v sudo)" ]]; then
@@ -18,6 +45,7 @@ if [[ ! $EUID -eq 0 ]];then
   fi
 fi
 
+
 # helper fuctions
 # is_command function
 is_command() {
@@ -25,64 +53,193 @@ is_command() {
     # Exit value of 0 when exists, 1 if not exists. Value is the result
     # of the `command` shell built-in call.
     local check_command="$1"
-
     command -v "${check_command}" >/dev/null 2>&1
 }
+
 
 # installation log
 log(){
     echo "$(date) : $1">>./install.log
+    echo "$(date) : $1"
 }
 
-log "Osbox installation started."
 
-# Software requirements.
+
+download_bin_release(){
+  log "Archive: $OSBOX_BIN_RELEASEARCHIVE"
+  log "Downloading release: $OSBOX_BIN_RELEASEARCHIVEURL"
+  wget -nv "${OSBOX_BIN_RELEASEARCHIVEURL}" -O "${OSBOX_BIN_RELEASEARCHIVE}"
+  log "Extracting archive..."
+  if [ ! -d $OSBOX_BIN_INSTALLDIR ]; then
+     mkdir ${OSBOX_BIN_INSTALLDIR}
+  fi
+  tar -xf ${OSBOX_BIN_RELEASEARCHIVE} -C ${OSBOX_BIN_INSTALLDIR} --strip 1
+}
+
+
+download_core_release(){
+  log "Archive: $OSBOX_CORE_RELEASEARCHIVE"
+  log "Downloading release: $OSBOX_CORE_RELEASEARCHIVEURL"
+  wget -nv "${OSBOX_CORE_RELEASEARCHIVEURL}" -O "${OSBOX_CORE_RELEASEARCHIVE}"
+  log "Extracting archive..."
+  if [ ! -d $OSBOX_CORE_INSTALLDIR ]; then
+     mkdir ${OSBOX_CORE_INSTALLDIR}
+  fi
+  tar -xf ${OSBOX_CORE_RELEASEARCHIVE} -C ${OSBOX_CORE_INSTALLDIR} --strip 1
+}
+
+download_core_dev(){
+  if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-core ]; then
+     rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-core
+  fi
+
+  if [ -d ${OSBOX_BIN_INSTALLDIR}project ]; then
+      rm -rf ${OSBOX_BIN_INSTALLDIR}project
+  fi
+
+  mkdir  ${OSBOX_BIN_INSTALLDIR}project
+  git clone ${OSBOX_CORE_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-core
+
+  ln -s  ${OSBOX_BIN_GITDIR}sw-osbox-core ${OSBOX_BIN_INSTALLDIR}project/sw-osbox-core
+}
+
+
+download_bin_dev() {
+  if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-bin ]; then
+     rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-bin
+  fi
+  if [ -d $OSBOX_BIN_INSTALLDIR ]; then
+     rm -rf $OSBOX_BIN_INSTALLDIR
+  fi
+  git clone ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
+
+  mkdir -p $OSBOX_BIN_INSTALLDIR
+
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-update ${OSBOX_BIN_INSTALLDIR}osbox-update
+
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/lib ${OSBOX_BIN_INSTALLDIR}lib
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/bin ${OSBOX_BIN_INSTALLDIR}bin
+
+}
+
+
+
+
+requireGit() {
+  # check if git command exists.
+  if ! is_command git ; then
+      echo "Error. git is not available."
+      log "Trying to install git. You might have to run the installer again."
+      /boot/dietpi/dietpi-software install 17 --unattended
+      #exit
+  fi
+
+}
+
+setpermissions() {
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
+  #chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-scheduler
+  #chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-service
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
+}
+
+
+log "Osbox installation started.  Architecture: $(uname -m)"
+# Development or production install.
+if [ "$MODE" = "dev" ]; then
+    requireGit
+    download_bin_dev
+    download_core_dev
+else
+    download_bin_release
+    download_core_dev
+fi
+# set permissions
+setpermissions
+
+
+
+# check if there is a existing installation.
+if [ -d /etc/osbox ]; then
+  log "Existing installation found."
+else
+  mkdir /etc/osbox
+fi
+
+
+/usr/local/osbox/osbox setup
+
+
+
+
+
+
+
+
+
+
+exit 1
+
+
+
+
+
+
+
+
+
+
+function createUser{
+    # adduser
+    log "Adding $OSBOX_BIN_USR user."
+    if id -u osbox >/dev/null 2>&1; then
+        log "Skipping, user '${OSBOX_BIN_USR}' already exists."
+    else
+        useradd -m osbox
+        log "Adding ${OSBOX_BIN_USR} user."
+    fi
+
+    # add to sudoers
+    if [ -f /etc/sudoers.d/${OSBOX_BIN_USR} ]; then
+       rm -f /etc/sudoers.d/${OSBOX_BIN_USR}
+    fi
+    echo "${OSBOX_BIN_USR} ALL=NOPASSWD: ${OSBOX_BIN_INSTALLDIR}osbox">/etc/sudoers.d/${OSBOX_BIN_USR}
+}
+
+
+
+
+
+
+
+
+if is_command "osbox"; then
+  # run the installer
+  osbox install
+
+fi
 
 CURDIR=$PWD
 
 
-architecture=$(uname -m)
 
 
-if [ ! -d "./lib/arch/$architecture" ]; then
-  echo "invalid platform  $(uname -m)"
-  #  exit;
-fi
+
+
+exit 1
+
 
 # remove osbox file.
 if [ -d /home/osbox/.osbox ]; then
   rm -rf /home/osbox/.osbox
 fi
 
-# adduser
-echo "Adding osbox user."
-if id -u osbox >/dev/null 2>&1; then
-    echo "Skipping, user already exists."
-    log "Osbox user already exists."
-else
-    useradd -m osbox
-    log "Adding osbox user."
-fi
 
 
 
-# add to sudoers
-if [ -f /etc/sudoers.d/osbox ]; then
-   rm -f /etc/sudoers.d/osbox
-fi
-echo "osbox ALL=NOPASSWD: /usr/local/osbox/osbox">/etc/sudoers.d/osbox
-
-
-
-
-
-# check if there is a existing installation.
-if [ -d /etc/osbox ]; then
-  echo "Existing installation found."
-  log "Existing installation found."
-else
-  mkdir /etc/osbox
-fi
 
 
 
@@ -138,14 +295,6 @@ echo "Updating requirements."
 #    exit
 #fi
 
-# check if git command exists.
-if ! is_command git ; then
-    echo "Error. git is not available."
-    echo "Trying to install git. You might have to run the installer again."
-    log "Trying to install git. You might have to run the installer again."
-    /boot/dietpi/dietpi-software install 17 --unattended
-    #exit
-fi
 
 
 
@@ -172,19 +321,27 @@ fi
 
 
 
-# Set the hostname
-echo "127.0.0.1 localhost">/etc/hosts
-echo "127.0.1.1 osbox">>/etc/hosts
-echo "::1       localhost ip6-localhost ip6-loopback">>/etc/hosts
-echo "ff02::1   ip6-allnodes">>/etc/hosts
-echo "ff02::2   ip6-allrouters">>/etc/hosts
-
-echo "osbox">/etc/hostname
-
-hostnamectl set-hostname osbox
 
 
-git clone https://github.com/jerryhopper/sw-osbox-bin.git /home/osbox/.osbox/sw-osbox-bin
+
+function sethostname {
+    # Set the hostname
+    echo "127.0.0.1 localhost">/etc/hosts
+    echo "127.0.1.1 osbox">>/etc/hosts
+    echo "::1       localhost ip6-localhost ip6-loopback">>/etc/hosts
+    echo "ff02::1   ip6-allnodes">>/etc/hosts
+    echo "ff02::2   ip6-allrouters">>/etc/hosts
+    echo "osbox">/etc/hostname
+    hostnamectl set-hostname osbox
+}
+
+
+
+
+
+
+
+
 
 
 # copy avahi configuration
@@ -463,3 +620,5 @@ echo "The Webservice is available @ http://osbox.local"
 #sleep 5
 
 #shutdown -r now
+
+}
