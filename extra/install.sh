@@ -199,6 +199,11 @@ else
 fi
 
 
+if is_command "docker"; then
+  docker stop osbox-core
+  docker rm osbox-core
+fi
+
 # Development or production install.
 if [ "$MODE" = "dev" ]; then
     requireGit
