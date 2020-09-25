@@ -231,6 +231,19 @@ chmod +x /sbin/osbox
 
 
 
+
+
+
+if [ -d /var/osbox ]; then
+  rm -rf /var/osbox
+fi
+mkdir -p /var/osbox
+mkfifo /var/osbox/mypipe
+
+cp  /usr/local/osbox/lib/systemd/osbox-pipe.service /etc/systemd/system
+
+
+
 osbox install
 
 
