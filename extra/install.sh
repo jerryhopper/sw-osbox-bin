@@ -46,6 +46,10 @@ if [[ ! $EUID -eq 0 ]];then
 fi
 
 
+if [ -f /var/lib/dietpi/postboot.d/requirements.sh  ]; then
+  rm /var/lib/dietpi/postboot.d/requirements.sh
+fi
+
 # helper fuctions
 # is_command function
 is_command() {
