@@ -1,4 +1,4 @@
 #!/bin/bash
-
-bash /usr/local/osbox/project/sw-osbox-core/osbox-scheduler.sh
-
+if [ -f /usr/local/osbox/project/sw-osbox-core/osbox-scheduler.sh ]; then
+  bash /usr/local/osbox/project/sw-osbox-core/osbox-scheduler.sh
+fi

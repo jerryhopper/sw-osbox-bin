@@ -1,3 +1,4 @@
 #!/bin/bash
-
-bash /usr/local/osbox/project/sw-osbox-core/osbox-service.sh
+if [ -f /usr/local/osbox/project/sw-osbox-core/osbox-service.sh ]; then
+  bash /usr/local/osbox/project/sw-osbox-core/osbox-service.sh
+fi

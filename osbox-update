@@ -1,6 +1,6 @@
 #!/bin/bash
+if [ -f /usr/local/osbox/project/sw-osbox-core/osbox-update.sh ]; then
+  bash /usr/local/osbox/project/sw-osbox-core/osbox-update.sh
+fi
 
-
-
-bash /usr/local/osbox/project/sw-osbox-core/osbox-update.sh
 

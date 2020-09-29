@@ -1,3 +1,5 @@
 #!/bin/bash
+if [ -f /usr/local/osbox/project/sw-osbox-core/osbox-boot.sh ]; then
+  bash /usr/local/osbox/project/sw-osbox-core/osbox-boot.sh
+fi
 
-bash /usr/local/osbox/project/sw-osbox-core/osbox-boot.sh
