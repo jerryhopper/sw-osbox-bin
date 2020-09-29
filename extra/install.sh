@@ -1,34 +1,36 @@
 #!/bin/bash
 
-#
-# Osbox installation script.
-#
+
 
 #MODE='prod'
 MODE="dev"
-OSBOX_BIN_USR="osbox"
-
-OSBOX_BIN_RELEASENAME="v0.1.2"
-OSBOX_BIN_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-bin"
 
 
-OSBOX_CORE_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-core"
-OSBOX_core_RELEASENAME="v0.1.1"
+# helper fuctions
+# git installation
+requireGit() {
+  # check if git command exists.
+  if ! is_command git ; then
+      #echo "Error. git is not available."
+      log "Trying to install git. You might have to run the installer again."
+      /boot/dietpi/dietpi-software install 17 --unattended
+      #exit
+  fi
+
+}
+# is_command function
+is_command() {
+    # Checks for existence of string passed in as only function argument.
+    # Exit value of 0 when exists, 1 if not exists. Value is the result
+    # of the `command` shell built-in call.
+    local check_command="$1"
+    command -v "${check_command}" >/dev/null 2>&1
+}
 
 
-OSBOX_CORE_REPO="${OSBOX_CORE_GITREPO_URL}.git"
-OSBOX_CORE_RELEASEARCHIVE="${OSBOX_CORE_RELEASENAME}.tar.gz"
-#OSBOX_CORE_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
-OSBOX_CORE_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/project/"
 
-# variable construction
-OSBOX_ETC="/etc/${OSBOX_BIN_USR}"
 
-OSBOX_BIN_REPO="${OSBOX_BIN_GITREPO_URL}.git"
-OSBOX_BIN_RELEASEARCHIVE="${OSBOX_BIN_RELEASENAME}.tar.gz"
-OSBOX_BIN_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
-OSBOX_BIN_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/"
-OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEASEARCHIVE}"
+
 
 
 echo "$(date) : Start ">./install.log
@@ -40,10 +42,94 @@ if [[ ! $EUID -eq 0 ]];then
     exec sudo bash "$0" "$@"
     exit $?
   else
-    echo -e "  ${CROSS} sudo is needed to run the installer.  Please run this script as root or install sudo."
+    echo -e "   sudo is needed to run the installer.  Please run this script as root or install sudo."
     exit 1
   fi
 fi
+
+if [ ! -f /boot/dietpi/.installed ]; then
+  echo "Dietpi not installed!"
+  exit
+fi
+if [ ! -f /boot/dietpi/.version ]; then
+  echo "Dietpi version not found!"
+  exit
+fi
+
+source /boot/dietpi/.installed
+source /boot/dietpi/.version
+
+
+
+echo "OsBox installation script"
+echo "---------------------------"
+echo "detected hardware: $G_HW_MODEL_NAME"
+echo "installation modus: $MODE"
+echo " "
+echo "Checking for requirements."
+
+
+
+if ! is_command "curl"; then
+  echo "Curl is not available, installing..."
+  apt install -y curl
+fi
+
+if ! is_command "wget"; then
+  echo "Wget is not available, installing..."
+  apt install -y wget
+fi
+
+if [ "$MODE" = "dev" ]; then
+  echo "Git is not available, installing..."
+  requireGit
+
+fi
+#
+# Osbox installation script.
+#
+
+OSBOX_BIN_USR="osbox"
+
+
+
+
+
+
+
+
+
+OSBOX_BIN_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-bin"
+OSBOX_BIN_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-bin/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
+
+OSBOX_BIN_REPO="${OSBOX_BIN_GITREPO_URL}.git"
+OSBOX_BIN_RELEASEARCHIVE="${OSBOX_BIN_RELEASENAME}.tar.gz"
+
+
+
+OSBOX_CORE_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-core"
+OSBOX_CORE_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-core/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
+OSBOX_CORE_RELEASENAME="v0.1.1"
+
+OSBOX_CORE_REPO="${OSBOX_CORE_GITREPO_URL}.git"
+OSBOX_CORE_RELEASEARCHIVE="${OSBOX_CORE_RELEASENAME}.tar.gz"
+
+
+
+
+#OSBOX_CORE_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
+OSBOX_CORE_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/project/"
+
+
+
+# variable construction
+OSBOX_ETC="/etc/${OSBOX_BIN_USR}"
+
+
+OSBOX_BIN_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
+OSBOX_BIN_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/"
+OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEASEARCHIVE}"
+
 
 
 if [ -f /var/lib/dietpi/postboot.d/requirements.sh  ]; then
@@ -51,14 +137,6 @@ if [ -f /var/lib/dietpi/postboot.d/requirements.sh  ]; then
 fi
 
 # helper fuctions
-# is_command function
-is_command() {
-    # Checks for existence of string passed in as only function argument.
-    # Exit value of 0 when exists, 1 if not exists. Value is the result
-    # of the `command` shell built-in call.
-    local check_command="$1"
-    command -v "${check_command}" >/dev/null 2>&1
-}
 
 
 # installation log
@@ -131,22 +209,12 @@ download_bin_dev() {
 
 
 
-requireGit() {
-  # check if git command exists.
-  if ! is_command git ; then
-      echo "Error. git is not available."
-      log "Trying to install git. You might have to run the installer again."
-      /boot/dietpi/dietpi-software install 17 --unattended
-      #exit
-  fi
-
-}
 
 setpermissions() {
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
-  #chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-scheduler
-  #chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-service
+  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-scheduler
+  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-service
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
 }
 
@@ -210,7 +278,7 @@ fi
 
 # Development or production install.
 if [ "$MODE" = "dev" ]; then
-    requireGit
+    #requireGit
     download_bin_dev
     download_core_dev
     touch /etc/osbox/dev
@@ -218,6 +286,7 @@ else
     download_bin_release
     download_core_dev
 fi
+
 # set permissions
 setpermissions
 
@@ -231,24 +300,10 @@ if [ -f /sbin/osbox ]; then
 fi
 
 ln -s ${OSBOX_BIN_INSTALLDIR}osbox /sbin/osbox
+
 chmod +x /sbin/osbox
 
-
-
-
-
-
-
 osbox install
-
-
-
-
-
-
-
-
-
 
 exit 1
 
