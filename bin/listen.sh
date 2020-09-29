@@ -2,6 +2,10 @@
 if [ ! -d /var/osbox/response ]; then
   mkdir -p /var/osbox/response
 fi
+# make the pipe
+if [ ! -f /var/osbox/mypipe ]; then
+  mkfifo /var/osbox/mypipe
+fi
 while true; do
   IFS=
   COMMAND="$(cat /var/osbox/mypipe)"
