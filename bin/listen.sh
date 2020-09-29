@@ -6,6 +6,5 @@ while true; do
   IFS=
   COMMAND="$(cat /var/osbox/mypipe)"
   echo "$COMMAND" > /var/osbox/response/pipe;
-  //THECOMMAND="$COMMAND >> /var/osbox/response/pipe"
   eval $COMMAND &>> /var/osbox/response/pipe;
   done
