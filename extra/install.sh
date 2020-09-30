@@ -94,6 +94,8 @@ download_core_release(){
 }
 
 download_core_dev(){
+  log "Git repo: $OSBOX_CORE_REPO"
+  log "local directory: $OSBOX_BIN_INSTALLDIR"
   # delete previous binaries
   if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-core ]; then
      rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-core
@@ -111,6 +113,8 @@ download_core_dev(){
 
 
 download_bin_dev() {
+  log "Git repo: $OSBOX_BIN_REPO"
+  log "local directory: $OSBOX_BIN_INSTALLDIR"
   # delete previous binaries
   if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-bin ]; then
      rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-bin
