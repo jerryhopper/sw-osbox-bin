@@ -267,7 +267,7 @@ fi
 
 if [ "$MODE" = "dev" ]; then
   echo "Development mode!"
-  requireGit
+
   if ! is_command "git"; then
       echo "Error. git is not available."
       #log "Trying to install git. You might have to run the installer again."
