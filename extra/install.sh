@@ -131,6 +131,7 @@ download_bin_dev() {
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-update ${OSBOX_BIN_INSTALLDIR}osbox-update
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-scheduler ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-service ${OSBOX_BIN_INSTALLDIR}osbox-service
 
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/lib ${OSBOX_BIN_INSTALLDIR}lib
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/bin ${OSBOX_BIN_INSTALLDIR}bin
