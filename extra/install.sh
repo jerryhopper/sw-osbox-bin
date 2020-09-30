@@ -251,7 +251,7 @@ if is_command "sqlite3"; then
 else
   echo " O - Sqlite3 not available"
 fi
-
+echo " "
 sleep 2
 
 
@@ -284,7 +284,7 @@ fi
 
 
 
-log "Osbox installation started.  Architecture: $(uname -m)"
+#log "Osbox installation started.  Architecture: $(uname -m)"
 
 
 # check if there is a existing installation.
@@ -300,6 +300,7 @@ if is_command "docker"; then
   docker rm osbox-core
 fi
 
+echo " "
 # Development or production install.
 if [ "$MODE" = "dev" ]; then
     #requireGit
