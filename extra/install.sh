@@ -334,8 +334,7 @@ chmod +x /sbin/osbox
 if [ -f /var/lib/dietpi/postboot.d/osbox-boot ]; then
   rm -rf /var/lib/dietpi/postboot.d/osbox-boot
 fi
-ln -s  ${OSBOX_BIN_INSTALLDIR}osbox-boot /var/lib/dietpi/postboot.d/osbox-boot
-chmod +x /var/lib/dietpi/postboot.d/osbox-boot
+
 
 
 
