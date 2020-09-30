@@ -151,17 +151,7 @@ setpermissions() {
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
 }
 
-# git installation
-requireGit() {
-  # check if git command exists.
-  if ! is_command "git" ; then
-      #echo "Error. git is not available."
-      #log "Trying to install git. You might have to run the installer again."
-      /boot/dietpi/dietpi-software install 17 --unattended
-      #exit
-  fi
 
-}
 # is_command function
 is_command() {
     # Checks for existence of string passed in as only function argument.
