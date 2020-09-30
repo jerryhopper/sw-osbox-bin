@@ -154,7 +154,7 @@ setpermissions() {
 # git installation
 requireGit() {
   # check if git command exists.
-  if ! is_command git ; then
+  if ! is_command "git" ; then
       #echo "Error. git is not available."
       log "Trying to install git. You might have to run the installer again."
       /boot/dietpi/dietpi-software install 17 --unattended
@@ -265,10 +265,15 @@ if ! is_command "wget"; then
   apt install -y wget
 fi
 
-if [ "$MODE" = "dev" ]; then
-  echo "Git is not available, installing..."
-  requireGit
+if ! is_command "jq"; then
+  echo "jq is not available, installing..."
+  apt install -y jq
+fi
 
+
+if [ "$MODE" = "dev" ]; then
+  echo "Development mode!"
+  requireGit
 fi
 #
 # Osbox installation script.
