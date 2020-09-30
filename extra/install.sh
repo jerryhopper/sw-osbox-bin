@@ -265,17 +265,16 @@ if ! is_command "jq"; then
 fi
 
 
-if [ "$MODE" = "dev" ]; then
-  echo "Development mode!"
-
-  if ! is_command "git"; then
-      echo "Error. git is not available."
-      #log "Trying to install git. You might have to run the installer again."
-      /boot/dietpi/dietpi-software install 17 --unattended
-      #exit
-  fi
-
+#if [ "$MODE" = "dev" ]; then
+#  echo "Development mode!"
+if ! is_command "git"; then
+    echo "Error. git is not available."
+    #log "Trying to install git. You might have to run the installer again."
+    /boot/dietpi/dietpi-software install 17 --unattended
+    #exit
 fi
+
+#fi
 #
 # Osbox installation script.
 #
