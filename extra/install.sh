@@ -146,8 +146,8 @@ download_bin_dev() {
 setpermissions() {
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
-  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-scheduler
-  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-service
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-service
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
 }
 
