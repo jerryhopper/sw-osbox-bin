@@ -102,7 +102,7 @@ download_core_dev(){
       rm -rf ${OSBOX_BIN_INSTALLDIR}project
   fi
 
-  git clone ${OSBOX_CORE_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-core
+  git clone -q ${OSBOX_CORE_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-core
   mkdir  ${OSBOX_BIN_INSTALLDIR}project
 
   # create symbolic links to the gitrepo.
@@ -119,7 +119,7 @@ download_bin_dev() {
      rm -rf $OSBOX_BIN_INSTALLDIR
   fi
 
-  git clone ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
+  git clone -q ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
   mkdir -p $OSBOX_BIN_INSTALLDIR
 
   # create symbolic links to the gitrepo.
