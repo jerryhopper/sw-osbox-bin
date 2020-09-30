@@ -304,11 +304,12 @@ fi
 echo " "
 # Development or production install.
 if [ "$MODE" = "dev" ]; then
-    #requireGit
+    echo "$MODE installation started."
     download_bin_dev
     download_core_dev
     touch /etc/osbox/dev
 else
+    echo "$MODE installation started."
     download_bin_release
     download_core_dev
 fi
