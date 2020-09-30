@@ -1,12 +1,156 @@
 #!/bin/bash
 
-
+set -e
 
 #MODE='prod'
 MODE="dev"
 
 
+OSBOX_BIN_USR="osbox"
+
+
+OSBOX_BIN_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-bin"
+OSBOX_BIN_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-bin/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
+
+OSBOX_BIN_REPO="${OSBOX_BIN_GITREPO_URL}.git"
+OSBOX_BIN_RELEASEARCHIVE="${OSBOX_BIN_RELEASENAME}.tar.gz"
+
+
+
+OSBOX_CORE_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-core"
+OSBOX_CORE_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-core/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
+OSBOX_CORE_RELEASENAME="v0.1.1"
+
+OSBOX_CORE_REPO="${OSBOX_CORE_GITREPO_URL}.git"
+OSBOX_CORE_RELEASEARCHIVE="${OSBOX_CORE_RELEASENAME}.tar.gz"
+
+
+
+
+#OSBOX_CORE_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
+OSBOX_CORE_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/project/"
+
+
+
+# variable construction
+OSBOX_ETC="/etc/${OSBOX_BIN_USR}"
+
+
+OSBOX_BIN_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
+OSBOX_BIN_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/"
+OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEASEARCHIVE}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # helper fuctions
+
+
+# installation log
+log(){
+    echo "$(date) : $1">>./install.log
+    echo "$(date) : $1"
+}
+
+
+
+
+
+
+
+download_bin_release(){
+  log "Archive: $OSBOX_BIN_RELEASEARCHIVE"
+  log "Downloading release: $OSBOX_BIN_RELEASEARCHIVEURL"
+  wget -nv "${OSBOX_BIN_RELEASEARCHIVEURL}" -O "${OSBOX_BIN_RELEASEARCHIVE}"
+  log "Extracting archive..."
+  if [ ! -d $OSBOX_BIN_INSTALLDIR ]; then
+     mkdir ${OSBOX_BIN_INSTALLDIR}
+  fi
+  # unpack to installation dir.
+  tar -xf ${OSBOX_BIN_RELEASEARCHIVE} -C ${OSBOX_BIN_INSTALLDIR} --strip 1
+}
+
+
+download_core_release(){
+  log "Archive: $OSBOX_CORE_RELEASEARCHIVE"
+  log "Downloading release: $OSBOX_CORE_RELEASEARCHIVEURL"
+  wget -nv "${OSBOX_CORE_RELEASEARCHIVEURL}" -O "${OSBOX_CORE_RELEASEARCHIVE}"
+  log "Extracting archive..."
+  if [ ! -d $OSBOX_CORE_INSTALLDIR ]; then
+     mkdir ${OSBOX_CORE_INSTALLDIR}
+  fi
+  # unpack to installation dir.
+  tar -xf ${OSBOX_CORE_RELEASEARCHIVE} -C ${OSBOX_CORE_INSTALLDIR} --strip 1
+}
+
+download_core_dev(){
+  # delete previous binaries
+  if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-core ]; then
+     rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-core
+  fi
+  if [ -d ${OSBOX_BIN_INSTALLDIR}project ]; then
+      rm -rf ${OSBOX_BIN_INSTALLDIR}project
+  fi
+
+  git clone ${OSBOX_CORE_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-core
+  mkdir  ${OSBOX_BIN_INSTALLDIR}project
+
+  # create symbolic links to the gitrepo.
+  ln -s  ${OSBOX_BIN_GITDIR}sw-osbox-core ${OSBOX_BIN_INSTALLDIR}project/sw-osbox-core
+}
+
+
+download_bin_dev() {
+  # delete previous binaries
+  if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-bin ]; then
+     rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-bin
+  fi
+  if [ -d $OSBOX_BIN_INSTALLDIR ]; then
+     rm -rf $OSBOX_BIN_INSTALLDIR
+  fi
+
+  git clone ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
+  mkdir -p $OSBOX_BIN_INSTALLDIR
+
+  # create symbolic links to the gitrepo.
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-update ${OSBOX_BIN_INSTALLDIR}osbox-update
+
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/lib ${OSBOX_BIN_INSTALLDIR}lib
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/bin ${OSBOX_BIN_INSTALLDIR}bin
+
+}
+
+
+
+
+
+
+
+
+
+# helper fuctions
+
+# permissions
+setpermissions() {
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
+  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-scheduler
+  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-service
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
+}
+
 # git installation
 requireGit() {
   # check if git command exists.
@@ -48,12 +192,12 @@ if [[ ! $EUID -eq 0 ]];then
 fi
 
 if [ ! -f /boot/dietpi/.installed ]; then
-  echo "Dietpi not installed!"
-  exit
+  echo "FATAL: Dietpi not installed!"
+  exit 1
 fi
 if [ ! -f /boot/dietpi/.version ]; then
-  echo "Dietpi version not found!"
-  exit
+  echo "FATAL: Dietpi version not found!"
+  exit 1
 fi
 
 source /boot/dietpi/.installed
@@ -61,13 +205,54 @@ source /boot/dietpi/.version
 
 
 
+
+
+# present some info...
 echo "OsBox installation script"
 echo "---------------------------"
 echo "detected hardware: $G_HW_MODEL_NAME"
 echo "installation modus: $MODE"
 echo " "
 echo "Checking for requirements."
+echo " "
 
+if is_command "curl"; then
+  echo " X - Curl available"
+else
+  echo " O - Curl not available"
+fi
+
+if is_command "wget"; then
+  echo " X - Wget available"
+else
+  echo " O - Wget not available"
+fi
+
+if is_command "git"; then
+  echo " X - Git available"
+else
+  echo " O - Git not available"
+fi
+
+if is_command "docker"; then
+  echo " X - Docker available"
+else
+  echo " O - Docker not available"
+fi
+
+if is_command "avahi-daemon"; then
+  echo " X - Avahi-daemon available"
+else
+  echo " O - Avahi-daemon not available"
+fi
+
+if is_command "sqlite3"; then
+  echo " X - Sqlite3 available"
+else
+  echo " O - Sqlite3 not available"
+fi
+
+sleep 2
 
 
 if ! is_command "curl"; then
@@ -89,172 +274,6 @@ fi
 # Osbox installation script.
 #
 
-OSBOX_BIN_USR="osbox"
-
-
-
-
-
-
-
-
-
-OSBOX_BIN_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-bin"
-OSBOX_BIN_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-bin/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
-
-OSBOX_BIN_REPO="${OSBOX_BIN_GITREPO_URL}.git"
-OSBOX_BIN_RELEASEARCHIVE="${OSBOX_BIN_RELEASENAME}.tar.gz"
-
-
-
-OSBOX_CORE_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-core"
-OSBOX_CORE_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-core/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
-OSBOX_CORE_RELEASENAME="v0.1.1"
-
-OSBOX_CORE_REPO="${OSBOX_CORE_GITREPO_URL}.git"
-OSBOX_CORE_RELEASEARCHIVE="${OSBOX_CORE_RELEASENAME}.tar.gz"
-
-
-
-
-#OSBOX_CORE_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
-OSBOX_CORE_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/project/"
-
-
-
-# variable construction
-OSBOX_ETC="/etc/${OSBOX_BIN_USR}"
-
-
-OSBOX_BIN_GITDIR="/home/${OSBOX_BIN_USR}/.${OSBOX_BIN_USR}/"
-OSBOX_BIN_INSTALLDIR="/usr/local/${OSBOX_BIN_USR}/"
-OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEASEARCHIVE}"
-
-
-
-if [ -f /var/lib/dietpi/postboot.d/requirements.sh  ]; then
-  rm /var/lib/dietpi/postboot.d/requirements.sh
-fi
-
-# helper fuctions
-
-
-# installation log
-log(){
-    echo "$(date) : $1">>./install.log
-    echo "$(date) : $1"
-}
-
-
-
-download_bin_release(){
-  log "Archive: $OSBOX_BIN_RELEASEARCHIVE"
-  log "Downloading release: $OSBOX_BIN_RELEASEARCHIVEURL"
-  wget -nv "${OSBOX_BIN_RELEASEARCHIVEURL}" -O "${OSBOX_BIN_RELEASEARCHIVE}"
-  log "Extracting archive..."
-  if [ ! -d $OSBOX_BIN_INSTALLDIR ]; then
-     mkdir ${OSBOX_BIN_INSTALLDIR}
-  fi
-  tar -xf ${OSBOX_BIN_RELEASEARCHIVE} -C ${OSBOX_BIN_INSTALLDIR} --strip 1
-}
-
-
-download_core_release(){
-  log "Archive: $OSBOX_CORE_RELEASEARCHIVE"
-  log "Downloading release: $OSBOX_CORE_RELEASEARCHIVEURL"
-  wget -nv "${OSBOX_CORE_RELEASEARCHIVEURL}" -O "${OSBOX_CORE_RELEASEARCHIVE}"
-  log "Extracting archive..."
-  if [ ! -d $OSBOX_CORE_INSTALLDIR ]; then
-     mkdir ${OSBOX_CORE_INSTALLDIR}
-  fi
-  tar -xf ${OSBOX_CORE_RELEASEARCHIVE} -C ${OSBOX_CORE_INSTALLDIR} --strip 1
-}
-
-download_core_dev(){
-  if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-core ]; then
-     rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-core
-  fi
-
-  if [ -d ${OSBOX_BIN_INSTALLDIR}project ]; then
-      rm -rf ${OSBOX_BIN_INSTALLDIR}project
-  fi
-
-  mkdir  ${OSBOX_BIN_INSTALLDIR}project
-  git clone ${OSBOX_CORE_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-core
-
-  ln -s  ${OSBOX_BIN_GITDIR}sw-osbox-core ${OSBOX_BIN_INSTALLDIR}project/sw-osbox-core
-}
-
-
-download_bin_dev() {
-  if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-bin ]; then
-     rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-bin
-  fi
-  if [ -d $OSBOX_BIN_INSTALLDIR ]; then
-     rm -rf $OSBOX_BIN_INSTALLDIR
-  fi
-  git clone ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
-
-  mkdir -p $OSBOX_BIN_INSTALLDIR
-
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-update ${OSBOX_BIN_INSTALLDIR}osbox-update
-
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/lib ${OSBOX_BIN_INSTALLDIR}lib
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/bin ${OSBOX_BIN_INSTALLDIR}bin
-
-}
-
-
-
-
-
-setpermissions() {
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
-  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-scheduler
-  chmod +x $(OSBOX_BIN_INSTALLDIR)osbox-service
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
-}
-
-configureAvahi(){
-
-  # check if avahi-daemon command exists.
-  if ! is_command avahi-daemon ; then
-      echo "Error. avahi-daemon is not available."
-      echo "Trying to install avahi-daemon."
-      log "Trying to install avahi-daemon."
-      /boot/dietpi/dietpi-software install 152 --unattended
-      #exit
-  else
-      log "avahi-daemon is available"
-  fi
-
-
-  # copy avahi configuration
-  echo "Configuring avahi."
-  log "Configuring avahi."
-  if [ -f /etc/avahi/services/osbox.service ]; then
-    rm -f /etc/avahi/services/osbox.service
-  fi
-  if [ -f /etc/avahi/services/osbox.master.service ]; then
-    rm -f /etc/avahi/services/osbox.master.service
-  fi
-  cp /usr/local/osbox/lib/avahi/osbox.service /etc/avahi/services/osbox.service
-  systemctl restart avahi-daemon
-}
-
-sethostname() {
-    # Set the hostname
-    echo "127.0.0.1 localhost">/etc/hosts
-    echo "127.0.1.1 osbox">>/etc/hosts
-    echo "::1       localhost ip6-localhost ip6-loopback">>/etc/hosts
-    echo "ff02::1   ip6-allnodes">>/etc/hosts
-    echo "ff02::2   ip6-allrouters">>/etc/hosts
-    echo "osbox">/etc/hostname
-    hostnamectl set-hostname osbox
-}
 
 
 
@@ -290,22 +309,57 @@ fi
 # set permissions
 setpermissions
 
-# setup and configure avahi
-configureAvahi
 
-sethostname
+
+
 
 if [ -f /sbin/osbox ]; then
   rm -rf /sbin/osbox
 fi
-
 ln -s ${OSBOX_BIN_INSTALLDIR}osbox /sbin/osbox
-
 chmod +x /sbin/osbox
+
+
+if [ -f /var/lib/dietpi/postboot.d/osbox-boot ]; then
+  rm -rf /var/lib/dietpi/postboot.d/osbox-boot
+fi
+ln -s  ${OSBOX_BIN_INSTALLDIR}osbox-boot /var/lib/dietpi/postboot.d/osbox-boot
+chmod +x /var/lib/dietpi/postboot.d/osbox-boot
+
+
 
 osbox install
 
-exit 1
+exit 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
