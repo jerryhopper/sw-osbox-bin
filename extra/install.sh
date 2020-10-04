@@ -304,9 +304,9 @@ fi
 if is_command "docker"; then
   if [ "$(docker ps -a|grep osbox-core)" ]; then
     docker stop osbox-core
-    docker rm osbox-core
+    #docker rm osbox-core
   else
-        a=1
+    a=1
   fi
 
 
