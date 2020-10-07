@@ -123,6 +123,7 @@ download_bin_dev() {
 
   # create symbolic links to the gitrepo.
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-install-service ${OSBOX_BIN_INSTALLDIR}osbox-install-service
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-update ${OSBOX_BIN_INSTALLDIR}osbox-update
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-scheduler ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
