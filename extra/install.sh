@@ -160,10 +160,10 @@ setpermissions() {
   log "Set permissions.."
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
+  #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-service
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
+  #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-service
+  #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
 }
 
 
