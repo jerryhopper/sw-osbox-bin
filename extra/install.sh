@@ -157,6 +157,7 @@ setpermissions() {
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-service
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
 }
@@ -255,6 +256,8 @@ echo " "
 sleep 2
 
 
+
+
 if ! is_command "curl"; then
   echo "Curl is not available, installing..."
   apt install -y curl
@@ -299,7 +302,13 @@ if [ -d /etc/osbox ]; then
 else
   mkdir /etc/osbox
 fi
-
+# check if there is a existing installation.
+if [ -d /var/osbox ]; then
+  rm -rf /var/osbox
+  mkdir /var/osbox
+else
+  mkdir /var/osbox
+fi
 
 if is_command "docker"; then
   if [ "$(docker ps -a|grep osbox-core)" ]; then
@@ -342,6 +351,39 @@ if [ -f /var/lib/dietpi/postboot.d/osbox-boot ]; then
 fi
 
 
+
+
+
+echo "Configuring osbox-installer service."
+log "Configuring osbox-installer service."
+if [ -f /etc/systemd/system/osbox-installer.service ]; then
+  rm -f /etc/systemd/system/osbox-installer.service
+fi
+
+
+echo "[Unit]">/etc/systemd/system/osbox-installer.service
+echo "Description=osbox-installer-service">>/etc/systemd/system/osbox-installer.service
+echo "After=network.target">>/etc/systemd/system/osbox-installer.service
+echo "StartLimitIntervalSec=0">>/etc/systemd/system/osbox-installer.service
+echo "">>/etc/systemd/system/osbox-installer.service
+echo "[Service]">>/etc/systemd/system/osbox-installer.service
+echo "Type=forking">>/etc/systemd/system/osbox-installer.service
+echo "Restart=always">>/etc/systemd/system/osbox-installer.service
+echo "RestartSec=10">>/etc/systemd/system/osbox-installer.service
+echo "User=root">>/etc/systemd/system/osbox-installer.service
+echo "ExecStart=/usr/local/osbox/osbox-installer-service">>/etc/systemd/system/osbox-installer.service
+echo "TasksMax=100">>/etc/systemd/system/osbox-installer.service
+echo "[Install]">>/etc/systemd/system/osbox-installer.service
+echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
+
+systemctl enable osbox-installer
+
+exit 0
+
+
+
+
+systemctl enable osbox
 
 
 osbox install
@@ -462,30 +504,6 @@ exit 1
 
 
 
-
-echo "Configuring osbox service."
-log "Configuring osbox service."
-if [ -f /etc/systemd/system/osbox.service ]; then
-  rm -f /etc/systemd/system/osbox.service
-fi
-
-
-echo "[Unit]">/etc/systemd/system/osbox.service
-echo "Description=OsBox web-service">>/etc/systemd/system/osbox.service
-echo "After=network.target">>/etc/systemd/system/osbox.service
-echo "StartLimitIntervalSec=0">>/etc/systemd/system/osbox.service
-echo "">>/etc/systemd/system/osbox.service
-echo "[Service]">>/etc/systemd/system/osbox.service
-echo "Type=forking">>/etc/systemd/system/osbox.service
-echo "Restart=always">>/etc/systemd/system/osbox.service
-echo "RestartSec=10">>/etc/systemd/system/osbox.service
-echo "User=root">>/etc/systemd/system/osbox.service
-echo "ExecStart=/usr/local/osbox/osbox-service">>/etc/systemd/system/osbox.service
-echo "TasksMax=100">>/etc/systemd/system/osbox.service
-echo "[Install]">>/etc/systemd/system/osbox.service
-echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox.service
-
-systemctl enable osbox
 
 
 
