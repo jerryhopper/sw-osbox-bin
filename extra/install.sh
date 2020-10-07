@@ -64,38 +64,43 @@ log(){
 
 
 download_bin_release(){
-  log "Archive: $OSBOX_BIN_RELEASEARCHIVE"
+  log "download_bin_release() - Archive: $OSBOX_BIN_RELEASEARCHIVE"
   log "Downloading release: $OSBOX_BIN_RELEASEARCHIVEURL"
   wget -nv "${OSBOX_BIN_RELEASEARCHIVEURL}" -O "${OSBOX_BIN_RELEASEARCHIVE}"
-  log "Extracting archive..."
+
   if [ ! -d $OSBOX_BIN_INSTALLDIR ]; then
+     log "Creating: ${OSBOX_BIN_INSTALLDIR}"
      mkdir ${OSBOX_BIN_INSTALLDIR}
   fi
   # unpack to installation dir.
+  log "Extracting archive..."
   tar -xf ${OSBOX_BIN_RELEASEARCHIVE} -C ${OSBOX_BIN_INSTALLDIR} --strip 1
 }
 
 
 download_core_release(){
-  log "Archive: $OSBOX_CORE_RELEASEARCHIVE"
+  log "download_core_release() - Archive: $OSBOX_CORE_RELEASEARCHIVE"
   log "Downloading release: $OSBOX_CORE_RELEASEARCHIVEURL"
   wget -nv "${OSBOX_CORE_RELEASEARCHIVEURL}" -O "${OSBOX_CORE_RELEASEARCHIVE}"
-  log "Extracting archive..."
   if [ ! -d $OSBOX_CORE_INSTALLDIR ]; then
+     log "Creating ${OSBOX_CORE_INSTALLDIR}"
      mkdir ${OSBOX_CORE_INSTALLDIR}
   fi
   # unpack to installation dir.
+  log "Extracting archive..."
   tar -xf ${OSBOX_CORE_RELEASEARCHIVE} -C ${OSBOX_CORE_INSTALLDIR} --strip 1
 }
 
 download_core_dev(){
-  log "Git repo: $OSBOX_CORE_REPO"
+  log "download_core_dev() - Git repo: $OSBOX_CORE_REPO"
   log "local directory: ${OSBOX_BIN_GITDIR}/sw-osbox-core"
   # delete previous binaries
   if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-core ]; then
+     log "Removing ${OSBOX_BIN_GITDIR}/sw-osbox-core"
      rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-core
   fi
   if [ -d ${OSBOX_BIN_INSTALLDIR}project ]; then
+      log "Removing ${OSBOX_CORE_INSTALLDIR}"
       rm -rf ${OSBOX_BIN_INSTALLDIR}project
   fi
 
@@ -108,27 +113,30 @@ download_core_dev(){
 
 
 download_bin_dev() {
-  log "Git repo: $OSBOX_BIN_REPO"
+  log "download_bin_dev() - Git repo: $OSBOX_BIN_REPO"
   log "local directory: ${OSBOX_BIN_GITDIR}sw-osbox-bin"
+
   # delete previous binaries
   if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-bin ]; then
+     log "Removing  ${OSBOX_BIN_GITDIR}/sw-osbox-bin"
      rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-bin
   fi
   if [ -d $OSBOX_BIN_INSTALLDIR ]; then
+     log "Removing  ${$OSBOX_BIN_INSTALLDIR}"
      rm -rf $OSBOX_BIN_INSTALLDIR
   fi
 
   git clone -q ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
   mkdir -p $OSBOX_BIN_INSTALLDIR
 
-  # create symbolic links to the gitrepo.
+  # create symbolic links.
+  log "Creating symlinks.."
+  # files
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-installer-service ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-update ${OSBOX_BIN_INSTALLDIR}osbox-update
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-scheduler ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-service ${OSBOX_BIN_INSTALLDIR}osbox-service
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-installer-service ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
 
+  # directories
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/lib ${OSBOX_BIN_INSTALLDIR}lib
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/bin ${OSBOX_BIN_INSTALLDIR}bin
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/extra ${OSBOX_BIN_INSTALLDIR}extra
@@ -149,6 +157,7 @@ download_bin_dev() {
 
 # permissions
 setpermissions() {
+  log "Set permissions.."
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
