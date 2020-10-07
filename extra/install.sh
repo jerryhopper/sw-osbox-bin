@@ -104,6 +104,7 @@ download_core_dev(){
       rm -rf ${OSBOX_BIN_INSTALLDIR}project
   fi
 
+  log "Cloning repo..."
   git clone -q ${OSBOX_CORE_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-core
   mkdir  ${OSBOX_BIN_INSTALLDIR}project
 
@@ -125,7 +126,7 @@ download_bin_dev() {
      log "Removing  $OSBOX_BIN_INSTALLDIR"
      rm -rf $OSBOX_BIN_INSTALLDIR
   fi
-
+  log "Cloning repo..."
   git clone -q ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
   mkdir -p $OSBOX_BIN_INSTALLDIR
 
