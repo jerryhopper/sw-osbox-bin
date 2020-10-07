@@ -122,7 +122,7 @@ download_bin_dev() {
      rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-bin
   fi
   if [ -d $OSBOX_BIN_INSTALLDIR ]; then
-     log "Removing  ${$OSBOX_BIN_INSTALLDIR}"
+     log "Removing  $OSBOX_BIN_INSTALLDIR"
      rm -rf $OSBOX_BIN_INSTALLDIR
   fi
 
