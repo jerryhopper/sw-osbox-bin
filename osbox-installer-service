@@ -3,3 +3,4 @@
 if [ -f /usr/local/osbox/project/sw-osbox-core/osbox-installer-service.sh ]; then
   bash /usr/local/osbox/project/sw-osbox-core/osbox-installer-service.sh
 fi
+
