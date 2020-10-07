@@ -170,9 +170,6 @@ is_command() {
 
 
 
-
-
-
 echo "$(date) : Start ">./install.log
 
 # Required functions.
