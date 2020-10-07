@@ -135,7 +135,6 @@ download_bin_dev() {
 
   log "local installer script : ${OSBOX_BIN_INSTALLDIR}extra/install.sh"
 
-
 }
 
 
