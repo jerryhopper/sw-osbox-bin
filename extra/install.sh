@@ -123,7 +123,7 @@ download_bin_dev() {
 
   # create symbolic links to the gitrepo.
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-install-service ${OSBOX_BIN_INSTALLDIR}osbox-install-service
+  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-installer-service ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-update ${OSBOX_BIN_INSTALLDIR}osbox-update
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-scheduler ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
@@ -152,7 +152,7 @@ setpermissions() {
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-install-service
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-service
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-update
 }
@@ -170,7 +170,7 @@ is_command() {
 
 
 
-echo "$(date) : Start ">./install.log
+log "$(date) : Start "
 
 # Required functions.
 # Root check
@@ -251,17 +251,17 @@ sleep 2
 
 
 if ! is_command "curl"; then
-  echo "Curl is not available, installing..."
+  log "Curl is not available, installing..."
   apt install -y curl
 fi
 
 if ! is_command "wget"; then
-  echo "Wget is not available, installing..."
+  log "Wget is not available, installing..."
   apt install -y wget
 fi
 
 if ! is_command "jq"; then
-  echo "jq is not available, installing..."
+  log "jq is not available, installing..."
   apt install -y jq
 fi
 
@@ -269,7 +269,7 @@ fi
 #if [ "$MODE" = "dev" ]; then
 #  echo "Development mode!"
 if ! is_command "git"; then
-    echo "Error. git is not available."
+    log "Error. git is not available."
     #log "Trying to install git. You might have to run the installer again."
     /boot/dietpi/dietpi-software install 17 --unattended
     #exit
@@ -303,25 +303,27 @@ else
 fi
 
 if is_command "docker"; then
+  log "Docker is available"
   if [ "$(docker ps -a|grep osbox-core)" ]; then
     docker stop osbox-core
+    log "stopping container osbox-core"
     #docker rm osbox-core
   else
-    a=1
+    log "container osbox-core is not available"
   fi
-
-
+else
+  log "Docker is not available"
 fi
 
 echo " "
 # Development or production install.
 if [ "$MODE" = "dev" ]; then
-    echo "$MODE installation started."
+    log "$MODE installation started."
     download_bin_dev
     download_core_dev
     touch /etc/osbox/dev
 else
-    echo "$MODE installation started."
+    log "$MODE installation started."
     download_bin_release
     download_core_dev
 fi
@@ -350,7 +352,6 @@ log "Configuring osbox-installer service."
 if [ -f /etc/systemd/system/osbox-installer.service ]; then
   rm -f /etc/systemd/system/osbox-installer.service
 fi
-
 
 echo "[Unit]">/etc/systemd/system/osbox-installer.service
 echo "Description=osbox-installer-service">>/etc/systemd/system/osbox-installer.service
