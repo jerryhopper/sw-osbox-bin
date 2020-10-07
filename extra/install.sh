@@ -48,17 +48,12 @@ OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEAS
 
 
 
-
-
-
-
-
 # helper fuctions
 
 
 # installation log
 log(){
-    echo "$(date) : $1">>./install.log
+    echo "$(date) : $1">>/var/osbox-install.log
     echo "$(date) : $1"
 }
 
@@ -187,17 +182,17 @@ if [[ ! $EUID -eq 0 ]];then
     exec sudo bash "$0" "$@"
     exit $?
   else
-    echo -e "   sudo is needed to run the installer.  Please run this script as root or install sudo."
+    log "   sudo is needed to run the installer.  Please run this script as root or install sudo."
     exit 1
   fi
 fi
 
 if [ ! -f /boot/dietpi/.installed ]; then
-  echo "FATAL: Dietpi not installed!"
+  log "FATAL: Dietpi not installed!"
   exit 1
 fi
 if [ ! -f /boot/dietpi/.version ]; then
-  echo "FATAL: Dietpi version not found!"
+  log "FATAL: Dietpi version not found!"
   exit 1
 fi
 
@@ -354,7 +349,6 @@ fi
 
 
 
-echo "Configuring osbox-installer service."
 log "Configuring osbox-installer service."
 if [ -f /etc/systemd/system/osbox-installer.service ]; then
   rm -f /etc/systemd/system/osbox-installer.service
@@ -375,6 +369,7 @@ echo "ExecStart=/usr/local/osbox/osbox-installer-service">>/etc/systemd/system/o
 echo "TasksMax=100">>/etc/systemd/system/osbox-installer.service
 echo "[Install]">>/etc/systemd/system/osbox-installer.service
 echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
+
 
 systemctl enable osbox-installer
 
