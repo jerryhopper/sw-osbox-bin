@@ -76,7 +76,7 @@ log(){
 
 
 download_bin_release(){
-  log "download_bin_release() - Archive: $OSBOX_BIN_RELEASEARCHIVE"
+  #log "download_bin_release() - Archive: $OSBOX_BIN_RELEASEARCHIVE"
   log "Downloading release: $OSBOX_BIN_RELEASEARCHIVEURL"
   wget -nv "${OSBOX_BIN_RELEASEARCHIVEURL}" -O "${OSBOX_BIN_RELEASEARCHIVE}"
 
@@ -92,10 +92,10 @@ download_bin_release(){
 
 download_core_release(){
   log "download_core_release() - Archive: $OSBOX_CORE_RELEASEARCHIVE"
-  log "Downloading release: $OSBOX_CORE_RELEASEARCHIVEURL"
+  #log "Downloading release: $OSBOX_CORE_RELEASEARCHIVEURL"
   wget -nv "${OSBOX_CORE_RELEASEARCHIVEURL}" -O "${OSBOX_CORE_RELEASEARCHIVE}"
   if [ ! -d $OSBOX_CORE_INSTALLDIR ]; then
-     log "Creating ${OSBOX_CORE_INSTALLDIR}"
+     #log "Creating ${OSBOX_CORE_INSTALLDIR}"
      mkdir ${OSBOX_CORE_INSTALLDIR}
   fi
   # unpack to installation dir.
@@ -105,18 +105,18 @@ download_core_release(){
 
 download_core_dev(){
   log "download_core_dev() - Git repo: $OSBOX_CORE_REPO"
-  log "local directory: ${OSBOX_BIN_GITDIR}/sw-osbox-core"
+  #log "local directory: ${OSBOX_BIN_GITDIR}/sw-osbox-core"
   # delete previous binaries
   if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-core ]; then
-     log "Removing ${OSBOX_BIN_GITDIR}/sw-osbox-core"
+     #log "Removing ${OSBOX_BIN_GITDIR}/sw-osbox-core"
      rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-core
   fi
   if [ -d ${OSBOX_BIN_INSTALLDIR}project ]; then
-      log "Removing ${OSBOX_CORE_INSTALLDIR}"
+      #log "Removing ${OSBOX_CORE_INSTALLDIR}"
       rm -rf ${OSBOX_BIN_INSTALLDIR}project
   fi
 
-  log "Cloning repo..."
+  #log "Cloning repo..."
   git clone -q ${OSBOX_CORE_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-core
   mkdir  ${OSBOX_BIN_INSTALLDIR}project
 
@@ -127,23 +127,23 @@ download_core_dev(){
 
 download_bin_dev() {
   log "download_bin_dev() - Git repo: $OSBOX_BIN_REPO"
-  log "local directory: ${OSBOX_BIN_GITDIR}sw-osbox-bin"
+  #log "local directory: ${OSBOX_BIN_GITDIR}sw-osbox-bin"
 
   # delete previous binaries
   if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-bin ]; then
-     log "Removing  ${OSBOX_BIN_GITDIR}/sw-osbox-bin"
+     #log "Removing  ${OSBOX_BIN_GITDIR}/sw-osbox-bin"
      rm -rf ${OSBOX_BIN_GITDIR}/sw-osbox-bin
   fi
   if [ -d $OSBOX_BIN_INSTALLDIR ]; then
-     log "Removing  $OSBOX_BIN_INSTALLDIR"
+     #log "Removing  $OSBOX_BIN_INSTALLDIR"
      rm -rf $OSBOX_BIN_INSTALLDIR
   fi
-  log "Cloning repo..."
+  #log "Cloning repo..."
   git clone -q ${OSBOX_BIN_REPO} ${OSBOX_BIN_GITDIR}sw-osbox-bin
   mkdir -p $OSBOX_BIN_INSTALLDIR
 
   # create symbolic links.
-  log "Creating symlinks.."
+  #log "Creating symlinks.."
   # files
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
@@ -377,5 +377,5 @@ echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
 
 
 systemctl enable osbox-installer
-
+log "Finished!"
 exit 0
