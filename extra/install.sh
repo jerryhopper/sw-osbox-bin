@@ -256,21 +256,7 @@ sleep 2
 
 
 
-
-if ! is_command "curl"; then
-  log "Curl is not available, installing..."
-  apt install -y curl
-fi
-
-if ! is_command "wget"; then
-  log "Wget is not available, installing..."
-  apt install -y wget
-fi
-
-if ! is_command "jq"; then
-  log "jq is not available, installing..."
-  apt install -y jq
-fi
+apt-get -y install avahi-utils nmap curl wget jq
 
 
 #if [ "$MODE" = "dev" ]; then
@@ -380,3 +366,4 @@ echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
 
 systemctl enable osbox-installer
 
+exit 0
