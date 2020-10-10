@@ -1,6 +1,6 @@
 #!/bin/bash
-if [ ! -d /var/osbox/response ]; then
-  mkdir -p /var/osbox/response
+if [ ! -d /var/osbox ]; then
+  mkdir -p /var/osbox
 fi
 # make the pipe
 rm -rf /var/osbox/pipe
