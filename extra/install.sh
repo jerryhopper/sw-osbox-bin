@@ -3,13 +3,12 @@
 set -e
 
 #MODE='prod'
-MODE="dev"
-
-
+OSBOX_INSTALLMODE="dev"
 OSBOX_BIN_USR="osbox"
 
 
 OSBOX_BIN_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-bin"
+
 OSBOX_BIN_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-bin/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
 
 OSBOX_BIN_REPO="${OSBOX_BIN_GITREPO_URL}.git"
@@ -159,7 +158,10 @@ download_bin_dev() {
 }
 
 
+save_prefs(){
 
+
+}
 
 
 
@@ -223,7 +225,7 @@ source /boot/dietpi/.version
 echo "OsBox installation script"
 echo "---------------------------"
 echo "detected hardware: $G_HW_MODEL_NAME"
-echo "installation modus: $MODE"
+echo "installation modus: $OSBOX_INSTALLMODE"
 echo " "
 echo "Checking for requirements."
 echo " "
@@ -268,7 +270,7 @@ sleep 2
 
 
 
-apt-get -y install avahi-utils nmap curl wget jq
+apt-get -y install avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1 nmap curl wget jq
 
 
 #if [ "$MODE" = "dev" ]; then
@@ -322,13 +324,13 @@ fi
 
 echo " "
 # Development or production install.
-if [ "$MODE" = "dev" ]; then
-    log "$MODE installation started."
+if [ "$OSBOX_INSTALLMODE" = "dev" ]; then
+    log "$OSBOX_INSTALLMODE installation started."
     download_bin_dev
     download_core_dev
     touch /etc/osbox/dev
 else
-    log "$MODE installation started."
+    log "$OSBOX_INSTALLMODE installation started."
     download_bin_release
     download_core_dev
 fi
@@ -370,7 +372,7 @@ echo "Restart=always">>/etc/systemd/system/osbox-installer.service
 echo "RestartSec=10">>/etc/systemd/system/osbox-installer.service
 echo "User=root">>/etc/systemd/system/osbox-installer.service
 echo "TimeoutSec=900">>/etc/systemd/system/osbox-installer.service
-echo "ExecStart=/usr/local/osbox/osbox-installer-service">>/etc/systemd/system/osbox-installer.service
+echo "ExecStart=/usr/local/osbox/osbox-installer-service $OSBOX_INSTALLMODE $OSBOX_BIN_USR">>/etc/systemd/system/osbox-installer.service
 echo "TasksMax=100">>/etc/systemd/system/osbox-installer.service
 echo "[Install]">>/etc/systemd/system/osbox-installer.service
 echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
