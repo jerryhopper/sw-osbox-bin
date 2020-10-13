@@ -159,7 +159,7 @@ download_bin_dev() {
 
 
 save_prefs(){
-
+  echo "saving prefs..."
 
 }
 
