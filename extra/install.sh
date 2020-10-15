@@ -267,6 +267,7 @@ else
   echo " O - Git not available"
 fi
 
+
 if is_command "docker"; then
   echo " X - Docker available"
 else
