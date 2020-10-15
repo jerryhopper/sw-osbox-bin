@@ -65,6 +65,9 @@ telegram()
 log(){
     echo "$(date) : $1">>/var/osbox-install.log
     echo "$(date) : $1"
+    if [ -f /etc/osbox/osbox.db ];then
+      sqlite3 -batch /etc/osbox/osbox.db "insert INTO installog ( f ) VALUES( '$1' );"
+    fi
     telegram "$1"
 }
 
@@ -189,6 +192,22 @@ is_command() {
 }
 
 
+create_database(){
+  # check if sqlite3 db exists.
+  #
+  #  /host/etc/osbox/master.db
+  #  /host/etc/osbox/osbox.db
+  if [ ! -f /etc/osbox/osbox.db ];then
+    touch /etc/osbox/osbox.db
+    sqlite3 -batch /etc/osbox/osbox.db "CREATE table installog (id INTEGER PRIMARY KEY,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,f TEXT);"
+    sqlite3 -batch /etc/osbox/osbox.db "insert INTO installog ( f ) VALUES( 'osbox.db created' );"
+
+
+  fi
+
+}
+
+
 
 
 log "$(date) : Start "
@@ -262,8 +281,12 @@ fi
 
 if is_command "sqlite3"; then
   echo " X - Sqlite3 available"
+  create_database
 else
   echo " O - Sqlite3 not available"
+  #87 = sqlite
+  /boot/dietpi/dietpi-software install 87 --unattended
+  create_database
 fi
 echo " "
 sleep 2
@@ -305,6 +328,7 @@ fi
 if [ -d /var/osbox ]; then
   rm -rf /var/osbox
   mkdir /var/osbox
+
 else
   mkdir /var/osbox
 fi
