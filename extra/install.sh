@@ -198,7 +198,7 @@ create_database(){
   #  /host/etc/osbox/master.db
   #  /host/etc/osbox/osbox.db
   if [ ! -d /etc/osbox ]; then
-    mkdir -p /etc/osbox    
+    mkdir -p /etc/osbox
   fi
   if [ ! -f /etc/osbox/osbox.db ];then
     touch /etc/osbox/osbox.db
