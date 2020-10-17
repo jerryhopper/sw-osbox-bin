@@ -397,7 +397,7 @@ echo "[Service]">>/etc/systemd/system/osbox-installer.service
 echo "Type=forking">>/etc/systemd/system/osbox-installer.service
 echo "PIDFile=/var/run/osbox-installer">>/etc/systemd/system/osbox-installer.service
 echo "Restart=always">>/etc/systemd/system/osbox-installer.service
-echo "RestartSec=10">>/etc/systemd/system/osbox-installer.service
+echo "RestartSec=30">>/etc/systemd/system/osbox-installer.service
 echo "User=root">>/etc/systemd/system/osbox-installer.service
 echo "TimeoutSec=900">>/etc/systemd/system/osbox-installer.service
 echo "ExecStart=/usr/local/osbox/osbox-installer-service $OSBOX_INSTALLMODE $OSBOX_BIN_USR">>/etc/systemd/system/osbox-installer.service
