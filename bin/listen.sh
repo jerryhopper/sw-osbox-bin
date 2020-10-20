@@ -25,7 +25,7 @@ log(){
 log "listen.sh"
 
 
-/usr/local/osbox/project/sw-osbox-core/src/sh/network/disable_installer.sh
+bash /usr/local/osbox/project/sw-osbox-core/src/sh/network/disable_installer.sh
 
 if [ ! -d /var/osbox ]; then
   mkdir -p /var/osbox
