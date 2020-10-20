@@ -400,7 +400,7 @@ echo "Restart=always">>/etc/systemd/system/osbox-installer.service
 echo "RestartSec=30">>/etc/systemd/system/osbox-installer.service
 echo "User=root">>/etc/systemd/system/osbox-installer.service
 echo "TimeoutSec=900">>/etc/systemd/system/osbox-installer.service
-echo "ExecStart=/usr/local/osbox/osbox-installer-service $OSBOX_INSTALLMODE $OSBOX_BIN_USR">>/etc/systemd/system/osbox-installer.service
+echo "ExecStart=/usr/local/osbox/osbox-installer-service $OSBOX_INSTALLMODE $OSBOX_BIN_USR >/dev/null 2>&1">>/etc/systemd/system/osbox-installer.service
 echo "TasksMax=100">>/etc/systemd/system/osbox-installer.service
 echo "[Install]">>/etc/systemd/system/osbox-installer.service
 echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
