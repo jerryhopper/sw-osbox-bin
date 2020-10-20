@@ -395,7 +395,7 @@ echo "StartLimitIntervalSec=0">>/etc/systemd/system/osbox-installer.service
 echo "">>/etc/systemd/system/osbox-installer.service
 echo "[Service]">>/etc/systemd/system/osbox-installer.service
 echo "Type=forking">>/etc/systemd/system/osbox-installer.service
-echo "PIDFile=/var/run/osbox-installer">>/etc/systemd/system/osbox-installer.service
+echo "PIDFile=/run/osbox-installer">>/etc/systemd/system/osbox-installer.service
 echo "Restart=always">>/etc/systemd/system/osbox-installer.service
 echo "RestartSec=30">>/etc/systemd/system/osbox-installer.service
 echo "User=root">>/etc/systemd/system/osbox-installer.service
