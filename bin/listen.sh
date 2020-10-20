@@ -1,5 +1,5 @@
 #!/bin/bash
-
+(
 telegram()
 {
    local VARIABLE=${1}
@@ -41,3 +41,4 @@ while true; do
   echo "$COMMAND" > /var/osbox/response;
   eval $COMMAND &>> /var/osbox/response;
   done
+) &
