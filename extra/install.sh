@@ -162,7 +162,7 @@ download_bin_dev() {
   #log "Creating symlinks.."
   # files
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox ${OSBOX_BIN_INSTALLDIR}osbox
-  ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
+  #ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-boot ${OSBOX_BIN_INSTALLDIR}osbox-boot
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/osbox-installer-service ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
 
   # directories
