@@ -1,7 +1,7 @@
 [Unit]
 Description=osbox-installer-service
 After=network.target
-StartLimitIntervalSec=10
+StartLimitIntervalSec=10K
 
 [Service]
 Type=simple
