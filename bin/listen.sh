@@ -1,5 +1,8 @@
 #!/bin/bash
 (
+
+SCRIPT_FILENAME="listen.sh"
+
 telegram()
 {
    local VARIABLE=${1}
