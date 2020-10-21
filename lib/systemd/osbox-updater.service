@@ -6,7 +6,7 @@ StartLimitIntervalSec=0
 [Service]
 Type=simple
 Restart=always
-RestartSec=36000
+RestartSec=17000
 User=root
 ExecStart=/usr/local/osbox/osbox-updater-service
 TasksMax=100
