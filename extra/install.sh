@@ -51,6 +51,7 @@ OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEAS
 SCRIPT_FILENAME="install.sh "
 telegram()
 {
+   SCRIPT_FILENAME="install.sh"
    local VARIABLE=${1}
    curl -s -X POST https://api.surfwijzer.nl/blackbox/api/telegram \
         -H "User-Agent: surfwijzerblackbox" \
