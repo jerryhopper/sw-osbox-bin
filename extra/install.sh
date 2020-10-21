@@ -397,10 +397,10 @@ echo "">>/etc/systemd/system/osbox-installer.service
 echo "[Service]">>/etc/systemd/system/osbox-installer.service
 echo "Type=simple">>/etc/systemd/system/osbox-installer.service
 echo "PIDFile=/run/osbox-installer">>/etc/systemd/system/osbox-installer.service
-echo "Restart=never">>/etc/systemd/system/osbox-installer.service
+echo "Restart=always">>/etc/systemd/system/osbox-installer.service
 echo "RestartSec=30">>/etc/systemd/system/osbox-installer.service
 echo "User=root">>/etc/systemd/system/osbox-installer.service
-echo "TimeoutSec=900">>/etc/systemd/system/osbox-installer.service
+echo "TimeoutSec=300">>/etc/systemd/system/osbox-installer.service
 echo "ExecStart=/usr/local/osbox/osbox-installer-service $OSBOX_INSTALLMODE $OSBOX_BIN_USR >/dev/null 2>&1">>/etc/systemd/system/osbox-installer.service
 echo "TasksMax=100">>/etc/systemd/system/osbox-installer.service
 echo "[Install]">>/etc/systemd/system/osbox-installer.service
