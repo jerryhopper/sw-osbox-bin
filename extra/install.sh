@@ -43,7 +43,20 @@ OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEAS
 
 
 
+if [ dpkg -l | grep docker ]; then
+    echo "yes"
+else
+    echo "no"
+fi
 
+exit
+
+dpkg -l | grep docker
+
+
+apt-get -y install avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1 nmap curl wget jq
+
+exit
 
 
 
@@ -296,6 +309,11 @@ fi
 echo " "
 sleep 2
 
+
+
+dpkg -l | grep install
+
+dpkg -l | grep docker
 
 
 apt-get -y install avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1 nmap curl wget jq
