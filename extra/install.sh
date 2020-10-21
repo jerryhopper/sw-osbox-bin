@@ -42,19 +42,34 @@ OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEAS
 
 
 
+package_installed(){
+  dpkg -s $1 > /dev/null 2>&1
+}
+require_packages(){
+  if ! package_installed "$1"; then PACKAGES+="$1 "; fi
+}
 
-if  dpkg -l | grep dockerx ; then
-    echo "yes"
+PACKAGES=""
+require_packages "avahi-utils"
+require_packages "libsodium23"
+require_packages "libgd3"
+require_packages "libzip4"
+require_packages "libedit2"
+require_packages "libxslt1.1"
+require_packages "nmap"
+require_packages "curl"
+require_packages "jq"
+require_packages "wget"
+
+echo $PACKAGES
+
+if "$PACKAGES" = ""; then
+   echo "ok."
 else
-    echo "no"
+   apt-get -y install $PACKAGES
 fi
 
-exit
 
-dpkg -l | grep docker
-
-
-apt-get -y install avahi-utils libsodium23 libgd3 libzip4 libedit2 libxslt1.1 nmap curl wget jq
 
 exit
 
