@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-
 source /usr/local/osbox/project/sw-osbox-core/osbox.sh
 
 

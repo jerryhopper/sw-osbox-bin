@@ -175,7 +175,7 @@ save_prefs(){
 setpermissions() {
   log "Set permissions.."
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox
-  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
+  #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
   #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
   #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-service
@@ -407,7 +407,7 @@ echo "[Install]">>/etc/systemd/system/osbox-installer.service
 echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
 
 
-systemctl enable osbox-installer
-systemctl start osbox-installer &
-log "Finished!"
+#systemctl enable osbox-installer
+#systemctl start osbox-installer &
+log "Finished! (osbox installer is disabled) "
 exit 0
