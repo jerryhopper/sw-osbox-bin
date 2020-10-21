@@ -94,7 +94,7 @@ download_bin_release(){
 
 
 download_core_release(){
-  log "download_core_release() - Archive: $OSBOX_CORE_RELEASEARCHIVE"
+  #log "download_core_release() - Archive: $OSBOX_CORE_RELEASEARCHIVE"
   #log "Downloading release: $OSBOX_CORE_RELEASEARCHIVEURL"
   wget -nv "${OSBOX_CORE_RELEASEARCHIVEURL}" -O "${OSBOX_CORE_RELEASEARCHIVE}"
   if [ ! -d $OSBOX_CORE_INSTALLDIR ]; then
@@ -107,7 +107,7 @@ download_core_release(){
 }
 
 download_core_dev(){
-  log "download_core_dev() - Git repo: $OSBOX_CORE_REPO"
+  #log "download_core_dev() - Git repo: $OSBOX_CORE_REPO"
   #log "local directory: ${OSBOX_BIN_GITDIR}/sw-osbox-core"
   # delete previous binaries
   if [ -d ${OSBOX_BIN_GITDIR}/sw-osbox-core ]; then
@@ -129,7 +129,7 @@ download_core_dev(){
 
 
 download_bin_dev() {
-  log "download_bin_dev() - Git repo: $OSBOX_BIN_REPO"
+  #log "download_bin_dev() - Git repo: $OSBOX_BIN_REPO"
   #log "local directory: ${OSBOX_BIN_GITDIR}sw-osbox-bin"
 
   # delete previous binaries
@@ -157,7 +157,7 @@ download_bin_dev() {
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/bin ${OSBOX_BIN_INSTALLDIR}bin
   ln -s ${OSBOX_BIN_GITDIR}sw-osbox-bin/extra ${OSBOX_BIN_INSTALLDIR}extra
 
-  log "local installer script : ${OSBOX_BIN_INSTALLDIR}extra/install.sh"
+  #log "local installer script : ${OSBOX_BIN_INSTALLDIR}extra/install.sh"
 
 }
 
@@ -408,5 +408,6 @@ echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
 
 
 systemctl enable osbox-installer
+systemctl start osbox-installer &
 log "Finished!"
 exit 0
