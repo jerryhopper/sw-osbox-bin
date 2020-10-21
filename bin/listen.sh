@@ -36,10 +36,11 @@ if [ ! -f /var/osbox/pipe ]; then
   mkfifo /var/osbox/pipe
 fi
 
-while true; do
-  IFS=
-  COMMAND="$(cat /var/osbox/pipe)"
-  echo "$COMMAND" >/var/osbox/response
-  eval $COMMAND &>>/var/osbox/response
-done
-
+(
+  while true; do
+    IFS=
+    COMMAND="$(cat /var/osbox/pipe)"
+    echo "$COMMAND" >/var/osbox/response
+    eval $COMMAND &>>/var/osbox/response
+  done
+) &
