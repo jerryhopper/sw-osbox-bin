@@ -323,10 +323,6 @@ fi
 
 
 
-
-
-
-
 #if [ "$MODE" = "dev" ]; then
 #  echo "Development mode!"
 if ! is_command "git"; then
