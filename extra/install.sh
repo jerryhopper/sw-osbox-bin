@@ -313,9 +313,9 @@ require_packages "curl"
 require_packages "jq"
 require_packages "wget"
 
-echo $PACKAGES
+#echo $PACKAGES
 
-if "$PACKAGES" = ""; then
+if [ "$PACKAGES" = "" ]; then
    echo "ok."
 else
    apt-get -y install $PACKAGES
