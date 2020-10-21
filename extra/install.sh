@@ -43,7 +43,7 @@ OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEAS
 
 
 
-if [ dpkg -l | grep docker ]; then
+if  dpkg -l | grep docker ; then
     echo "yes"
 else
     echo "no"
