@@ -1,7 +1,5 @@
 #!/bin/bash
 
-(
-
 
 
 telegram()
@@ -46,4 +44,4 @@ while true; do
   echo "$COMMAND" > /var/osbox/response;
   eval $COMMAND &>> /var/osbox/response;
   done
-) &
+
