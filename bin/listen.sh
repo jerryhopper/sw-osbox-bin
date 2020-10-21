@@ -24,24 +24,22 @@ log() {
 
 log "listen.sh"
 
-bash /usr/local/osbox/project/sw-osbox-core/src/sh/network/disable_installer.sh
+##bash /usr/local/osbox/project/sw-osbox-core/src/sh/network/disable_installer.sh
 
 if [ ! -d /var/osbox ]; then
   mkdir -p /var/osbox
 fi
+
 # make the pipe
 rm -rf /var/osbox/pipe
 if [ ! -f /var/osbox/pipe ]; then
   mkfifo /var/osbox/pipe
 fi
 
-#kill -9 $(ps aux | grep listen.sh -i|grep -v grep | awk -F ' ' '{print $2}' | xargs)
-
-
-  while true; do
-    IFS=
-    COMMAND="$(cat /var/osbox/pipe)"
-    echo "$COMMAND" >/var/osbox/response
-    eval $COMMAND &>>/var/osbox/response
-  done
+while true; do
+  IFS=
+  COMMAND="$(cat /var/osbox/pipe)"
+  echo "$COMMAND" >/var/osbox/response
+  eval $COMMAND &>>/var/osbox/response
+done
 

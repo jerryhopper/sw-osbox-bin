@@ -48,7 +48,7 @@ package_installed(){
 require_packages(){
   if ! package_installed "$1"; then
     PACKAGES+="$1 ";
-    echo "$1 missing."
+    echo "Package $1 missing."
   fi
 }
 
@@ -410,32 +410,15 @@ fi
 
 
 
-
-
 log "Configuring osbox-installer service."
 if [ -f /etc/systemd/system/osbox-installer.service ]; then
   rm -f /etc/systemd/system/osbox-installer.service
 fi
+ln -s ${OSBOX_BIN_INSTALLDIR}lib/systemd/osbox-installer.service /etc/systemd/system/osbox-installer.service
 
-echo "[Unit]">/etc/systemd/system/osbox-installer.service
-echo "Description=osbox-installer-service">>/etc/systemd/system/osbox-installer.service
-echo "After=network.target">>/etc/systemd/system/osbox-installer.service
-echo "StartLimitIntervalSec=0">>/etc/systemd/system/osbox-installer.service
-echo "">>/etc/systemd/system/osbox-installer.service
-echo "[Service]">>/etc/systemd/system/osbox-installer.service
-echo "Type=simple">>/etc/systemd/system/osbox-installer.service
-echo "PIDFile=/run/osbox-installer">>/etc/systemd/system/osbox-installer.service
-echo "Restart=always">>/etc/systemd/system/osbox-installer.service
-echo "RestartSec=30">>/etc/systemd/system/osbox-installer.service
-echo "User=root">>/etc/systemd/system/osbox-installer.service
-echo "TimeoutSec=300">>/etc/systemd/system/osbox-installer.service
-echo "ExecStart=/usr/local/osbox/osbox-installer-service $OSBOX_INSTALLMODE $OSBOX_BIN_USR >/dev/null 2>&1">>/etc/systemd/system/osbox-installer.service
-echo "TasksMax=100">>/etc/systemd/system/osbox-installer.service
-echo "[Install]">>/etc/systemd/system/osbox-installer.service
-echo "WantedBy=multi-user.target">>/etc/systemd/system/osbox-installer.service
+systemctl daemon-reload
+systemctl enable osbox-installer
+systemctl start osbox-installer
 
-
-#systemctl enable osbox-installer
-#systemctl start osbox-installer &
-log "Finished! (osbox installer is disabled) "
+log "Finished! "
 exit 0
