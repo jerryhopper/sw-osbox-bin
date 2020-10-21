@@ -48,7 +48,7 @@ OSBOX_BIN_RELEASEARCHIVEURL="${OSBOX_BIN_GITREPO_URL}/archive/${OSBOX_BIN_RELEAS
 
 
 # helper fuctions
-SCRIPT_FILENAME="i "
+SCRIPT_FILENAME="install.sh "
 telegram()
 {
    local VARIABLE=${1}
