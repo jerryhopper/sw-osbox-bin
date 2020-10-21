@@ -35,6 +35,8 @@ if [ ! -f /var/osbox/pipe ]; then
   mkfifo /var/osbox/pipe
 fi
 
+kill -9 $(ps aux | grep listen.sh -i|grep -v grep | awk -F ' ' '{print $2}' | xargs)
+
 (
   while true; do
     IFS=
