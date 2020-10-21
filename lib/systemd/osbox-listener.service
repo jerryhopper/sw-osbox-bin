@@ -1,0 +1,16 @@
+[Unit]
+Description=osbox-listener-service
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/run/osbox-listener
+Restart=on-abort
+User=root
+TimeoutStartSec=5
+TimeoutStopSec=5
+ExecStart=/usr/local/osbox/bin/listen.sh
+KillSignal=SIGKILL
+[Install]
+WantedBy=multi-user.target
+
