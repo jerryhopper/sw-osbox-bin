@@ -1,14 +1,14 @@
 [Unit]
-Description=OsBox service
+Description=OsBox updater service
 After=network.target
 StartLimitIntervalSec=0
 
 [Service]
-Type=forking
+Type=simple
 Restart=always
-RestartSec=10
+RestartSec=36000
 User=root
-ExecStart=/usr/local/osbox/osbox-service
+ExecStart=/usr/local/osbox/osbox-updater-service
 TasksMax=100
 [Install]
 WantedBy=multi-user.target
