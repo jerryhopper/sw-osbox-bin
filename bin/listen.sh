@@ -1,5 +1,6 @@
 #!/bin/bash
-(
+
+#(
 
 SCRIPT_FILENAME="listen.sh"
 
@@ -44,4 +45,4 @@ while true; do
   echo "$COMMAND" > /var/osbox/response;
   eval $COMMAND &>> /var/osbox/response;
   done
-) &
+#) &
