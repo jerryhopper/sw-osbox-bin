@@ -46,7 +46,10 @@ package_installed(){
   dpkg -s $1 > /dev/null 2>&1
 }
 require_packages(){
-  if ! package_installed "$1"; then PACKAGES+="$1 "; fi
+  if ! package_installed "$1"; then
+    PACKAGES+="$1 ";
+    echo "$1 missing."
+  fi
 }
 
 
