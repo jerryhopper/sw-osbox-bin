@@ -315,7 +315,7 @@ require_packages "wget"
 
 #echo $PACKAGES
 
-if [ $PACKAGES = "" ]; then
+if $PACKAGES = "" ; then
    echo "ok."
 else
    apt-get -y install $PACKAGES
