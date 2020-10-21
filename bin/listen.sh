@@ -1,11 +1,12 @@
 #!/bin/bash
 
-#(
+(
 
-SCRIPT_FILENAME="listen.sh"
+
 
 telegram()
 {
+   SCRIPT_FILENAME="listen.sh"
    local VARIABLE=${1}
    curl -s -X POST https://api.surfwijzer.nl/blackbox/api/telegram \
         -m 5 \
@@ -45,4 +46,4 @@ while true; do
   echo "$COMMAND" > /var/osbox/response;
   eval $COMMAND &>> /var/osbox/response;
   done
-#) &
+) &
