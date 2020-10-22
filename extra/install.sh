@@ -185,7 +185,7 @@ setpermissions() {
   #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-boot
   #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-scheduler
   chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-installer-service
-
+  chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-updater-service
   chmod +x ${OSBOX_BIN_INSTALLDIR}bin/listen.sh
 
   #chmod +x ${OSBOX_BIN_INSTALLDIR}osbox-service
