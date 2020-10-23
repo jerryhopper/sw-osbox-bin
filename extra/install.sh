@@ -294,15 +294,7 @@ else
   echo " O - Avahi-daemon not available"
 fi
 
-if is_command "sqlite3"; then
-  echo " X - Sqlite3 available"
-  create_database
-else
-  echo " O - Sqlite3 not available"
-  #87 = sqlite
-  #/boot/dietpi/dietpi-software install 87 --unattended
-  create_database
-fi
+
 
 #if [ "$MODE" = "dev" ]; then
 #  echo "Development mode!"
@@ -338,7 +330,15 @@ else
    apt-get -y install $PACKAGES
 fi
 
-
+if is_command "sqlite3"; then
+  echo " X - Sqlite3 available"
+  create_database
+else
+  echo " O - Sqlite3 not available"
+  #87 = sqlite
+  #/boot/dietpi/dietpi-software install 87 --unattended
+  create_database
+fi
 
 #fi
 #
