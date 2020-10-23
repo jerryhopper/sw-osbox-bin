@@ -242,15 +242,15 @@ fi
 
 if [ ! -f /boot/dietpi/.installed ]; then
   log "FATAL: Dietpi not installed!"
-  exit 1
+  #  exit 1
 fi
 if [ ! -f /boot/dietpi/.version ]; then
   log "FATAL: Dietpi version not found!"
-  exit 1
+  #  exit 1
 fi
 
-source /boot/dietpi/.installed
-source /boot/dietpi/.version
+#source /boot/dietpi/.installed
+#source /boot/dietpi/.version
 
 
 
@@ -302,14 +302,25 @@ if is_command "sqlite3"; then
 else
   echo " O - Sqlite3 not available"
   #87 = sqlite
-  /boot/dietpi/dietpi-software install 87 --unattended
+  #/boot/dietpi/dietpi-software install 87 --unattended
   create_database
 fi
+
+#if [ "$MODE" = "dev" ]; then
+#  echo "Development mode!"
+if ! is_command "git"; then
+    echo " O - Git not available"
+    #exit
+fi
+
 echo " "
 sleep 2
 
 
 PACKAGES=""
+require_packages "git"
+require_packages "docker.io"
+require_packages "sqlite3"
 require_packages "avahi-utils"
 require_packages "libsodium23"
 require_packages "libgd3"
@@ -330,15 +341,6 @@ else
 fi
 
 
-
-#if [ "$MODE" = "dev" ]; then
-#  echo "Development mode!"
-if ! is_command "git"; then
-    log "Error. git is not available."
-    #log "Trying to install git. You might have to run the installer again."
-    /boot/dietpi/dietpi-software install 17 --unattended
-    #exit
-fi
 
 #fi
 #
@@ -404,11 +406,6 @@ if [ -f /sbin/osbox ]; then
 fi
 ln -s ${OSBOX_BIN_INSTALLDIR}osbox /sbin/osbox
 chmod +x /sbin/osbox
-
-
-if [ -f /var/lib/dietpi/postboot.d/osbox-boot ]; then
-  rm -rf /var/lib/dietpi/postboot.d/osbox-boot
-fi
 
 
 
