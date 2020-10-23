@@ -254,8 +254,6 @@ fi
 
 
 
-
-
 # present some info...
 echo "OsBox installation script"
 echo "---------------------------"
