@@ -2,10 +2,9 @@
 Description=OsBox updater service
 After=network.target
 StartLimitIntervalSec=0
-
 [Service]
 Type=simple
-Restart=always
+Restart=on-failure
 RestartSec=17000
 User=root
 ExecStart=/usr/local/osbox/osbox-updater-service
