@@ -5,7 +5,7 @@ StartLimitIntervalSec=0
 [Service]
 Type=forking
 PIDFile=/var/run/swoole.pid
-ExecStart=/usr/bin/php /usr/local/osbox/project/sw-osbox-core/src/www/server.php
+ExecStart=/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
 ExecStop=/bin/kill $MAINPID
 ExecReload=/bin/kill -USR1 $MAINPID
 
