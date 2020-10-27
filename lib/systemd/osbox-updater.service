@@ -3,11 +3,11 @@ Description=OsBox updater service
 After=network.target
 StartLimitIntervalSec=0
 [Service]
-Type=simple
-Restart=on-failure
-RestartSec=17000
-User=root
-ExecStart=/usr/local/osbox/osbox-updater-service
-TasksMax=100
+Type=forking
+PIDFile=/var/run/swoole.pid
+ExecStart=/usr/bin/php /usr/local/osbox/project/sw-osbox-core/src/www/server.php
+ExecStop=/bin/kill $MAINPID
+ExecReload=/bin/kill -USR1 $MAINPID
+
 [Install]
-WantedBy=multi-user.target
+WantedBy = multi-user.target
