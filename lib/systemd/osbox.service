@@ -1,10 +1,10 @@
 [Unit]
-Description=OsBox updater service
+Description=OsBox  service
 After=network.target
 StartLimitIntervalSec=0
 [Service]
 Type=forking
-PIDFile=/var/run/swoole.pid
+PIDFile=/run/swoole.pid
 ExecStart=/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
 ExecStop=/bin/kill $MAINPID
 ExecReload=/bin/kill -USR1 $MAINPID
