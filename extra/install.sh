@@ -16,6 +16,8 @@ OSBOX_BIN_RELEASEARCHIVE="${OSBOX_BIN_RELEASENAME}.tar.gz"
 
 
 
+
+
 OSBOX_CORE_GITREPO_URL="https://github.com/jerryhopper/sw-osbox-core"
 OSBOX_CORE_RELEASENAME="$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-core/releases/latest|grep "\"name\":"| cut -d '"' -f 4)"
 OSBOX_CORE_RELEASENAME="v0.1.1"
@@ -212,7 +214,9 @@ create_database(){
   #  /host/etc/osbox/osbox.db
   if [ ! -d /etc/osbox ]; then
     mkdir -p /etc/osbox
+    touch /etc/osbox/dev
   fi
+
   if [ ! -f /etc/osbox/osbox.db ];then
     touch /etc/osbox/osbox.db
     sqlite3 -batch /etc/osbox/osbox.db "CREATE table installog (id INTEGER PRIMARY KEY,Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,f TEXT);"
