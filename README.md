@@ -11,16 +11,10 @@ Required by [sw-osbox-image](https://github.com/jerryhopper/sw-osbox-image)
 This is the binaries repo for the osbox software, including the installation script
 
 
-### Requirements
-OS: [Dietpi](https://dietpi.com)
-
-Supported architectures : armv7l, aarch64, x86_64
-
-
 
 #### Installation: 
 
-Download and extract files, run the installer as root : ./install.sh
+Download and extract files, run the installer as root : ./extra/install.sh
 
 If you want to prepare a image with this installer embedded on it, checkout the osbox-base repo. (https://github.com/jerryhopper/sw-osbox-base)
 
