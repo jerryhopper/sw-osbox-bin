@@ -55,6 +55,9 @@ osbox installservice
 
 
 
+#  is swoole available
+#  is docker available
+#  is avahi available
 
 
 
