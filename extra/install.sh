@@ -38,7 +38,7 @@ log "Adding osbox user"
 useradd -m -c "osbox user account" osbox
 
 
-exit
+exit 0
 
 
 cd /home/osbox
