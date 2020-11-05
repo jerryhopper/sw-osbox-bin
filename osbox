@@ -1,5 +1,40 @@
 #!/bin/bash
 
+# osbox install function
+
+if [ "$1" == "installservice" ]; then
+  if [ "$2" == "enable" ]; then
+    if [ -f /etc/systemd/system/osbox.service ]; then
+        rm -rf /etc/systemd/system/osbox.service
+    fi
+    # Enable the installer service
+    ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
+    systemctl enable osbox.service
+    exit;
+  fi
+  if [ "$2" == "disable" ]; then
+    if [ -f /etc/systemd/system/osbox.service ]; then
+        rm -rf /etc/systemd/system/osbox.service
+    fi
+    # Enable the installer service
+    systemctl daemon-reload
+    exit;
+  fi
+  echo "Usage: "
+  echo "  osbox installservice enable  - Enables the installerservice"
+  echo "  osbox installservice disable - Disables the installerservice"
+  exit
+fi
+
+
+if [ "$1" == "update" ]; then
+  bash /usr/local/osbox/bin/update.sh
+  #returnedstatus $? "success" "fail"
+  exit
+fi
+
+
+
 
 source /usr/local/osbox/project/sw-osbox-core/osbox.sh
 
