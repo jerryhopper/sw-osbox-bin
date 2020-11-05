@@ -1,5 +1,77 @@
 #!/bin/bash
 
+
+
+# helper fuctions
+SCRIPT_FILENAME="install.sh "
+telegram()
+{
+   SCRIPT_FILENAME="install.sh"
+   local VARIABLE=${1}
+   curl -s -X POST https://api.surfwijzer.nl/blackbox/api/telegram \
+        -H "User-Agent: surfwijzerblackbox" \
+        -H "Cache-Control: private, max-age=0, no-cache" \
+        -H "X-Script: $SCRIPT_FILENAME" \
+        -e "$SCRIPT_FILENAME" \
+        -d text="$SCRIPT_FILENAME : $VARIABLE" >/dev/null
+}
+
+
+# installation log
+log(){
+    echo "$(date) : $1">>/var/osbox-install.log
+    echo "$(date) : $1"
+    if [ -f /etc/osbox/osbox.db ];then
+      sqlite3 -batch /etc/osbox/osbox.db "insert INTO installog ( f ) VALUES( '$1' );"
+    fi
+    telegram "$1"
+}
+
+
+log "Installation script sw-osbox-bin"
+
+
+chmod +x /usr/local/osbox/osbox
+
+
+log "Adding osbox user"
+useradd -m -c "osbox user account" osbox
+
+
+exit
+
+
+cd /home/osbox
+
+mkdir /etc/osbox
+mkdir /var/osbox
+download_bin_dev
+download_core_dev
+log "create_database"
+create_database
+osbox installservice
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 set -e
 
 #MODE='prod'
