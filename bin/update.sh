@@ -146,13 +146,13 @@ if [ ! -f /etc/systemd/system/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
 fi
 
-echo "Service osbox is ${systemctl is-enabled osbox}"
-if [ "enabled" != "${systemctl is-enabled osbox}" ];then
+echo "Service osbox is $(systemctl is-enabled osbox)"
+if [ "enabled" != "$(systemctl is-enabled osbox)" ];then
   systemctl enable osbox.service
 fi
 
-echo "Service osbox is ${systemctl is-enabled osbox}"
-if [ "failed" == "${systemctl is-active osbox}" ];then 
+echo "Service osbox is $(systemctl is-enabled osbox)"
+if [ "failed" == "$(systemctl is-active osbox)" ];then
   systemctl start osbox.service
 fi
 
