@@ -126,6 +126,7 @@ fi
 
 chmod +x /usr/local/osbox/osbox
 chmod +x /sbin/osbox
+chmod +x /usr/sbin/osbox
 
 echo "Checking service"
 if [ ! -f /etc/systemd/system/osbox.service ];then
