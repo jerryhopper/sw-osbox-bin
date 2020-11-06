@@ -32,7 +32,7 @@ DownloadLatest(){
       #https://github.com/jerryhopper/sw-osbox-bin/archive/master.zip
 
       # Check the download url, if it responds with 200
-      DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz)
+      DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz) &> /dev/null
       if [ "$DOWNLOAD_CODE" != "200" ];then
         echo "Download error! ( ${DOWNLOAD_CODE} )"
               exit 1
