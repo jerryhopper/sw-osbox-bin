@@ -93,7 +93,7 @@ fi
 
 
 
-DownloadUnpack "jerryhopper" "sw-osbox-bin" "/usr/local/osbox/projects"
+#DownloadUnpack "jerryhopper" "sw-osbox-bin" "/usr/local/osbox/projects"
 
 
 # LATEST_VERSION=$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-image/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f1)
