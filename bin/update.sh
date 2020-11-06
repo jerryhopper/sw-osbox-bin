@@ -22,6 +22,30 @@ GetRemoteVersion(){
       echo $LATEST_VERSION
 }
 
+
+DownloadLatest(){
+      ORG_NAME=$1
+      REPO_NAME=$2
+      LATEST_VERSION=$3
+      BIN_DIR=$4
+
+      #https://github.com/jerryhopper/sw-osbox-bin/archive/master.zip
+
+      # Check the download url, if it responds with 200
+      DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz)
+      if [ "$DOWNLOAD_CODE" != "200" ];then
+        echo "Download error! ( ${DOWNLOAD_CODE} )"
+              exit 1
+      fi
+
+      # Download the file
+      curl -L -o master.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz
+      mkdir -p ${BIN_DIR}
+      tar -C ${BIN_DIR} -xvf master.tar.gz --strip 1
+      rm -rf master.tar.gz
+}
+
+
 DownloadUnpack(){
       ORG_NAME=$1
       REPO_NAME=$2
@@ -55,7 +79,11 @@ if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
     echo "Remot: $OSBOX_BIN_REMOTEVERSION"
     echo "Local: $OSBOX_BIN_LOCALVERSION"
     echo "NEEDS UPDATE"
-    DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
+    if [ "$1" == "latest" ];then
+      DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
+    else
+      DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
+    fi
     echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
     rm -f /sbin/osbox
     ln -s /usr/local/osbox/osbox /sbin/osbox
@@ -76,7 +104,12 @@ OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
 
 if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
     echo "NEEDS UPDATE"
-    DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core"
+
+    if [ "$1" == "latest" ];then
+      DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox";
+    else
+      DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core"
+    fi
     echo "$OSBOX_CORE_REMOTEVERSION">/etc/osbox/.osbox.core.version
 else
     echo "osbox-core is up to date."
