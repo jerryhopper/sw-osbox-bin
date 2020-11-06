@@ -109,7 +109,7 @@ REPO_ORG="jerryhopper"
 REPO_NAME="sw-osbox-core"
 
 OSBOX_CORE_LOCALVERSION="$(</etc/osbox/.osbox.core.version)"
-OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion '${REPO_ORG}' 'sw-osbox-core')"
+OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
 
 
 if [ "$1" == "latest" ];then
