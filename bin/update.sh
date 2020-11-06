@@ -77,6 +77,10 @@ OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
 
 if [ "$1" == "latest" ];then
       DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
+      rm -f /sbin/osbox
+      ln -s /usr/local/osbox/osbox /sbin/osbox
+      chmod +x /usr/local/osbox/osbox
+      chmod +x /sbin/osbox
 else
 
   if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
@@ -108,7 +112,7 @@ if [ "$1" == "latest" ];then
 else
   if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
       echo "NEEDS UPDATE"
-  
+
       if [ "$1" == "latest" ];then
         DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox";
       else
@@ -120,6 +124,8 @@ else
   fi
 fi
 
+chmod +x /usr/local/osbox/osbox
+chmod +x /sbin/osbox
 
 echo "Checking service"
 if [ ! -f /etc/systemd/system/osbox.service ];then
