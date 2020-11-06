@@ -75,24 +75,25 @@ fi
 OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
 OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
 
-if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
-    echo "Remot: $OSBOX_BIN_REMOTEVERSION"
-    echo "Local: $OSBOX_BIN_LOCALVERSION"
-    echo "NEEDS UPDATE"
-    if [ "$1" == "latest" ];then
+if [ "$1" == "latest" ];then
       DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
-    else
-      DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
-    fi
-    echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
-    rm -f /sbin/osbox
-    ln -s /usr/local/osbox/osbox /sbin/osbox
-    chmod +x /usr/local/osbox/osbox
-    chmod +x /sbin/osbox
 else
-    echo "osbox-bin is up to date."
-fi
 
+  if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
+      echo "Remot: $OSBOX_BIN_REMOTEVERSION"
+      echo "Local: $OSBOX_BIN_LOCALVERSION"
+      echo "NEEDS UPDATE"
+      DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
+
+      echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
+      rm -f /sbin/osbox
+      ln -s /usr/local/osbox/osbox /sbin/osbox
+      chmod +x /usr/local/osbox/osbox
+      chmod +x /sbin/osbox
+  else
+      echo "osbox-bin is up to date."
+  fi
+fi
 
 ## OSBOX CCORE
 if [ ! -f /etc/osbox/.osbox.core.version ];then
@@ -102,18 +103,23 @@ fi
 OSBOX_CORE_LOCALVERSION="$(</etc/osbox/.osbox.core.version)"
 OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
 
-if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
-    echo "NEEDS UPDATE"
-
-    if [ "$1" == "latest" ];then
-      DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox";
-    else
-      DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core"
-    fi
-    echo "$OSBOX_CORE_REMOTEVERSION">/etc/osbox/.osbox.core.version
+if [ "$1" == "latest" ];then
+  DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox";
 else
-    echo "osbox-core is up to date."
+  if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
+      echo "NEEDS UPDATE"
+  
+      if [ "$1" == "latest" ];then
+        DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox";
+      else
+        DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core"
+      fi
+      echo "$OSBOX_CORE_REMOTEVERSION">/etc/osbox/.osbox.core.version
+  else
+      echo "osbox-core is up to date."
+  fi
 fi
+
 
 echo "Checking service"
 if [ ! -f /etc/systemd/system/osbox.service ];then
