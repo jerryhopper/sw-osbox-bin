@@ -39,7 +39,7 @@ DownloadLatest(){
       fi
 
       # Download the file
-      curl -L -o master.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz > /dev/null
+      curl -s -L -o master.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz > /dev/null
       mkdir -p ${BIN_DIR}
       tar -C ${BIN_DIR} -xf master.tar.gz --strip 1 > /dev/null
       rm -rf master.tar.gz
@@ -61,7 +61,7 @@ DownloadUnpack(){
       fi
 
       # Download the file
-      curl -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz > /dev/null
+      curl -s -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz > /dev/null
       mkdir -p ${BIN_DIR}
       tar -C ${BIN_DIR} -xf ${REPO_NAME}.tar.gz --strip 1 > /dev/null
       rm -rf ${REPO_NAME}.tar.gz
