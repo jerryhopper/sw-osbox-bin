@@ -105,17 +105,21 @@ if [ ! -f /etc/osbox/.osbox.core.version ];then
     echo "0">/etc/osbox/.osbox.core.version
 fi
 
+REPO_ORG="jerryhopper"
+REPO_NAME="sw-osbox-core"
+
 OSBOX_CORE_LOCALVERSION="$(</etc/osbox/.osbox.core.version)"
-OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
+OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion '${REPO_ORG}' 'sw-osbox-core')"
+
 
 if [ "$1" == "latest" ];then
-  DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox";
+  DownloadLatest "jerryhopper" "sw-osbox-core" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core";
 else
   if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
       echo "NEEDS UPDATE"
 
       if [ "$1" == "latest" ];then
-        DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox";
+        DownloadLatest "jerryhopper" "sw-osbox-core" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core";
       else
         DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core"
       fi
