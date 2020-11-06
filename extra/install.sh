@@ -85,6 +85,12 @@ if ! is_command "sqlite" ;then
    echo "Sqlite not available"
    exitcode=1
 fi
+
+if ! is_command "unzip" ;then
+   echo "unzip not available"
+   exitcode=1
+fi
+
 if ! is_command "php" ;then
    echo "php not available"
    exitcode=1
@@ -99,7 +105,6 @@ if $exitcode == 1 ;then
    echo "requirements not met, aborting"
    exit 1
 fi
-
 
 
 log "Adding osbox user"
@@ -139,7 +144,7 @@ fi
 
 
 
-bash /usr/local/osbox/bin/update.sh
+bash /usr/local/osbox/bin/update.sh latest noreload
 
 
 
