@@ -1,6 +1,6 @@
 #!/bin/bash
 
-
+NORELOAD=$1
 
 # helper fuctions
 SCRIPT_FILENAME="install.sh "
@@ -102,7 +102,7 @@ if [ "$(php -m|grep swoole)" != "swoole" ];then
 fi
 
 if $exitcode == 1 ;then
-   echo "requirements not met, aborting"
+   log "requirements not met, aborting"
    exit 1
 fi
 
@@ -145,7 +145,7 @@ fi
 
 
 
-bash /usr/local/osbox/bin/update.sh latest noreload
+bash /usr/local/osbox/bin/update.sh latest $NORELOAD
 
 
 
