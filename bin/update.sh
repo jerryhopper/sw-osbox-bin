@@ -40,7 +40,7 @@ DownloadLatest(){
       fi
 
       # Download the file
-      curl -s -L -o master.tar.gz https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz &> /dev/null
+      curl -L -o master.tar.gz https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz &> /dev/null
       mkdir -p ${_BIN_DIR}
       tar -C ${_BIN_DIR} -xf master.tar.gz --strip 1 > /dev/null
       rm -rf master.tar.gz
