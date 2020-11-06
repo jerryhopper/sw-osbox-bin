@@ -113,7 +113,6 @@ OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
 
 
 if [ "$1" == "latest" ];then
-  echo "latest!"
   DownloadLatest "jerryhopper" "sw-osbox-core" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core";
 else
   if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
