@@ -136,6 +136,7 @@ if [ ! -f /usr/local/osbox/bin/update.sh ]; then
       ln -s /usr/local/osbox/osbox /sbin/osbox
       chmod +x /usr/local/osbox/osbox
       chmod +x /sbin/osbox
+      chmod +x /usr/sbin/osbox
   else
       echo "osbox-bin is up to date."
   fi
