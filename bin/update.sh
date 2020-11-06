@@ -57,6 +57,11 @@ if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
     echo "NEEDS UPDATE"
     DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
     echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
+    rm -f /sbin/osbox
+    ln -s /usr/local/osbox/osbox /sbin/osbox
+    chmod +x /sbin/osbox
+else
+    echo "osbox-bin is up to date."
 fi
 
 
@@ -70,8 +75,10 @@ OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
 
 if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
     echo "NEEDS UPDATE"
-    DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/projects/sw-osbox-core"
+    DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core"
     echo "$OSBOX_CORE_REMOTEVERSION">/etc/osbox/.osbox.core.version
+else
+    echo "osbox-core is up to date."
 fi
 
 

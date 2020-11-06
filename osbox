@@ -34,9 +34,11 @@ if [ "$1" == "update" ]; then
 fi
 
 
+if [ -f /usr/local/osbox/project/sw-osbox-core/osbox.sh ];then
+  source /usr/local/osbox/project/sw-osbox-core/osbox.sh
+fi
 
 
-source /usr/local/osbox/project/sw-osbox-core/osbox.sh
 
 
 
