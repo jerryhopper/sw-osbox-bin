@@ -25,7 +25,8 @@ GetRemoteVersion(){
 DownloadUnpack(){
       ORG_NAME=$1
       REPO_NAME=$2
-      BIN_DIR=$3
+      LATEST_VERSION=$3
+      BIN_DIR=$4
       # Get the latest version
       LATEST_VERSION=$(curl -s https://api.github.com/repos/${ORG_NAME}/${REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
 
@@ -53,8 +54,10 @@ OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
 OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
 
 if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
+    echo "Remot: $OSBOX_BIN_REMOTEVERSION"
+    echo "Local: $OSBOX_BIN_LOCALVERSION"
     echo "NEEDS UPDATE"
-    DownloadUnpack "jerryhopper" "sw-osbox-bin" "/usr/local/osbox"
+    DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
     echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
 fi
 
@@ -69,7 +72,7 @@ OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
 
 if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
     echo "NEEDS UPDATE"
-    DownloadUnpack "jerryhopper" "sw-osbox-core" "/usr/local/osbox/projects/sw-osbox-core"
+    DownloadUnpack "jerryhopper" "sw-osbox-core" "${OSBOX_CORE_REMOTEVERSION}" "/usr/local/osbox/projects/sw-osbox-core"
     echo "$OSBOX_CORE_REMOTEVERSION">/etc/osbox/.osbox.core.version
 fi
 
