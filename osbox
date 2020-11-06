@@ -48,6 +48,12 @@ if [ "$1" == "reset" ]; then
 fi
 
 if [ "$1" == "update" ]; then
+
+  if [ "$2" == "latest" ];then
+    bash /usr/local/osbox/bin/update.sh latest
+    exit
+  fi
+
   bash /usr/local/osbox/bin/update.sh
   #returnedstatus $? "success" "fail"
   exit
