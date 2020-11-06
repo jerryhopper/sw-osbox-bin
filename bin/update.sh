@@ -24,25 +24,25 @@ GetRemoteVersion(){
 
 
 DownloadLatest(){
-      ORG_NAME=$1
-      REPO_NAME=$2
-      LATEST_VERSION=$3
-      BIN_DIR=$4
+      _ORG_NAME=$1
+      _REPO_NAME=$2
+      _LATEST_VERSION=$3
+      _BIN_DIR=$4
 
-      echo "Downloading ${ORG_NAME}/${REPO_NAME} latest"
+      echo "Downloading ${_ORG_NAME}/${_REPO_NAME} latest"
       #https://github.com/jerryhopper/sw-osbox-bin/archive/master.zip
 
       # Check the download url, if it responds with 200
-      DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" --silent --output /dev/null  https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz)
+      DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" --silent --output /dev/null  https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
         echo "Download error! ( ${DOWNLOAD_CODE} )"
               exit 1
       fi
 
       # Download the file
-      curl -s -L -o master.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/master.tar.gz &> /dev/null
-      mkdir -p ${BIN_DIR}
-      tar -C ${BIN_DIR} -xf master.tar.gz --strip 1 > /dev/null
+      curl -s -L -o master.tar.gz https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz &> /dev/null
+      mkdir -p ${_BIN_DIR}
+      tar -C ${_BIN_DIR} -xf master.tar.gz --strip 1 > /dev/null
       rm -rf master.tar.gz
 }
 
