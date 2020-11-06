@@ -90,6 +90,11 @@ if ! is_command "php" ;then
    exitcode=1
 fi
 
+if [ "$(php -m|grep swoole)" != "swoole" ];then
+  echo "no swoole available"
+  exitcode=1
+fi
+
 if $exitcode == 1 ;then
    echo "requirements not met, aborting"
    exit 1

@@ -82,7 +82,11 @@ else
     echo "osbox-core is up to date."
 fi
 
-
+echo "Checking service"
+if [ ! -f /etc/systemd/system/osbox.service ];then
+  ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
+fi
+#systemctl daemon-reload
 
 
 
