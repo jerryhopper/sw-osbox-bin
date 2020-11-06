@@ -27,6 +27,26 @@ if [ "$1" == "installservice" ]; then
 fi
 
 
+if [ "$1" == "reset" ]; then
+  if [ "$2" == "version" ]; then
+    rm -f /etc/osbox/.osbox.bin.version
+    rm -f /etc/osbox/.osbox.core.version
+    bash /usr/local/osbox/bin/update.sh
+  fi
+  if [ "$2" == "database" ]; then
+    rm -f /etc/osbox/osbox.db
+    bash /usr/local/osbox/bin/update.sh
+  fi
+  if [ "$2" == "all" ]; then
+    bash /usr/local/osbox/bin/update.sh
+  fi
+  #returnedstatus $? "success" "fail"
+  echo "Usage: "
+  echo "  osbox reset version  - resets the version and  runs update."
+  echo "  osbox reset database - removes the database and runs update."
+  exit
+fi
+
 if [ "$1" == "update" ]; then
   bash /usr/local/osbox/bin/update.sh
   #returnedstatus $? "success" "fail"
@@ -35,7 +55,7 @@ fi
 
 
 if [ -f /usr/local/osbox/project/sw-osbox-core/osbox.sh ];then
-  source /usr/local/osbox/project/sw-osbox-core/osbox.sh
+  bash /usr/local/osbox/project/sw-osbox-core/osbox.sh $1 $2 $3 $4 $5 $6
 fi
 
 
