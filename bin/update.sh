@@ -59,6 +59,7 @@ if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
     echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
     rm -f /sbin/osbox
     ln -s /usr/local/osbox/osbox /sbin/osbox
+    chmod +x /usr/local/osbox/osbox
     chmod +x /sbin/osbox
 else
     echo "osbox-bin is up to date."
