@@ -132,7 +132,15 @@ echo "Checking service"
 if [ ! -f /etc/systemd/system/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
 fi
-systemctl daemon-reload
+
+systemctl enable osbox.service
+
+if [ "$2" == "noreload" ];then
+  echo "no systemctl daemon-reload"
+else
+  systemctl daemon-reload
+fi
+
 
 
 
