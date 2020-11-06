@@ -31,6 +31,36 @@ log(){
 log "Installation script sw-osbox-bin"
 
 
+exitcode=0
+if ! is_command "docker" ;then
+   echo "Docker not available"
+   exitcode=1
+fi
+if ! is_command "avahi-daemon" ;then
+   echo "Avahi-daemon not available"
+   exitcode=1
+fi
+if ! is_command "sqlite" ;then
+   echo "Sqlite not available"
+   exitcode=1
+fi
+if ! is_command "php" ;then
+   echo "php not available"
+   exitcode=1
+fi
+
+if $exitcode == 1 ;then
+   echo "requirements not met, aborting"
+   exit 1
+fi
+
+
+
+
+if [ ! -f /usr/local/osbox/osbox ]; then
+   # osbox not installed.
+   
+fi
 chmod +x /usr/local/osbox/osbox
 
 
@@ -39,7 +69,6 @@ useradd -m -c "osbox user account" osbox
 
 
 exit 0
-
 
 cd /home/osbox
 
