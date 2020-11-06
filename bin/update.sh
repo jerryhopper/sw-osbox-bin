@@ -44,6 +44,7 @@ DownloadLatest(){
       mkdir -p ${_BIN_DIR}
       tar -C ${_BIN_DIR} -xf master.tar.gz --strip 1 > /dev/null
       rm -rf master.tar.gz
+      echo "ok"
 }
 
 
@@ -66,6 +67,7 @@ DownloadUnpack(){
       mkdir -p ${_BIN_DIR}
       tar -C ${_BIN_DIR} -xf ${_REPO_NAME}.tar.gz --strip 1 > /dev/null
       rm -rf ${_REPO_NAME}.tar.gz
+      echo "ok"
 }
 
 ## OSBOX BIN
