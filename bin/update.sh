@@ -35,7 +35,7 @@ DownloadLatest(){
       # Check the download url, if it responds with 200
       DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" --silent --output /dev/null  https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
-        echo "Download error! ( ${DOWNLOAD_CODE} ) https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz"
+        log "Download error! ( ${DOWNLOAD_CODE} ) https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz"
               exit 1
       fi
 
@@ -58,7 +58,7 @@ DownloadUnpack(){
       # Check the download url, if it responds with 200
       DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/${_LATEST_VERSION}.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
-        echo "Download error! ( ${DOWNLOAD_CODE} )"
+        log "Download error! ( ${DOWNLOAD_CODE} ) "https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/${_LATEST_VERSION}.tar.gz""
               exit 1
       fi
 
@@ -68,6 +68,30 @@ DownloadUnpack(){
       tar -C ${_BIN_DIR} -xf ${_REPO_NAME}.tar.gz --strip 1 > /dev/null
       rm -rf ${_REPO_NAME}.tar.gz
       echo "ok"
+}
+
+
+telegram()
+{
+   SCRIPT_FILENAME="install.sh"
+   local VARIABLE=${1}
+   curl -s -X POST https://api.surfwijzer.nl/blackbox/api/telegram \
+        -H "User-Agent: surfwijzerblackbox" \
+        -H "Cache-Control: private, max-age=0, no-cache" \
+        -H "X-Script: $SCRIPT_FILENAME" \
+        -e "$SCRIPT_FILENAME" \
+        -d text="$SCRIPT_FILENAME : $VARIABLE" >/dev/null
+}
+
+
+# installation log
+log(){
+    echo "$(date) : $1">>/var/osbox-install.log
+    echo "$(date) : $1"
+    if [ -f /etc/osbox/osbox.db ];then
+      sqlite3 -batch /etc/osbox/osbox.db "insert INTO installog ( f ) VALUES( '$1' );"
+    fi
+    telegram "$1"
 }
 
 ## OSBOX BIN
