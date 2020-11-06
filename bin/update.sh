@@ -12,12 +12,12 @@ is_command() {
 }
 
 GetRemoteVersion(){
-      ORG_NAME=$1
-      REPO_NAME=$2
+      _ORG_NAME=$1
+      _REPO_NAME=$2
       if ! is_command "jq"; then
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${ORG_NAME}/${REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
       else
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${ORG_NAME}/${REPO_NAME}/releases/latest|jq .tag_name -r )
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest|jq .tag_name -r )
       fi
       echo $LATEST_VERSION
 }
@@ -48,24 +48,24 @@ DownloadLatest(){
 
 
 DownloadUnpack(){
-      ORG_NAME=$1
-      REPO_NAME=$2
-      LATEST_VERSION=$3
-      BIN_DIR=$4
+      _ORG_NAME=$1
+      _REPO_NAME=$2
+      _LATEST_VERSION=$3
+      _BIN_DIR=$4
 
-      echo "https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
+      echo "https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/${_LATEST_VERSION}.tar.gz"
       # Check the download url, if it responds with 200
-      DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz)
+      DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/${_LATEST_VERSION}.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
         echo "Download error! ( ${DOWNLOAD_CODE} )"
               exit 1
       fi
 
       # Download the file
-      curl -s -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz &> /dev/null
-      mkdir -p ${BIN_DIR}
-      tar -C ${BIN_DIR} -xf ${REPO_NAME}.tar.gz --strip 1 > /dev/null
-      rm -rf ${REPO_NAME}.tar.gz
+      curl -s -L -o ${_REPO_NAME}.tar.gz https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/${_LATEST_VERSION}.tar.gz &> /dev/null
+      mkdir -p ${_BIN_DIR}
+      tar -C ${_BIN_DIR} -xf ${_REPO_NAME}.tar.gz --strip 1 > /dev/null
+      rm -rf ${_REPO_NAME}.tar.gz
 }
 
 ## OSBOX BIN

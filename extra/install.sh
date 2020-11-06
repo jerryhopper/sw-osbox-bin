@@ -57,7 +57,7 @@ DownloadUnpack(){
       # Check the download url, if it responds with 200
       DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
-        echo "Download error! ( ${DOWNLOAD_CODE} )"
+        echo "Download error! (${DOWNLOAD_CODE}) [https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz]"
               exit 1
       fi
 
