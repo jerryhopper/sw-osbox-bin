@@ -35,7 +35,7 @@ DownloadLatest(){
       # Check the download url, if it responds with 200
       DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" --silent --output /dev/null  https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
-        echo "Download error! ( ${DOWNLOAD_CODE} )"
+        echo "Download error! ( ${DOWNLOAD_CODE} ) https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz"
               exit 1
       fi
 
