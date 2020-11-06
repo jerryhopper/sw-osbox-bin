@@ -27,8 +27,6 @@ DownloadUnpack(){
       REPO_NAME=$2
       LATEST_VERSION=$3
       BIN_DIR=$4
-      # Get the latest version
-      LATEST_VERSION=$(curl -s https://api.github.com/repos/${ORG_NAME}/${REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
 
       echo "https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
       # Check the download url, if it responds with 200
