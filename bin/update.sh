@@ -29,6 +29,7 @@ DownloadLatest(){
       LATEST_VERSION=$3
       BIN_DIR=$4
 
+      echo "Downloading ${ORG_NAME}/${REPO_NAME} latest"
       #https://github.com/jerryhopper/sw-osbox-bin/archive/master.zip
 
       # Check the download url, if it responds with 200
