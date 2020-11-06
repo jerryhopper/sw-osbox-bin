@@ -178,7 +178,7 @@ if [ "enabled" != "$(systemctl is-enabled osbox)" ];then
   systemctl enable osbox.service
 fi
 
-log "Service osbox is $(systemctl is-enabled osbox)"
+log "Service osbox is $(systemctl is-active osbox)"
 if [ "failed" == "$(systemctl is-active osbox)" ];then
   systemctl start osbox.service
 fi
