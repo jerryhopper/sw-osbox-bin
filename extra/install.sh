@@ -199,7 +199,8 @@ fi
 
 
 
-bash /usr/local/osbox/bin/update.sh latest $NORELOAD
+bash /usr/local/osbox/bin/update.sh
+#latest $NORELOAD
 
 
 
