@@ -1,6 +1,7 @@
 #!/bin/bash
 
 NORELOAD=$1
+LATEST=$2
 
 # helper fuctions
 SCRIPT_FILENAME="install.sh "
@@ -198,10 +199,11 @@ if [ ! -f /usr/local/osbox/bin/update.sh ]; then
 fi
 
 
-
-bash /usr/local/osbox/bin/update.sh
-#latest $NORELOAD
-
+if [ "$LATEST" == "latest"];then
+  bash /usr/local/osbox/bin/update.sh latest $NORELOAD
+else
+  bash /usr/local/osbox/bin/update.sh
+fi
 
 
 
