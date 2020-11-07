@@ -208,7 +208,7 @@ fi
 log "Service osbox is $(systemctl is-enabled osbox)"
 log "Service osbox is $(systemctl is-active osbox)"
 
-
+echo "yey"
 
 exit 0
 
