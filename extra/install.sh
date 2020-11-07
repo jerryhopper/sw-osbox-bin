@@ -70,6 +70,47 @@ DownloadUnpack(){
 }
 
 
+InstallPreRequisites(){
+	#
+	export LANG=C LC_ALL="en_US.UTF-8"
+	export DEBIAN_FRONTEND=noninteractive
+	export APT_LISTCHANGES_FRONTEND=none
+	sudo apt-get update
+	#sudo apt-get install -y jq git unzip
+	apt-get install -y docker docker.io avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev
+
+
+	# remove new user prompt
+	rm /root/.not_logged_in_yet
+	# change to weak password
+	# echo "root:password" | chpasswd
+
+	#/usr/lib/armbian/armbian-firstrun
+
+
+
+	# SWOOLE
+	log "Cloning and compiling swoole"
+	git clone https://github.com/swoole/swoole-src.git && cd swoole-src
+	git checkout v4.5.5
+	phpize && ./configure --enable-sockets --enable-openssl && make && make install
+	log "Installing swoole"
+	echo "extension=swoole.so" >> $(php -i | grep php.ini|grep Loaded | awk '{print $5}')
+
+	log  "Remove unneccesary files"
+	cd .. && rm -rf ./swoole-src
+
+
+	sudo apt-get -y remove build-essential
+	sudo apt -y autoremove && apt clean
+
+
+}
+
+
+
+
+
 log "Installation script sw-osbox-bin"
 
 # Root check
@@ -115,7 +156,8 @@ fi
 
 if [ "$exitcode" == "1" ] ;then
    log "requirements not met, aborting"
-   exit 1
+   InstallPreRequisites
+   #exit 1
 fi
 
 
