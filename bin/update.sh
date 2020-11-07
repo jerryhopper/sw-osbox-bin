@@ -203,54 +203,11 @@ if [ "$2" == "noreload" ];then
 else
   log "systemctl reloading"
   systemctl daemon-reload
+  log "after reload"
 fi
 
 log "Service osbox is $(systemctl is-enabled osbox)"
 log "Service osbox is $(systemctl is-active osbox)"
 
 
-
 exit 0
-
-
-#DownloadUnpack "jerryhopper" "sw-osbox-bin" "/root/projects"
-
-
-#LATEST_VERSION=$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-bin/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
-
-#echo $LATEST_VERSION
-
-
-
-
-#DownloadUnpack "jerryhopper" "sw-osbox-bin" "/usr/local/osbox/projects"
-
-
-# LATEST_VERSION=$(curl -s https://api.github.com/repos/jerryhopper/sw-osbox-image/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f1)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
