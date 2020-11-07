@@ -39,4 +39,4 @@ jobs:
       - name: Run install script
         shell: bash
         run: |
-          bash ./extra/install.sh
+          sudo bash ./extra/install.sh
