@@ -50,7 +50,7 @@ fi
 if [ "$1" == "update" ]; then
 
   if [ "$2" == "latest" ];then
-    bash /usr/local/osbox/bin/update.sh latest
+    bash /usr/local/osbox/bin/update.sh latest noreload
     exit
   fi
 
