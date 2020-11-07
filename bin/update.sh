@@ -202,7 +202,7 @@ if [ "$2" == "noreload" ];then
   echo "no systemctl daemon-reload"
 else
   log "systemctl reloading"
-  systemctl daemon-reload
+  #systemctl daemon-reload
   log "after reload"
 fi
 
