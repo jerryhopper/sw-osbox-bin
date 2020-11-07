@@ -113,7 +113,7 @@ if [ "$(php -m|grep swoole)" != "swoole" ];then
   exitcode=1
 fi
 
-if $exitcode == 1 ;then
+if "$exitcode" == "1" ;then
    log "requirements not met, aborting"
    exit 1
 fi
