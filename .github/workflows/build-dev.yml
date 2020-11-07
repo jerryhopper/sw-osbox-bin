@@ -39,4 +39,4 @@ jobs:
       - name: Run install script
         shell: bash
         run: |
-          sudo bash ./extra/install.sh latest
+          sudo bash ./extra/install.sh latest noreload
