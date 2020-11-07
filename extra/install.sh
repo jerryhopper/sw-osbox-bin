@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NORELOAD=$1
-LATEST=$2
+LATEST=$1
+NORELOAD=$2
 
 # helper fuctions
 SCRIPT_FILENAME="install.sh "
