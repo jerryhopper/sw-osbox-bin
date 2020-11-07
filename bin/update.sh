@@ -205,6 +205,10 @@ else
   systemctl daemon-reload
 fi
 
+log "Service osbox is $(systemctl is-enabled osbox)"
+log "Service osbox is $(systemctl is-active osbox)"
+
+
 
 exit 0
 
