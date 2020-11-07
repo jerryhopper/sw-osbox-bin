@@ -39,6 +39,7 @@ is_command() {
 GetRemoteVersion(){
       ORG_NAME=$1
       REPO_NAME=$2
+
       if ! is_command "jq"; then
         LATEST_VERSION=$(curl -s https://api.github.com/repos/${ORG_NAME}/${REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
       else
@@ -70,6 +71,17 @@ DownloadUnpack(){
 
 
 log "Installation script sw-osbox-bin"
+
+# Root check
+if [[ ! $EUID -eq 0 ]];then
+  if [[ -x "$(command -v sudo)" ]]; then
+    exec sudo bash "$0" "$@"
+    exit $?
+  else
+    log "   sudo is needed to run the installer.  Please run this script as root or install sudo."
+    exit 1
+  fi
+fi
 
 
 exitcode=0

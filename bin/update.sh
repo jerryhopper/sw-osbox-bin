@@ -11,17 +11,6 @@ is_command() {
     command -v "${check_command}" >/dev/null 2>&1
 }
 
-GetRemoteVersion(){
-      _ORG_NAME=$1
-      _REPO_NAME=$2
-      if ! is_command "jq"; then
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
-      else
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest|jq .tag_name -r )
-      fi
-      echo $LATEST_VERSION
-}
-
 
 DownloadLatest(){
       _ORG_NAME=$1
@@ -47,6 +36,17 @@ DownloadLatest(){
       echo "ok"
 }
 
+
+GetRemoteVersion(){
+      _ORG_NAME=$1
+      _REPO_NAME=$2
+      if ! is_command "jq"; then
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
+      else
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest|jq .tag_name -r )
+      fi
+      echo $LATEST_VERSION
+}
 
 DownloadUnpack(){
       _ORG_NAME=$1
@@ -97,6 +97,20 @@ log(){
 
 
 log "update.sh"
+
+# Root check
+if [[ ! $EUID -eq 0 ]];then
+  if [[ -x "$(command -v sudo)" ]]; then
+    exec sudo bash "$0" "$@"
+    exit $?
+  else
+    log "   sudo is needed to run the installer.  Please run this script as root or install sudo."
+    exit 1
+  fi
+fi
+
+
+
 ## OSBOX BIN
 if [ ! -f /etc/osbox/.osbox.bin.version ];then
     echo "0">/etc/osbox/.osbox.bin.version
