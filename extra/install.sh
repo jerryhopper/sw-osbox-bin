@@ -199,11 +199,11 @@ if [ ! -f /usr/local/osbox/bin/update.sh ]; then
 fi
 
 
-if [ "$LATEST" == "latest" ];then
-  bash /usr/local/osbox/bin/update.sh latest $NORELOAD
-else
-  bash /usr/local/osbox/bin/update.sh
-fi
+#if [ "$LATEST" == "latest" ];then
+#  bash /usr/local/osbox/bin/update.sh latest $NORELOAD
+#else
+#  bash /usr/local/osbox/bin/update.sh
+#fi
 
 
 
