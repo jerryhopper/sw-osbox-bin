@@ -187,27 +187,4 @@ if [ ! -f /etc/systemd/system/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
 fi
 
-log "Service osbox is $(systemctl is-enabled osbox)"
-if [ "enabled" != "$(systemctl is-enabled osbox)" ];then
-  systemctl enable osbox.service
-fi
-
-log "Service osbox is $(systemctl is-active osbox)"
-if [ "failed" == "$(systemctl is-active osbox)" ];then
-  systemctl start osbox.service
-fi
-
-
-if [ "$2" == "noreload" ];then
-  echo "no systemctl daemon-reload"
-else
-  log "systemctl reloading"
-  systemctl daemon-reload
-  log "after reload"
-fi
-
-log "Service osbox is $(systemctl is-enabled osbox)"
-log "Service osbox is $(systemctl is-active osbox)"
-
-
 exit 0
