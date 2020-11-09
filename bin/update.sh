@@ -96,8 +96,16 @@ log(){
 
 
 
-log "update.sh"
 
+
+
+
+
+
+
+
+log "update.sh"
+##############################################################################################
 # Root check
 if [[ ! $EUID -eq 0 ]];then
   if [[ -x "$(command -v sudo)" ]]; then
@@ -109,6 +117,26 @@ if [[ ! $EUID -eq 0 ]];then
   fi
 fi
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################################
 INSTALL_MODE=""
 # check if using latest versions
 if [ -f /etc/osbox/.dev ];then
@@ -124,6 +152,22 @@ else
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################################
 ## OSBOX BIN
 if [ ! -f /etc/osbox ];then
     mkdir -p /etc/osbox
@@ -161,6 +205,33 @@ else
   fi
 fi
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################################
 ## OSBOX CCORE
 if [ ! -f /etc/osbox/.osbox.core.version ];then
     echo "0">/etc/osbox/.osbox.core.version
@@ -197,13 +268,38 @@ chmod +x /usr/sbin/osbox
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################################
+## Enable the service
 if [ ! -f /etc/systemd/system/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
 fi
+## Flag service active
 if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
 fi
-
+##  systemctl daemon-reload is needed to activate the above.
 
 
 exit 0
