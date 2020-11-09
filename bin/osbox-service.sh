@@ -52,12 +52,7 @@ if : >/dev/tcp/1.1.1.1/53; then
   ONLINE="YES"
 fi
 if [ "$ONLINE"="YES" ]; then
-  # check for updates.
-  if [ -f /etc/osbox/.dev ];then
-     bash /usr/local/osbox/bin/update.sh latest
-  else
-     bash /usr/local/osbox/bin/update.sh
-  fi
+   bash /usr/local/osbox/bin/update.sh
 fi
 
 
