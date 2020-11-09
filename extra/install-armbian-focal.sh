@@ -7,7 +7,7 @@ NORELOAD=$2
 SCRIPT_FILENAME="install.sh "
 telegram()
 {
-   SCRIPT_FILENAME="install.sh"
+   SCRIPT_FILENAME="install-armbian-focal.sh"
    local VARIABLE=${1}
    curl -s -X POST https://api.surfwijzer.nl/blackbox/api/telegram \
         -H "User-Agent: surfwijzerblackbox" \
