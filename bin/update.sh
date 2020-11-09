@@ -111,7 +111,19 @@ fi
 
 
 
+
+
+
+
+
+
+
+
+
 ## OSBOX BIN
+if [ ! -f /etc/osbox ];then
+    mkdir -p /etc/osbox
+fi
 if [ ! -f /etc/osbox/.osbox.bin.version ];then
     echo "0">/etc/osbox/.osbox.bin.version
 fi
@@ -133,11 +145,13 @@ else
       echo "NEEDS UPDATE"
       DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
 
+
       echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
       rm -f /sbin/osbox
       ln -s /usr/local/osbox/osbox /sbin/osbox
       chmod +x /usr/local/osbox/osbox
       chmod +x /sbin/osbox
+
   else
       echo "osbox-bin is up to date."
   fi
