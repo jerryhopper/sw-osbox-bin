@@ -214,6 +214,7 @@ else
 
 fi
 
+#/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
 
 #if [ "$LATEST" == "latest" ];then
 #  bash /usr/local/osbox/bin/update.sh latest $NORELOAD
