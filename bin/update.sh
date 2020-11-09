@@ -109,7 +109,11 @@ if [[ ! $EUID -eq 0 ]];then
   fi
 fi
 
-
+INSTALL_MODE=""
+# check if using latest versions
+if [ -f /etc/osbox/.dev ];then
+   INSTALL_MODE="latest"
+else
 
 
 
@@ -131,7 +135,7 @@ fi
 OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
 OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
 
-if [ "$1" == "latest" ];then
+if [ "$INSTALL_MODE" == "latest" ];then
       DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
       rm -f /sbin/osbox
       ln -s /usr/local/osbox/osbox /sbin/osbox
@@ -169,7 +173,7 @@ OSBOX_CORE_LOCALVERSION="$(</etc/osbox/.osbox.core.version)"
 OSBOX_CORE_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-core')"
 
 
-if [ "$1" == "latest" ];then
+if [ "$INSTALL_MODE" == "latest" ];then
   DownloadLatest "jerryhopper" "sw-osbox-core" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox/project/sw-osbox-core";
 else
   if [ "$OSBOX_CORE_REMOTEVERSION" != "$OSBOX_CORE_LOCALVERSION" ];then
