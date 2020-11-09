@@ -171,7 +171,7 @@ log "-----------"
 exitcode="1"
 if [ $exitcode == "1" ] ;then
    log "requirements not met, aborting"
-   InstallPreRequisites
+   #InstallPreRequisites
    #exit 1
 fi
 
