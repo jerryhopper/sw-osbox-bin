@@ -193,12 +193,13 @@ chmod +x /usr/sbin/osbox
 
 
 
-
-
-
-
 if [ ! -f /etc/systemd/system/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
 fi
+if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
+  ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
+fi
+
+
 
 exit 0
