@@ -206,6 +206,7 @@ if [ ! -f /usr/local/osbox/bin/update.sh ]; then
       chmod +x /usr/local/osbox/osbox
       chmod +x /sbin/osbox
       chmod +x /usr/sbin/osbox
+      chmod +x /usr/local/osbox/bin/osbox-service.sh
   else
       echo "osbox-bin is up to date."
   fi
