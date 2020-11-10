@@ -2,8 +2,6 @@
 
 
 
-
-
 ####################################################################################################
 # osbox install function
 if [ "$1" == "installservice" ]; then
@@ -90,10 +88,15 @@ fi
 if [ "$1" == "update" ]; then
 
   if [ "$2" == "latest" ];then
-    bash /usr/local/osbox/bin/update.sh latest noreload
-    exit
+    if [ ! -f /etc/osbox/.dev ];then
+        touch /etc/osbox/.dev
+    fi
   fi
-
+  if [ "$2" == "stable" ];then
+    if [ -f /etc/osbox/.dev ];then
+        rm -f /etc/osbox/.dev
+    fi
+  fi
   bash /usr/local/osbox/bin/update.sh
   #returnedstatus $? "success" "fail"
   exit

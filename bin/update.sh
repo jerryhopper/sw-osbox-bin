@@ -3,8 +3,6 @@
 
 
 
-# cat /etc/os-release
-
 # is_command function
 is_command() {
     # Checks for existence of string passed in as only function argument.
@@ -105,6 +103,8 @@ log(){
 
 
 
+
+# cat /etc/os-release
 
 
 log "update.sh"
