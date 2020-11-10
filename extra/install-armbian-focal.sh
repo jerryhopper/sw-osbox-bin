@@ -92,6 +92,7 @@ InstallPreRequisites(){
 	sudo apt-get update
 	sudo apt-get install -y jq git unzip
 	#apt-get install -y docker docker.io avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev
+	#apt-get install -y docker docker.io avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev
 
 
 	# remove new user prompt
