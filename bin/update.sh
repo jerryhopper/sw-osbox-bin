@@ -174,7 +174,6 @@ OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
 OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
 
 if [ "$INSTALL_MODE" == "latest" ];then
-      echo "dummy"
       DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
       rm -f /sbin/osbox
       ln -s /usr/local/osbox/osbox /sbin/osbox
