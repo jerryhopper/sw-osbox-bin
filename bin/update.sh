@@ -301,5 +301,4 @@ if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
 fi
 ##  systemctl daemon-reload is needed to activate the above.
 
-
 exit 0
