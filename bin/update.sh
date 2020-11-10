@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+
+
 # cat /etc/os-release
 
 # is_command function
@@ -141,16 +144,7 @@ INSTALL_MODE=""
 # check if using latest versions
 if [ -f /etc/osbox/.dev ];then
    INSTALL_MODE="latest"
-else
-
-
-
-
-
-
-
-
-
+fi
 
 
 
@@ -180,6 +174,7 @@ OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
 OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
 
 if [ "$INSTALL_MODE" == "latest" ];then
+      echo "dummy"
       DownloadLatest "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
       rm -f /sbin/osbox
       ln -s /usr/local/osbox/osbox /sbin/osbox
@@ -299,6 +294,11 @@ fi
 if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
 fi
-##  systemctl daemon-reload is needed to activate the above.
 
+
+##  systemctl daemon-reload is needed to activate the above.
 exit 0
+
+
+
+
