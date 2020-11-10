@@ -99,6 +99,7 @@ if [ "$1" == "update" ]; then
   fi
   bash /usr/local/osbox/bin/update.sh
   #returnedstatus $? "success" "fail"
+  systemctl daemon-reload
   exit
 fi
 
