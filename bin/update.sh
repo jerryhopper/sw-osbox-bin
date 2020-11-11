@@ -31,7 +31,9 @@ DownloadLatest(){
 
       # Download the file
       curl -L -o master.tar.gz https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/master.tar.gz &> /dev/null
-      mkdir -p ${_BIN_DIR}
+      if [ ! -d ${_BIN_DIR} ];then
+        mkdir -p ${_BIN_DIR}
+      fi
       tar -C ${_BIN_DIR} -xf master.tar.gz --strip 1 > /dev/null
       rm -rf master.tar.gz
       echo "ok"
@@ -65,7 +67,9 @@ DownloadUnpack(){
 
       # Download the file
       curl -s -L -o ${_REPO_NAME}.tar.gz https://github.com/${_ORG_NAME}/${_REPO_NAME}/archive/${_LATEST_VERSION}.tar.gz &> /dev/null
-      mkdir -p ${_BIN_DIR}
+      if [ ! -d ${_BIN_DIR} ];then
+        mkdir -p ${_BIN_DIR}
+      fi
       tar -C ${_BIN_DIR} -xf ${_REPO_NAME}.tar.gz --strip 1 > /dev/null
       rm -rf ${_REPO_NAME}.tar.gz
       echo "ok"
@@ -163,7 +167,7 @@ fi
 
 ##############################################################################################
 ## OSBOX BIN
-if [ ! -f /etc/osbox ];then
+if [ ! -d /etc/osbox ];then
     mkdir -p /etc/osbox
 fi
 if [ ! -f /etc/osbox/.osbox.bin.version ];then
