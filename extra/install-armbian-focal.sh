@@ -172,7 +172,7 @@ if [ "$(php -m|grep swoole)" != "swoole" ];then
 fi
 
 log "-----------"
-exitcode="1"
+#exitcode="1"
 if [ $exitcode == "1" ] ;then
    log "requirements not met, aborting"
    #InstallPreRequisites
@@ -191,13 +191,15 @@ if [ ! -f /usr/local/osbox/bin/update.sh ]; then
   if [ ! -d /etc/osbox ]; then
       mkdir -p /etc/osbox
   fi
-  if [ ! -f /etc/osbox/.osbox.bin.version ];then
-      echo "0">/etc/osbox/.osbox.bin.version
-  fi
 
 
   OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
   OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
+
+  if [ ! -f /etc/osbox/.osbox.bin.version ];then
+      echo "0">/etc/osbox/.osbox.bin.version
+  fi
+
 
   if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
       echo "Remot: $OSBOX_BIN_REMOTEVERSION"
@@ -219,6 +221,21 @@ else
   echo "osbox executable is available"
 
 fi
+
+
+
+## Enable the service
+if [ ! -f /etc/systemd/system/osbox.service ];then
+  ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
+fi
+# Flag service active
+if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
+  ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
+fi
+
+
+
+
 
 #/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
 
