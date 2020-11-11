@@ -65,7 +65,9 @@ DownloadUnpack(){
 
       # Download the file
       curl -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz
-      mkdir -p ${BIN_DIR}
+      if [ ! -d ${BIN_DIR} ];then
+        mkdir -p ${BIN_DIR}
+      fi
       tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1
       rm -rf ${REPO_NAME}.tar.gz
 }

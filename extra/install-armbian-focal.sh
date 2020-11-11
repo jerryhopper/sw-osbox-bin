@@ -65,7 +65,10 @@ DownloadUnpack(){
 
       # Download the file
       curl -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz
-      mkdir -p ${BIN_DIR}
+      if [ ! -d ${BIN_DIR} ];then
+          mkdir -p ${BIN_DIR}
+      fi
+
       tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1
       rm -rf ${REPO_NAME}.tar.gz
 }
@@ -208,6 +211,7 @@ if [ ! -f /usr/local/osbox/bin/update.sh ]; then
       chmod +x /usr/local/osbox/bin/osbox-service.sh
       chmod +x /sbin/osbox
       chmod +x /usr/sbin/osbox
+
   else
       echo "osbox-bin is up to date."
   fi
