@@ -222,6 +222,19 @@ else
 
 fi
 
+rm -f /sbin/osbox
+ln -s /usr/local/osbox/osbox /sbin/osbox
+chmod +x /usr/local/osbox/osbox
+chmod +x /usr/local/osbox/bin/osbox-service.sh
+chmod +x /sbin/osbox
+chmod +x /usr/sbin/osbox
+
+
+
+
+
+
+
 
 
 ## Enable the service
