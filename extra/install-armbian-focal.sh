@@ -248,6 +248,27 @@ fi
 
 
 
+if [[ ! -x "/usr/local/osbox/osbox" ]];then
+  chmod +x /usr/local/osbox/osbox
+fi
+
+if [[ ! -x "$file" ]];then
+  chmod +x /sbin/osbox
+fi
+
+if [[ ! -x "/sbin/osbox" ]];then
+  chmod +x /usr/sbin/osbox
+fi
+
+if [[ ! -x "/usr/local/osbox/bin/update.sh" ]];then
+  chmod +x /usr/local/osbox/bin/update.sh
+fi
+
+if [[ ! -x "/usr/local/osbox/bin/osbox-service.sh" ]];then
+  chmod +x /usr/local/osbox/bin/osbox-service.sh
+fi
+
+
 
 
 #/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
