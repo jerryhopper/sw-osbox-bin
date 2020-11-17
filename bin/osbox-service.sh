@@ -51,7 +51,7 @@ fi
 if : >/dev/tcp/1.1.1.1/53; then
   ONLINE="YES"
 fi
-if [ "$ONLINE"="YES" ]; then
+if [ "$ONLINE"=="YES" ]; then
    bash /usr/local/osbox/bin/update.sh
 fi
 
