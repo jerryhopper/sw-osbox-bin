@@ -222,8 +222,10 @@ else
 
 fi
 
+
 rm -f /sbin/osbox
 ln -s /usr/local/osbox/osbox /sbin/osbox
+
 chmod +x /usr/local/osbox/osbox
 chmod +x /usr/local/osbox/bin/osbox-service.sh
 chmod +x /sbin/osbox
@@ -246,7 +248,7 @@ if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
 fi
 
-
+echo "checkpermissions"
 bash /usr/local/osbox/bin/checkpermissions.sh
 
 #/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
