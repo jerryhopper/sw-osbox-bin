@@ -47,10 +47,3 @@ if [ -f "/usr/sbin/osbox" ];then
     chmod +x /usr/sbin/osbox
   fi
 fi
-
-
-
-
-
-
-
