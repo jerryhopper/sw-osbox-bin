@@ -182,7 +182,7 @@ fi
 
 log "Adding osbox user"
 useradd -m -c "osbox user account" osbox
-
+echo $?
 
 
 if [ ! -f /usr/local/osbox/bin/update.sh ]; then
@@ -250,6 +250,8 @@ fi
 
 echo "checkpermissions"
 bash /usr/local/osbox/bin/checkpermissions.sh
+echo $?
+
 
 #/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
 
