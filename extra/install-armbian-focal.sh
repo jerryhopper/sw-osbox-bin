@@ -49,6 +49,8 @@ GetRemoteVersion(){
       echo $LATEST_VERSION
 }
 
+
+# DownloadUnpack "jerryhopper" "sw-osbox" "0.1" "/usr/local/osbox"
 DownloadUnpack(){
       ORG_NAME=$1
       REPO_NAME=$2
@@ -71,6 +73,7 @@ DownloadUnpack(){
 
       tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1
       rm -rf ${REPO_NAME}.tar.gz
+      #OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
 }
 
 
@@ -79,7 +82,7 @@ InstallSwoole(){
 	log "Cloning and compiling swoole"
 	git clone https://github.com/swoole/swoole-src.git && cd swoole-src
 	git checkout v4.5.5
-	phpize && ./configure --enable-sockets --enable-openssl && make && make install
+	phpize && ./configure --enable-sockets --enable-openssl && ! make && make install
 	log "Installing swoole"
 	echo "extension=swoole.so" >> $(php -i | grep php.ini|grep Loaded | awk '{print $5}')
 
@@ -89,6 +92,42 @@ InstallSwoole(){
 
 
 
+
+function Install (){
+  _ORGNAME=$1
+  _REPONAME=$2
+  _DSTFOLDER=$3
+
+  # check and create /etc/osbox
+  if [ ! -d /etc/osbox ]; then
+      mkdir -p /etc/osbox
+  fi
+
+  # check and create versionfile
+  _VERSIONFILE="/etc/osbox/.$_REPONAME.version"
+  if [ ! -f "$_VERSIONFILE" ];then
+      echo "0">"$_VERSIONFILE"
+  fi
+
+  PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
+  PACKAGE_REMOTEVERSION="$(GetRemoteVersion '$_ORGNAME' '$_REPONAME')"
+
+  if [ "$PACKAGE_REMOTEVERSION"=="" ];then
+    echo "Unexpected version error"
+  else
+    if [ "$PACKAGE_REMOTEVERSION" != "$PACKAGE_LOCALVERSION" ];then
+        echo "Local: $PACKAGE_LOCALVERSION < $PACKAGE_REMOTEVERSION NEEDS UPDATE"
+        DownloadUnpack "$_ORGNAME" "$_REPONAME" "$PACKAGE_REMOTEVERSION" "$_DSTFOLDER"
+        #/usr/local/osbox/bin/checkpermissions.sh
+        echo "$PACKAGE_REMOTEVERSION">$_VERSIONFILE
+
+    else
+        echo "$_ORGNAME/$_REPONAME is up to date."
+    fi
+  fi
+
+
+}
 
 
 
@@ -115,61 +154,13 @@ bash /usr/local/osbox/bin/checkrequirements.sh
 
 log "Adding osbox user"
 useradd -m -c "osbox user account" osbox
-echo $?
-
-
-if [ ! -f /usr/local/osbox/bin/update.sh ]; then
-  # osbox not installed.
-  ## OSBOX BIN
-  if [ ! -d /etc/osbox ]; then
-      mkdir -p /etc/osbox
-  fi
-
-
-  OSBOX_BIN_LOCALVERSION="$(</etc/osbox/.osbox.bin.version)"
-  OSBOX_BIN_REMOTEVERSION="$(GetRemoteVersion 'jerryhopper' 'sw-osbox-bin')"
-
-  if [ ! -f /etc/osbox/.osbox.bin.version ];then
-      echo "0">/etc/osbox/.osbox.bin.version
-  fi
-
-
-  if [ "$OSBOX_BIN_REMOTEVERSION" != "$OSBOX_BIN_LOCALVERSION" ];then
-      echo "Remot: $OSBOX_BIN_REMOTEVERSION"
-      echo "Local: $OSBOX_BIN_LOCALVERSION"
-      echo "NEEDS UPDATE"
-      DownloadUnpack "jerryhopper" "sw-osbox-bin" "${OSBOX_BIN_REMOTEVERSION}" "/usr/local/osbox"
-      echo "$OSBOX_BIN_REMOTEVERSION">/etc/osbox/.osbox.bin.version
-      rm -f /sbin/osbox
-      ln -s /usr/local/osbox/osbox /sbin/osbox
-      chmod +x /usr/local/osbox/osbox
-      chmod +x /usr/local/osbox/bin/osbox-service.sh
-      chmod +x /sbin/osbox
-      chmod +x /usr/sbin/osbox
-
-  else
-      echo "osbox-bin is up to date."
-  fi
-else
-  echo "osbox executable is available"
-
-fi
-
-
-#rm -f /sbin/osbox
-#ln -s /usr/local/osbox/osbox /sbin/osbox
-
-#chmod +x /usr/local/osbox/osbox
-#chmod +x /usr/local/osbox/bin/osbox-service.sh
-#chmod +x /sbin/osbox
-#chmod +x /usr/sbin/osbox
 
 
 
 
-
-
-
+# Install the applications
+Install "jerryhopper" "sw-osbox-bin" "/usr/local/osbox"
+Install "jerryhopper" "sw-osbox-core" "/usr/local/osbox/project/sw-osbox-core"
 
 
 ## Enable the service
@@ -183,18 +174,6 @@ fi
 
 echo "checkpermissions"
 bash /usr/local/osbox/bin/checkpermissions.sh
-echo $?
-
-
-#/usr/local/osbox/project/sw-osbox-core/osbox-service.sh
-
-#if [ "$LATEST" == "latest" ];then
-#  bash /usr/local/osbox/bin/update.sh latest $NORELOAD
-#else
-#bash /usr/local/osbox/bin/update.sh
-#fi
-
-
 
 
 exit 0
