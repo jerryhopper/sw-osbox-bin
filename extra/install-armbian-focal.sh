@@ -97,6 +97,11 @@ DownloadUnpack(){
       # Download the file
       log "Downloading https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
       curl -s -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz >/dev/null
+      if [ $? != 0 ]; then
+        log "Error during download"
+        exit 1
+      fi
+
       if [ ! -d ${BIN_DIR} ];then
           mkdir -p ${BIN_DIR}
       fi
@@ -104,8 +109,17 @@ DownloadUnpack(){
       log "Extracting ${LATEST_VERSION}.tar.gz"
       tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1 >/dev/null
 
+      if [ $? != 0 ]; then
+        log "Error during extraction"
+        exit 1
+      fi
+
 
       rm -rf ${REPO_NAME}.tar.gz
+      if [ $? != 0 ]; then
+        log "Error removing tar archive"
+        exit 1
+      fi
 
 }
 
