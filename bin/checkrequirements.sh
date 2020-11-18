@@ -21,57 +21,44 @@ InstallPreRequisites(){
 
 	#/usr/lib/armbian/armbian-firstrun
 
-
-
 	# SWOOLE
 	#InstallSwoole
 
-
 	sudo apt-get -y remove build-essential
 	sudo apt -y autoremove && apt clean
-
 
 }
 
 
 
+# get os
+source /etc/os-release
+
+
+# packages needed.
+case "$VERSION_CODENAME" in
+        focal)
+            #$PACKAGES="docker avahi-daemon sqlite3 unzip php"
+            PACKAGES="docker docker.io avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev"
+            ;;
+        buster)
+            PACKAGES="docker avahi-daemon"
+            exit 1
+            ;;
+        *)
+            echo "Unknown linux version ($VERSION_CODENAME)"
+            exit 1
+            ;;
+esac
 
 
 
-
-exitcode="0"
-if ! is_command "docker" ;then
-   echo "Docker not available"
-   exitcode="1"
-fi
-if ! is_command "avahi-daemon" ;then
-   echo "Avahi-daemon not available"
-   exitcode="1"
-fi
-if ! is_command "sqlite3" ;then
-   echo "Sqlite not available"
-   exitcode="1"
-fi
-
-if ! is_command "unzip" ;then
-   echo "unzip not available"
-   exitcode="1"
-fi
-
-if ! is_command "php" ;then
-   echo "php not available"
-   exitcode="1"
-fi
-
-if [ "$(php -m|grep swoole)" != "swoole" ];then
-  echo "no swoole available"
-  exitcode="1"
+# Install packages.
+MISSING=$(dpkg --get-selections $PACKAGES 2>&1 | grep -v 'install$' | awk '{ print $6 }')
+# Optional check here to skip bothering with apt-get if $MISSING is empty
+if [ ! $MISSING=="" ];then
+  sudo apt-get install $MISSING
 fi
 
-log "-----------"
-#exitcode="1"
-if [ $exitcode == "1" ] ;then
-   log "requirements not met, aborting"
-   #InstallPreRequisites
-   #exit 1
-fi
+# cleanup
+sudo apt -y autoremove && apt clean
