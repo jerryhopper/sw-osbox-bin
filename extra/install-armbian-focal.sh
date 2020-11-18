@@ -37,13 +37,17 @@ is_command() {
     command -v "${check_command}" >/dev/null 2>&1
 }
 
+
+
+
+
 GetLatestVersion(){
       _ORG_NAME=$1
       _REPO_NAME=$2
       if ! is_command "jq"; then
-        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/git/refs/heads/master" | grep "sha" | cut -d'v' -f2 | cut -d'"' -f4)
+        echo "$(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/git/refs/heads/master" | grep "sha" | cut -d'v' -f2 | cut -d'"' -f4)"
       else
-        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/git/refs/heads/master"|jq .object.sha -r )
+        echo "$(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/git/refs/heads/master"|jq .object.sha -r )"
       fi
 }
 
@@ -51,9 +55,9 @@ GetRemoteVersion(){
       _ORG_NAME=$1
       _REPO_NAME=$2
       if ! is_command "jq"; then
-        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest" | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
+        echo "$(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest" | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)"
       else
-        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest"|jq .tag_name -r )
+        echo "$(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest"|jq .tag_name -r )"
       fi
 }
 
@@ -86,19 +90,20 @@ DownloadUnpack(){
       # Check the download url, if it responds with 200
       DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
-        echo "Download error! (${DOWNLOAD_CODE}) [https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz]"
+        log "Download error! (${DOWNLOAD_CODE}) [https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz]"
         exit 1
       fi
 
       # Download the file
-      echo "Downloading https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
+      log "Downloading https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
       curl -s -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz >/dev/null
       if [ ! -d ${BIN_DIR} ];then
           mkdir -p ${BIN_DIR}
       fi
 
-      echo "Extracting ${LATEST_VERSION}.tar.gz"
+      log "Extracting ${LATEST_VERSION}.tar.gz"
       tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1 >/dev/null
+
 
       rm -rf ${REPO_NAME}.tar.gz
 
@@ -125,26 +130,26 @@ function Install (){
   #echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
 
   if [ "$_INSTALL_MODE"=="latest" ];then
-    echo "Using latest (unstable) commit"
+    log "Using latest (unstable) commit"
     PACKAGE_REMOTEVERSION=$(GetLatestVersion "$_ORGNAME" "$_REPONAME")
   else
-    echo "Using latest stable release"
+    log "Using latest stable release"
     PACKAGE_REMOTEVERSION=$(GetRemoteVersion "$_ORGNAME" "$_REPONAME")
   fi
 
   #echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
 
   if [ "$PACKAGE_REMOTEVERSION" == "" ];then
-    echo "Unexpected version error"
+    log "Unexpected version error"
   else
     if [ "$PACKAGE_REMOTEVERSION" != "$PACKAGE_LOCALVERSION" ];then
-        echo "Local: $PACKAGE_LOCALVERSION < $PACKAGE_REMOTEVERSION NEEDS UPDATE"
+        log "Local: $PACKAGE_LOCALVERSION < $PACKAGE_REMOTEVERSION NEEDS UPDATE"
         DownloadUnpack "$_ORGNAME" "$_REPONAME" "$PACKAGE_REMOTEVERSION" "$_DSTFOLDER"
         #/usr/local/osbox/bin/checkpermissions.sh
         echo "$PACKAGE_REMOTEVERSION">$_VERSIONFILE
 
     else
-        echo "$_ORGNAME/$_REPONAME is up to date."
+        log "$_ORGNAME/$_REPONAME is up to date."
     fi
   fi
 
@@ -175,7 +180,7 @@ if [[ ! $EUID -eq 0 ]];then
 fi
 
 # Check and install requirements.
-#bash /usr/local/osbox/bin/checkrequirements.sh
+bash /usr/local/osbox/bin/checkrequirements.sh
 
 
 
