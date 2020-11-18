@@ -82,6 +82,7 @@ fi
 # kill -USR2 MASTER_PID
 
 if [ -f /run/swoole.pid ];then
+  echo "Reloading swoole"
   kill -USR1 $(cat /run/swoole.pid)
   sleep 1
 fi
