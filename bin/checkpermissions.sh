@@ -35,9 +35,9 @@ checkSymlink (){
 
 
 # Permission for binaries
-setWritable "/usr/local/osbox/osbox"
-setWritable "/usr/local/osbox/bin/update.sh"
-setWritable "/usr/local/osbox/bin/osbox-service.sh"
+setExecutable "/usr/local/osbox/osbox"
+setExecutable "/usr/local/osbox/bin/update.sh"
+setExecutable "/usr/local/osbox/bin/osbox-service.sh"
 
 
 # Symlink checks
