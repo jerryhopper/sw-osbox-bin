@@ -175,7 +175,7 @@ function Install (){
 
 
 
-log "Installation script sw-osbox-bin"
+log "install-armbian-focal.sh"
 
 
 
