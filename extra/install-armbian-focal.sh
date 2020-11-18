@@ -41,22 +41,20 @@ GetLatestVersion(){
       _ORG_NAME=$1
       _REPO_NAME=$2
       if ! is_command "jq"; then
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/git/refs/heads/master | grep "sha" | cut -d'v' -f2 | cut -d'"' -f4)
+        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/git/refs/heads/master" | grep "sha" | cut -d'v' -f2 | cut -d'"' -f4)
       else
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/git/refs/heads/master|jq .object.sha -r )
+        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/git/refs/heads/master"|jq .object.sha -r )
       fi
-      echo $LATEST_VERSION
 }
 
 GetRemoteVersion(){
       _ORG_NAME=$1
       _REPO_NAME=$2
       if ! is_command "jq"; then
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
+        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest" | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)
       else
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/${_ORG_NAME}/${_REPO_NAME}/releases/latest|jq .tag_name -r )
+        echo $(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest"|jq .tag_name -r )
       fi
-      echo $LATEST_VERSION
 }
 
 
@@ -93,12 +91,12 @@ DownloadUnpack(){
       fi
 
       # Download the file
-      curl -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz
+      curl -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz >/dev/null
       if [ ! -d ${BIN_DIR} ];then
           mkdir -p ${BIN_DIR}
       fi
 
-      tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1
+      tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1 >/dev/null
       rm -rf ${REPO_NAME}.tar.gz
 
 }
@@ -117,24 +115,24 @@ function Install (){
   # check and create versionfile
   _VERSIONFILE="/etc/osbox/.$_REPONAME.version"
   if [ ! -f "$_VERSIONFILE" ];then
-      echo "0">"$_VERSIONFILE"
+      echo "No versionfile?"
+      echo "0">$_VERSIONFILE
   fi
-
-
   PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
+
+  echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
 
   if [ "$_INSTALL_MODE"=="latest" ];then
     echo "Using latest version"
-    echo "GetLatestVersion '$_ORGNAME' '$_REPONAME'"
-    PACKAGE_REMOTEVERSION="$(GetLatestVersion '$_ORGNAME' '$_REPONAME')"
+    PACKAGE_REMOTEVERSION=$(GetLatestVersion "$_ORGNAME" "$_REPONAME")
   else
     echo "Using stable version"
-    PACKAGE_REMOTEVERSION="$(GetRemoteVersion '$_ORGNAME' '$_REPONAME')"
+    PACKAGE_REMOTEVERSION=$(GetRemoteVersion "$_ORGNAME" "$_REPONAME")
   fi
 
   echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
 
-  if [ "$PACKAGE_REMOTEVERSION"=="" ];then
+  if [ "$PACKAGE_REMOTEVERSION" == "" ];then
     echo "Unexpected version error"
   else
     if [ "$PACKAGE_REMOTEVERSION" != "$PACKAGE_LOCALVERSION" ];then
@@ -158,6 +156,10 @@ function Install (){
 
 
 log "Installation script sw-osbox-bin"
+
+
+
+
 
 # Root check
 if [[ ! $EUID -eq 0 ]];then
@@ -184,6 +186,8 @@ fi
 
 # Install the applications
 Install "jerryhopper" "sw-osbox-bin" "/usr/local/osbox" "$INSTALL_MODE"
+exit 1
+
 Install "jerryhopper" "sw-osbox-core" "/usr/local/osbox/project/sw-osbox-core" "$INSTALL_MODE"
 
 # Check and set permissions
@@ -200,3 +204,5 @@ if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
 fi
 
 exit 0
+
+}
