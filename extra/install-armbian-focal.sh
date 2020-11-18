@@ -92,10 +92,11 @@ DownloadUnpack(){
 
       # Download the file
       echo "Downloading https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
-      curl -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz >/dev/null
+      curl -s -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz >/dev/null
       if [ ! -d ${BIN_DIR} ];then
           mkdir -p ${BIN_DIR}
       fi
+
       echo "Extracting ${LATEST_VERSION}.tar.gz"
       tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1 >/dev/null
 
@@ -117,22 +118,21 @@ function Install (){
   # check and create versionfile
   _VERSIONFILE="/etc/osbox/.$_REPONAME.version"
   if [ ! -f "$_VERSIONFILE" ];then
-      echo "No versionfile?"
       echo "0">$_VERSIONFILE
   fi
   PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
 
-  echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
+  #echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
 
   if [ "$_INSTALL_MODE"=="latest" ];then
-    echo "Using latest version"
+    echo "Using latest (unstable) commit"
     PACKAGE_REMOTEVERSION=$(GetLatestVersion "$_ORGNAME" "$_REPONAME")
   else
-    echo "Using stable version"
+    echo "Using latest stable release"
     PACKAGE_REMOTEVERSION=$(GetRemoteVersion "$_ORGNAME" "$_REPONAME")
   fi
 
-  echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
+  #echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
 
   if [ "$PACKAGE_REMOTEVERSION" == "" ];then
     echo "Unexpected version error"
@@ -207,4 +207,4 @@ fi
 
 exit 0
 
-}
+
