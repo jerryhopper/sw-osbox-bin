@@ -170,7 +170,7 @@ if [[ ! $EUID -eq 0 ]];then
 fi
 
 # Check and install requirements.
-bash /usr/local/osbox/bin/checkrequirements.sh
+#bash /usr/local/osbox/bin/checkrequirements.sh
 
 log "Adding osbox user"
 useradd -m -c "osbox user account" osbox
