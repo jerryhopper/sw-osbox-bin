@@ -82,21 +82,23 @@ DownloadUnpack(){
       LATEST_VERSION=$3
       BIN_DIR=$4
 
-      echo "https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
+
       # Check the download url, if it responds with 200
       DOWNLOAD_CODE=$(curl -L -s -o /dev/null -I -w "%{http_code}" https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz)
       if [ "$DOWNLOAD_CODE" != "200" ];then
         echo "Download error! (${DOWNLOAD_CODE}) [https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz]"
-              exit 1
+        exit 1
       fi
 
       # Download the file
+      echo "Downloading https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
       curl -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz >/dev/null
       if [ ! -d ${BIN_DIR} ];then
           mkdir -p ${BIN_DIR}
       fi
-
+      echo "Extracting ${LATEST_VERSION}.tar.gz"
       tar -C ${BIN_DIR} -xvf ${REPO_NAME}.tar.gz --strip 1 >/dev/null
+
       rm -rf ${REPO_NAME}.tar.gz
 
 }
