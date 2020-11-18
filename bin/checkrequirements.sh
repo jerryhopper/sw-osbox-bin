@@ -59,7 +59,8 @@ MISSING=$(dpkg --get-selections $PACKAGES 2>&1 | grep -v 'install$' | awk '{ pri
 if [ ! $MISSING=="" ];then
   echo "MISSING='$MISSING'"
   sudo apt-get install $MISSING
+  # cleanup
+  sudo apt -y autoremove && apt clean
 fi
 
-# cleanup
-sudo apt -y autoremove && apt clean
+
