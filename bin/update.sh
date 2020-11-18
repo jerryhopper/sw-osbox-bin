@@ -41,13 +41,6 @@ fi
 
 
 
-
-log "Installation script sw-osbox-bin"
-
-
-
-
-
 # Root check
 if [[ ! $EUID -eq 0 ]];then
   if [[ -x "$(command -v sudo)" ]]; then

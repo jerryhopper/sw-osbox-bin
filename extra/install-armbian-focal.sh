@@ -1,10 +1,8 @@
 #!/bin/bash
 
-LATEST=$1
-NORELOAD=$2
+
 
 # helper fuctions
-SCRIPT_FILENAME="install-armbian-focal.sh"
 telegram()
 {
    SCRIPT_FILENAME="install-armbian-focal.sh"
@@ -39,8 +37,7 @@ is_command() {
 
 
 
-
-
+# GetLatestVersion.fn
 GetLatestVersion(){
       _ORG_NAME=$1
       _REPO_NAME=$2
@@ -51,6 +48,7 @@ GetLatestVersion(){
       fi
 }
 
+# GetRemoteVersion.fn
 GetRemoteVersion(){
       _ORG_NAME=$1
       _REPO_NAME=$2
@@ -61,7 +59,7 @@ GetRemoteVersion(){
       fi
 }
 
-
+# InstallSwoole.fn
 InstallSwoole(){
 	# SWOOLE
 	log "Cloning and compiling swoole"
@@ -77,9 +75,9 @@ InstallSwoole(){
 
 
 ## https://github.com/jerryhopper/sw-osbox-bin/archive/b538ec55a7487c6e216a563d38a5e4facf66b6df.tar.gz
-
-
 # DownloadUnpack "jerryhopper" "sw-osbox" "0.1" "/usr/local/osbox"
+
+# DownloadUnpack.fn
 DownloadUnpack(){
       ORG_NAME=$1
       REPO_NAME=$2
@@ -123,6 +121,7 @@ DownloadUnpack(){
 
 }
 
+# Install.fn
 function Install (){
   _ORGNAME=$1
   _REPONAME=$2
@@ -216,6 +215,7 @@ Install "jerryhopper" "sw-osbox-core" "/usr/local/osbox/project/sw-osbox-core" "
 
 # Check and set permissions
 bash /usr/local/osbox/bin/checkpermissions.sh
+
 
 ## Enable the service
 if [ ! -f /etc/systemd/system/osbox.service ];then
