@@ -124,6 +124,7 @@ function Install (){
   PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
 
   if [ "$_INSTALL_MODE"=="latest" ];then
+    echo "Using latest"
     PACKAGE_REMOTEVERSION="$(GetLatestVersion '$_ORGNAME' '$_REPONAME')"
   else
     PACKAGE_REMOTEVERSION="$(GetRemoteVersion '$_ORGNAME' '$_REPONAME')"
