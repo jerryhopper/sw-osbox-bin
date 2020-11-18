@@ -124,12 +124,14 @@ function Install (){
   PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
 
   if [ "$_INSTALL_MODE"=="latest" ];then
-    echo "Using latest"
+    echo "Using latest version"
     PACKAGE_REMOTEVERSION="$(GetLatestVersion '$_ORGNAME' '$_REPONAME')"
   else
+    echo "Using stable version"
     PACKAGE_REMOTEVERSION="$(GetRemoteVersion '$_ORGNAME' '$_REPONAME')"
   fi
 
+  echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
 
   if [ "$PACKAGE_REMOTEVERSION"=="" ];then
     echo "Unexpected version error"
