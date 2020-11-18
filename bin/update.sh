@@ -40,18 +40,6 @@ if [[ ! $EUID -eq 0 ]];then
 fi
 
 
-
-# Root check
-if [[ ! $EUID -eq 0 ]];then
-  if [[ -x "$(command -v sudo)" ]]; then
-    exec sudo bash "$0" "$@"
-    exit $?
-  else
-    log "   sudo is needed to run the installer.  Please run this script as root or install sudo."
-    exit 1
-  fi
-fi
-
 # Check and install requirements.
 bash /usr/local/osbox/bin/checkrequirements.sh
 
@@ -85,6 +73,19 @@ fi
 if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
 fi
+
+
+
+#You can also trigger the hot code reloading with Linux signals:
+# kill -USR1 MASTER_PID
+#Only restart the task processes by signal
+# kill -USR2 MASTER_PID
+
+if [ -f /run/swoole.pid ];then
+  kill -USR1 $(cat /run/swoole.pid)
+  sleep 1
+fi
+
 
 exit 0
 
