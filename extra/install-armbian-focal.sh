@@ -125,6 +125,7 @@ function Install (){
 
   if [ "$_INSTALL_MODE"=="latest" ];then
     echo "Using latest version"
+    echo "GetLatestVersion '$_ORGNAME' '$_REPONAME'"
     PACKAGE_REMOTEVERSION="$(GetLatestVersion '$_ORGNAME' '$_REPONAME')"
   else
     echo "Using stable version"
