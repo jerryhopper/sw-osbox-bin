@@ -57,6 +57,7 @@ esac
 MISSING=$(dpkg --get-selections $PACKAGES 2>&1 | grep -v 'install$' | awk '{ print $6 }')
 # Optional check here to skip bothering with apt-get if $MISSING is empty
 if [ ! $MISSING=="" ];then
+  echo "MISSING='$MISSING'"
   sudo apt-get install $MISSING
 fi
 
