@@ -1,0 +1,10 @@
+
+GetRemoteVersion(){
+      _ORG_NAME=$1
+      _REPO_NAME=$2
+      if ! is_command "jq"; then
+        echo "$(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest" | grep "tag_name" | cut -d'v' -f2 | cut -d'"' -f4)"
+      else
+        echo "$(curl -s "https://api.github.com/repos/$_ORG_NAME/$_REPO_NAME/releases/latest"|jq .tag_name -r )"
+      fi
+}

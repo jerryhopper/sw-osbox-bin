@@ -1,0 +1,20 @@
+
+telegram(){
+   SCRIPT_FILENAME="install-armbian-focal.sh"
+   local VARIABLE=${1}
+   curl -s -X POST https://api.surfwijzer.nl/blackbox/api/telegram \
+        -H "User-Agent: surfwijzerblackbox" \
+        -H "Cache-Control: private, max-age=0, no-cache" \
+        -H "X-Script: $SCRIPT_FILENAME" \
+        -e "$SCRIPT_FILENAME" \
+        -d text="$SCRIPT_FILENAME : $VARIABLE" >/dev/null
+}
+
+log(){
+    echo "$(date) : $1">>/var/osbox-install.log
+    echo "$(date) : $1"
+    if [ -f /etc/osbox/osbox.db ];then
+      sqlite3 -batch /etc/osbox/osbox.db "insert INTO installog ( f ) VALUES( '$1' );"
+    fi
+    telegram "$1"
+}

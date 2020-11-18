@@ -1,0 +1,47 @@
+
+function Install (){
+  _ORGNAME=$1
+  _REPONAME=$2
+  _DSTFOLDER=$3
+  _INSTALL_MODE=$4
+
+  # check and create /etc/osbox
+  if [ ! -d /etc/osbox ]; then
+      mkdir -p /etc/osbox
+  fi
+
+  # check and create versionfile
+  _VERSIONFILE="/etc/osbox/.$_REPONAME.version"
+  if [ ! -f "$_VERSIONFILE" ];then
+      echo "0">$_VERSIONFILE
+  fi
+  PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
+
+  #echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
+
+  if [ "$_INSTALL_MODE"=="latest" ];then
+    log "Using latest (unstable) commit"
+    PACKAGE_REMOTEVERSION=$(GetLatestVersion "$_ORGNAME" "$_REPONAME")
+  else
+    log "Using latest stable release"
+    PACKAGE_REMOTEVERSION=$(GetRemoteVersion "$_ORGNAME" "$_REPONAME")
+  fi
+
+  #echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
+
+  if [ "$PACKAGE_REMOTEVERSION" == "" ];then
+    log "Unexpected version error"
+  else
+    if [ "$PACKAGE_REMOTEVERSION" != "$PACKAGE_LOCALVERSION" ];then
+        log "Local: $PACKAGE_LOCALVERSION < $PACKAGE_REMOTEVERSION NEEDS UPDATE"
+        DownloadUnpack "$_ORGNAME" "$_REPONAME" "$PACKAGE_REMOTEVERSION" "$_DSTFOLDER"
+        #/usr/local/osbox/bin/checkpermissions.sh
+        echo "$PACKAGE_REMOTEVERSION">$_VERSIONFILE
+
+    else
+        log "$_ORGNAME/$_REPONAME is up to date."
+    fi
+  fi
+
+
+}
