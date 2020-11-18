@@ -10,7 +10,6 @@ setExecutable(){
       chmod +x $_file
     fi
   fi
-
 }
 checkSymlink (){
   _SYMINK=$1
@@ -19,16 +18,13 @@ checkSymlink (){
     echo "Symlink doesnt exist $_SYMLINK"
     ln -s $_EXE $_SYMINK
   fi
-
   if [ -e "$_SYMINK" ] ; then
       # code if the symlink is broken
       echo "Dangling symlink found! $_SYMLINK"
       rm -f $_SYMINK
       ln -s $_EXE $_SYMINK
   fi
-
   setExecutable "$_SYMINK"
-
 }
 
 
