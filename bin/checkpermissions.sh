@@ -1,49 +1,44 @@
 #!/bin/bash
 
 
+setExecutable(){
+  _file=$1
+  # Permission for binaries
+  if [ -f "$_file" ];then
+    if [ ! -x "$_file" ];then
+      echo "Fixing permissions for $_file"
+      chmod +x $_file
+    fi
+  fi
+
+}
+checkSymlink (){
+  _SYMINK=$1
+  _EXE=$2
+  if [ ! -f "$_SYMINK" ];then
+    echo "Symlink doesnt exist $_SYMLINK"
+    ln -s $_EXE $_SYMINK
+  fi
+
+  if [ -e "$_SYMINK" ] ; then
+      # code if the symlink is broken
+      echo "Dangling symlink found! $_SYMLINK"
+      rm -f $_SYMINK
+      ln -s $_EXE $_SYMINK
+  fi
+
+  setExecutable "$_SYMINK"
+
+}
+
+
+
+
 # Permission for binaries
-if [ -f "/usr/local/osbox/osbox" ];then
-  if [ ! -x "/usr/local/osbox/osbox" ];then
-    echo "Fixing permissions for /usr/local/osbox/osbox"
-    chmod +x /usr/local/osbox/osbox
-  fi
-fi
-
-
-if [ -f "/usr/local/osbox/bin/update.sh" ];then
-  if [ ! -x "/usr/local/osbox/bin/update.sh" ];then
-    echo "Fixing permissions for /usr/local/osbox/bin/update.sh"
-    chmod +x /usr/local/osbox/bin/update.sh
-  fi
-fi
-
-if [ -f "/usr/local/osbox/bin/osbox-service.sh" ];then
-  if [ ! -x "/usr/local/osbox/bin/osbox-service.sh" ];then
-    echo "Fixing permissions for /usr/local/osbox/bin/osbox-service.sh"
-    chmod +x /usr/local/osbox/bin/osbox-service.sh
-  fi
-fi
+setWritable "/usr/local/osbox/osbox"
+setWritable "/usr/local/osbox/bin/update.sh"
+setWritable "/usr/local/osbox/bin/osbox-service.sh"
 
 
 # Symlink checks
-
-
-# test if symlink is broken (by seeing if it links to an existing file)
-#if [ ! -e "/sbin/osbox" ] ; then
-#    # code if the symlink is broken
-#    echo "!"
-#fi
-
-if [ -f "/sbin/osbox" ];then
-  if [ ! -x "/sbin/osbox" ];then
-    echo "Fixing permissions for /sbin/osbox"
-    chmod +x /sbin/osbox
-  fi
-fi
-
-if [ -f "/usr/sbin/osbox" ];then
-  if [ ! -x "/usr/sbin/osbox" ];then
-    echo "Fixing permissions for /usr/sbin/osbox"
-    chmod +x /usr/sbin/osbox
-  fi
-fi
+checkSymlink "/sbin/osbox" "/usr/local/osbox/osbox"
