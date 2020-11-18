@@ -177,8 +177,12 @@ fi
 # Check and install requirements.
 #bash /usr/local/osbox/bin/checkrequirements.sh
 
-log "Adding osbox user"
-useradd -m -c "osbox user account" osbox
+
+
+if [ ! $(id -u osbox) ];then
+  log "Adding osbox user"
+  useradd -m -c "osbox user account" osbox
+fi
 
 INSTALL_MODE="release"
 # check if using latest versions
@@ -188,7 +192,6 @@ fi
 
 # Install the applications
 Install "jerryhopper" "sw-osbox-bin" "/usr/local/osbox" "$INSTALL_MODE"
-exit 1
 
 Install "jerryhopper" "sw-osbox-core" "/usr/local/osbox/project/sw-osbox-core" "$INSTALL_MODE"
 
