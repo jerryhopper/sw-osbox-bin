@@ -227,8 +227,14 @@ if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
 fi
 
+# Copy the avahi service def
 if [ ! -f /etc/avahi/services/osbox.service ];then
   cp /usr/local/osbox/lib/avahi/osbox.service /etc/avahi/services/osbox.service
+fi
+
+#copy the resolv.conf
+if [ ! -f /etc/systemd/resolv.conf ];then
+  cp -f /usr/local/osbox/lib/systemd/resolved.conf /etc/systemd/resolved.conf
 fi
 
 
