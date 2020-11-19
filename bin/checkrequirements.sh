@@ -39,7 +39,7 @@ source /etc/os-release
 case "$VERSION_CODENAME" in
         focal)
             #$PACKAGES="docker avahi-daemon sqlite3 unzip php"
-            PACKAGES="docker docker.io avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev usbmount"
+            PACKAGES="docker docker.io docker-compose avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev usbmount"
             ;;
         buster)
             PACKAGES="docker avahi-daemon"
