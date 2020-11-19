@@ -65,14 +65,7 @@ if [ "$1" == "update" ]; then
         rm -f /etc/osbox/.dev
     fi
   fi
-  if [ "$2" == "?" ] || [ "$2" == "help" ];then
-    echo "Usage: "
-    echo "  osbox update latest  - resets to stable updates and runs update."
-    echo "  osbox update stable  - resets to latest unstable updates and runs update."
-    echo "  osbox update ?/help  - this message."
 
-    exit
-  fi
   bash /usr/local/osbox/bin/update.sh
   #returnedstatus $? "success" "fail"
   systemctl daemon-reload
