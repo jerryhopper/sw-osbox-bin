@@ -33,21 +33,20 @@ fi
 ####################################################################################################
 if [ "$1" == "reset" ]; then
   if [ "$2" == "version" ]; then
-    echo "0" /etc/osbox/.osbox.bin.version
-    echo "0" /etc/osbox/.osbox.core.version
+    echo "0" /etc/osbox/.sw-osbox-bin.version
+    echo "0" /etc/osbox/.sw-osbox-core.version
     bash /usr/local/osbox/bin/update.sh
   fi
   if [ "$2" == "database" ]; then
     rm -f /etc/osbox/osbox.db
     bash /usr/local/osbox/bin/update.sh
   fi
-  if [ "$2" == "all" ]; then
-    bash /usr/local/osbox/bin/update.sh
-  fi
+
   #returnedstatus $? "success" "fail"
   echo "Usage: "
   echo "  osbox reset version  - resets the version and  runs update."
   echo "  osbox reset database - removes the database and runs update."
+  echo "  osbox reset  - this message."
   exit
 fi
 
@@ -67,6 +66,7 @@ if [ "$1" == "update" ]; then
   fi
   if [ "$2" == "?" ] || [ "$2" == "help" ];then
     echo "Usage: "
+    echo "  osbox update  - Updates the application using current stable/latest setting"
     echo "  osbox update latest  - resets to stable updates and runs update."
     echo "  osbox update stable  - resets to latest unstable updates and runs update."
     echo "  osbox update ?/help  - this message."
