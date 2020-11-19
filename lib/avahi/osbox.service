@@ -9,7 +9,7 @@
     <type>_osbox._tcp</type>
     <domain-name>local</domain-name>
 
-    <port>9501</port>
+    <port>81</port>
     <txt-record>ssl=false</txt-record>
   </service>
 
