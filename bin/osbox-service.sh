@@ -3,7 +3,7 @@
 
 #source /usr/local/osbox/lib//is_root
 source /usr/local/osbox/bin/fn/log.fn
-
+source /usr/local/osbox/bin/fn/IsOnline.fn
 
 ##################################################################################################
 ## Kill the swoole process if it hasnt ended yet.
@@ -22,15 +22,11 @@ fi
 
 ##################################################################################################
 ## Connectivity and update check.
-ONLINE="NO"
-if : >/dev/tcp/8.8.8.8/53; then
-  ONLINE="YES"
-fi
-if : >/dev/tcp/1.1.1.1/53; then
-  ONLINE="YES"
-fi
-if [ "$ONLINE"=="YES" ]; then
+
+if [ "${IsOnline}"=="YES" ]; then
    bash /usr/local/osbox/bin/update.sh
+   bash /usr/local/osbox/project/sw-osbox-core/src/sh/database/update.sh
+
 fi
 
 
