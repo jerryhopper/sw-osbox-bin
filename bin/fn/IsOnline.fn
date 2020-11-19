@@ -1,0 +1,13 @@
+
+
+
+IsOnline(){
+    ONLINE="NO"
+    if : >/dev/tcp/8.8.8.8/53; then
+      ONLINE="YES"
+    fi
+    if : >/dev/tcp/1.1.1.1/53; then
+      ONLINE="YES"
+    fi
+    echo "$ONLINE"
+}
