@@ -18,8 +18,8 @@ function Install (){
   PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
 
   #echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
-
-  if [ "$_INSTALL_MODE"=="latest" ];then
+  echo "Mode: $_INSTALL_MODE"
+  if [ "$_INSTALL_MODE" == "latest" ];then
     log "Using latest (unstable) commit"
     PACKAGE_REMOTEVERSION=$(GetLatestVersion "$_ORGNAME" "$_REPONAME")
   else
