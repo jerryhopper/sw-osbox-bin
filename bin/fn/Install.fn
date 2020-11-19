@@ -3,7 +3,7 @@ function Install (){
   _ORGNAME=$1
   _REPONAME=$2
   _DSTFOLDER=$3
-  _INSTALL_MODE=$4
+  _INSTALL_MODUS=$4
 
   # check and create /etc/osbox
   if [ ! -d /etc/osbox ]; then
@@ -18,8 +18,8 @@ function Install (){
   PACKAGE_LOCALVERSION="$(<$_VERSIONFILE)"
 
   #echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
-  echo "Mode: $_INSTALL_MODE"
-  if [ "$_INSTALL_MODE" == "latest" ];then
+  echo "Mode: $_INSTALL_MODUS"
+  if [ "$_INSTALL_MODUS" == "latest" ];then
     log "Using latest (unstable) commit"
     PACKAGE_REMOTEVERSION=$(GetLatestVersion "$_ORGNAME" "$_REPONAME")
   else
