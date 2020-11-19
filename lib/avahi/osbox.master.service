@@ -30,7 +30,7 @@
     <type>_osboxmaster._tcp</type>
     <domain-name>local</domain-name>
 
-    <port>9502</port>
+    <port>82</port>
     <txt-record>ssl=true</txt-record>
   </service>
 

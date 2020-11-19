@@ -38,3 +38,4 @@ setExecutable "/usr/local/osbox/bin/osbox-service.sh"
 
 # Symlink checks
 checkSymlink "/sbin/osbox" "/usr/local/osbox/osbox"
+

@@ -217,15 +217,21 @@ Install "jerryhopper" "sw-osbox-core" "/usr/local/osbox/project/sw-osbox-core" "
 bash /usr/local/osbox/bin/checkpermissions.sh
 
 
-## Enable the service
+## Enable the systemd-service
 if [ ! -f /etc/systemd/system/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/osbox.service
 fi
 
-# Flag service active
+# Flag service systemd-active
 if [ ! -f /etc/systemd/system/multi-user.target.wants/osbox.service ];then
   ln -s /usr/local/osbox/lib/systemd/osbox.service /etc/systemd/system/multi-user.target.wants/osbox.service
 fi
+
+if [ ! -f /etc/avahi/services/osbox.service ];then
+  cp /usr/local/osbox/lib/avahi/osbox.service /etc/avahi/services/osbox.service
+fi
+
+
 
 exit 0
 
