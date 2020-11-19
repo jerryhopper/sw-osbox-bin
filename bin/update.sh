@@ -55,7 +55,7 @@ INSTALL_MODE="release"
 if [ -f /etc/osbox/.dev ];then
    INSTALL_MODE="latest"
 fi
-
+echo "Mode: $INSTALL_MODE"
 # Install the applications
 Install "jerryhopper" "sw-osbox-bin" "/usr/local/osbox" "$INSTALL_MODE"
 
