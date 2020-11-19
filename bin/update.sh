@@ -45,10 +45,10 @@ bash /usr/local/osbox/bin/checkrequirements.sh
 
 
 
-if [ ! $(id -u osbox) ];then
-  log "Adding osbox user"
+#if [ ! $(id -u osbox) ];then
+#  log "Adding osbox user"
   useradd -m -c "osbox user account" osbox
-fi
+#fi
 
 INSTALL_MODE="release"
 # check if using latest versions
