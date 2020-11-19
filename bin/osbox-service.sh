@@ -24,7 +24,9 @@ fi
 ## Connectivity and update check.
 
 if [ "${IsOnline}"=="YES" ]; then
+   # Apply code updates
    bash /usr/local/osbox/bin/update.sh
+   # Run database updgrades
    bash /usr/local/osbox/project/sw-osbox-core/src/sh/database/update.sh
 
 fi
