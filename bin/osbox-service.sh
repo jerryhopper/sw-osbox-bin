@@ -40,6 +40,8 @@ fi
 ##################################################################################################
 # start the service.
 log "osbox-service.sh started"
-/usr/bin/php /usr/local/osbox/project/sw-osbox-core/src/www/server.php
+#/usr/bin/php /usr/local/osbox/project/sw-osbox-core/src/www/server.php
+
+/usr/bin/php /usr/local/osbox/project/sw-osbox-core/src/WebSocketServer/server.php
 
 exit
