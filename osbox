@@ -74,6 +74,7 @@ if [ "$1" == "update" ]; then
     exit
   fi
   bash /usr/local/osbox/bin/update.sh
+  bash /usr/local/osbox/project/sw-osbox-core/src/sh/database/update.sh
   #returnedstatus $? "success" "fail"
   systemctl daemon-reload
   exit
