@@ -1,26 +1,12 @@
 #!/bin/bash
 
-
-
 source /usr/local/osbox/bin/fn/GetLatestVersion.fn
-
 source /usr/local/osbox/bin/fn/GetRemoteVersion.fn
-
 source /usr/local/osbox/bin/fn/InstallSwoole.fn
-
 source /usr/local/osbox/bin/fn/DownloadUnpack.fn
-
 source /usr/local/osbox/bin/fn/Install.fn
-
 source /usr/local/osbox/bin/fn/log.fn
-
 source /usr/local/osbox/bin/fn/is_command.fn
-
-
-
-
-
-
 
 
 # cat /etc/os-release
