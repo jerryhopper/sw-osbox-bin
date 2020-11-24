@@ -39,7 +39,7 @@ source /etc/os-release
 case "$VERSION_CODENAME" in
         focal)
             #$PACKAGES="docker avahi-daemon sqlite3 unzip php"
-            PACKAGES="docker docker.io docker-compose avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev usbmount"
+            PACKAGES="docker docker-compose avahi-daemon avahi-utils libsodium23 build-essential libzip5 libedit2 libxslt1.1 nmap curl jq wget git unzip sqlite3 php-dev usbmount"
             ;;
         buster)
             PACKAGES="docker avahi-daemon"
@@ -56,9 +56,9 @@ esac
 # Install packages.
 MISSING=$(dpkg --get-selections $PACKAGES 2>&1 | grep -v 'install$' | awk '{ print $6 }')
 # Optional check here to skip bothering with apt-get if $MISSING is empty
-if [ ! $MISSING=="" ];then
+if [ "$MISSING"!="" ];then
   echo "MISSING='$MISSING'"
-  sudo apt-get install $MISSING
+  apt-get -y install $MISSING
   # cleanup
   sudo apt -y autoremove && apt clean
 fi
