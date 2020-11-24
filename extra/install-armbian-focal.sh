@@ -23,7 +23,7 @@ log(){
     if [ -f /etc/osbox/osbox.db ];then
       sqlite3 -batch /etc/osbox/osbox.db "insert INTO installog ( f ) VALUES( '$1' );"
     fi
-    telegram "$1"
+    #telegram "$1"
 }
 
 # is_command function

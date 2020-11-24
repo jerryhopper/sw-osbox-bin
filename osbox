@@ -39,5 +39,5 @@ fi
 ####################################################################################################
 ## Run OSBOX core functionality.
 if [ -f /usr/local/osbox/project/sw-osbox-core/osbox.sh ];then
-  bash /usr/local/osbox/project/sw-osbox-core/osbox.sh $1 $2 $3 $4 $5 $6
+  bash /usr/local/osbox/project/sw-osbox-core/osbox.sh "$@"
 fi
