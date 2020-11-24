@@ -21,13 +21,16 @@ function Install (){
   echo "Mode: $_INSTALL_MODUS"
   if [ "$_INSTALL_MODUS" == "latest" ];then
     log "Using latest (unstable) commit"
-    PACKAGE_REMOTEVERSION=$(GetLatestVersion "$_ORGNAME" "$_REPONAME")
+    PACKAGE_REMOTEVERSION="$(curl -s "https://api.github.com/repos/$_ORGNAME/$_REPONAME/git/refs/heads/master"|jq .object.sha -r )"
   else
     log "Using latest stable release"
-    PACKAGE_REMOTEVERSION=$(GetRemoteVersion "$_ORGNAME" "$_REPONAME")
+    #curl -s "https://api.github.com/repos/$_ORGNAME/$_REPONAME/releases/latest"|jq .tag_name -r
+    #PACKAGE_REMOTEVERSION=$(GetRemoteVersion "$_ORGNAME" "$_REPONAME")
+    PACKAGE_REMOTEVERSION="$(curl -s "https://api.github.com/repos/$_ORGNAME/$_REPONAME/releases/latest"|jq .tag_name -r)"
+
   fi
 
-  #echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
+  echo "PACKAGE_REMOTEVERSION='$PACKAGE_REMOTEVERSION'";
 
   if [ "$PACKAGE_REMOTEVERSION" == "" ];then
     log "Unexpected version error"

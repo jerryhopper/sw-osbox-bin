@@ -28,7 +28,9 @@ checkSymlink (){
 }
 
 
-
+if [ -f /etc/osbox/osbox.db ];then
+    chmod 0777 /etc/osbox/osbox.db
+fi
 
 # Permission for binaries
 setExecutable "/usr/local/osbox/osbox"
