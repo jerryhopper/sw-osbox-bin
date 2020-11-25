@@ -28,8 +28,8 @@ checkSymlink (){
 }
 
 
-if [ -f /etc/osbox/osbox.db ];then
-    chmod 0777 /etc/osbox/osbox.db
+if [ -w /etc/osbox/osbox.db ];then
+    chmod 0666 /etc/osbox/osbox.db
 fi
 
 # Permission for binaries
