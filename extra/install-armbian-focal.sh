@@ -233,9 +233,9 @@ if [ ! -f /etc/avahi/services/osbox.service ];then
 fi
 
 #copy the resolv.conf
-if [ ! -f /etc/systemd/resolv.conf ];then
-  cp -f /usr/local/osbox/lib/systemd/resolved.conf /etc/systemd/resolved.conf
-fi
+#if [ ! -f /etc/systemd/resolv.conf ];then
+cp -f /usr/local/osbox/lib/systemd/resolved.conf /etc/systemd/resolved.conf
+#fi
 
 
 

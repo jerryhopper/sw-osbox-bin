@@ -56,7 +56,7 @@ esac
 # Install packages.
 MISSING=$(dpkg --get-selections $PACKAGES 2>&1 | grep -v 'install$' | awk '{ print $6 }')
 # Optional check here to skip bothering with apt-get if $MISSING is empty
-if [ "$MISSING"!="" ];then
+if [ "$MISSING" != "" ];then
   echo "MISSING='$MISSING'"
   apt-get -y install $MISSING
   # cleanup
