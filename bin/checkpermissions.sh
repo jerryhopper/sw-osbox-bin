@@ -27,7 +27,10 @@ checkSymlink (){
   setExecutable "$_SYMINK"
 }
 
-
+if [ ! -f /etc/osbox/osbox.db ];then
+    touch /etc/osbox/osbox.db
+    chmod 0666 /etc/osbox/osbox.db
+fi
 if [ ! -w /etc/osbox/osbox.db ];then
     chmod 0666 /etc/osbox/osbox.db
 fi
