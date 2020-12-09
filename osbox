@@ -3,7 +3,17 @@
 ## sw-osbox-bin
 ## JerryHopper - hopper.jerry@gmail.com
 
+if [ "$1" == "getssl" ];then
+  crt="https://api.surfwijzer.nl/localssl/ssl.dockbox.nl/ssl.dockbox.nl.crt"
+  key="https://api.surfwijzer.nl/localssl/ssl.dockbox.nl/ssl.dockbox.nl.key"
+  dstdir="/etc/osbox/.ssl"
 
+  if [ -d $dstdir ];then
+      mkdir -p $dstdir
+  fi
+
+  
+fi
 
 
 ####################################################################################################
