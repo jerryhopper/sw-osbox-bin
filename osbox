@@ -3,10 +3,7 @@
 ## sw-osbox-bin
 ## JerryHopper - hopper.jerry@gmail.com
 
-if [ "$1" == "getssl" ];then
-  source /usr/local/osbox/bin/fn/GetSsl.fn
-  getSSL
-fi
+
 
 
 ####################################################################################################
