@@ -5,7 +5,7 @@
 
 if [ "$1" == "getssl" ];then
   source /usr/local/osbox/bin/fn/GetSsl.fn
-  getSSL  
+  getSSL
 fi
 
 

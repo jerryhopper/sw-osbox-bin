@@ -4,6 +4,7 @@
 #source /usr/local/osbox/lib//is_root
 source /usr/local/osbox/bin/fn/log.fn
 source /usr/local/osbox/bin/fn/IsOnline.fn
+source /usr/local/osbox/bin/fn/GetSsl.fn
 
 ##################################################################################################
 ## Kill the swoole process if it hasnt ended yet.
@@ -35,7 +36,8 @@ fi
 
 
 
-
+# get ssl for secure websockets
+getSSL
 
 
 
