@@ -11,8 +11,8 @@ if [ "$1" == "getssl" ];then
   if [ -d $dstdir ];then
       mkdir -p $dstdir
   fi
-
-  
+  wget $crt $dstdir
+  wget $key $dstdir
 fi
 
 
