@@ -35,6 +35,9 @@ if [ "${IsOnline}"=="YES" ]; then
 fi
 
 
+if [ ! -f /etc/osbox/.authorization ];then
+   /usr/local/osbox/osbox unregistered
+fi
 
 
 ##################################################################################################

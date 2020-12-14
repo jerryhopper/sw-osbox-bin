@@ -1,16 +1,11 @@
 <?xml version="1.0" standalone='no'?><!--*-nxml-*-->
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-
 <service-group>
-
   <name replace-wildcards="yes">Unconfigured OsBox device on %h</name>
-
   <service protocol="ipv4">
     <type>_osbox._tcp</type>
     <domain-name>local</domain-name>
-
     <port>81</port>
     <txt-record>ssl=false</txt-record>
   </service>
-
 </service-group>
