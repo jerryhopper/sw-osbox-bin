@@ -237,8 +237,18 @@ fi
 cp -f /usr/local/osbox/lib/systemd/resolved.conf /etc/systemd/resolved.conf
 #fi
 
+# FusionAuth Idpserver specific information.
+echo "idp.surfwijzer.nl">/etc/osbox/.idp_server
+echo "89d998a5-aaef-45d0-9765-adf1f3e00c65">/etc/osbox/.client_id
 
+echo "https://setup.surfwijzer.nl">/etc/osbox/.backendhost
 
 exit 0
+
+
+
+
+
+
 
 
