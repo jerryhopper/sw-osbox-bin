@@ -20,10 +20,10 @@ function Install (){
   #echo "PACKAGE_LOCALVERSION='$PACKAGE_LOCALVERSION'";
   echo "Mode: $_INSTALL_MODUS"
   if [ "$_INSTALL_MODUS" == "latest" ];then
-    log "Using latest (unstable) commit"
+    #log "Using latest (unstable) commit"
     PACKAGE_REMOTEVERSION="$(curl -s "https://api.github.com/repos/$_ORGNAME/$_REPONAME/git/refs/heads/master"|jq .object.sha -r )"
   else
-    log "Using latest stable release"
+    #log "Using latest stable release"
     #curl -s "https://api.github.com/repos/$_ORGNAME/$_REPONAME/releases/latest"|jq .tag_name -r
     #PACKAGE_REMOTEVERSION=$(GetRemoteVersion "$_ORGNAME" "$_REPONAME")
     PACKAGE_REMOTEVERSION="$(curl -s "https://api.github.com/repos/$_ORGNAME/$_REPONAME/releases/latest"|jq .tag_name -r)"
@@ -41,8 +41,8 @@ function Install (){
         #/usr/local/osbox/bin/checkpermissions.sh
         echo "$PACKAGE_REMOTEVERSION">$_VERSIONFILE
 
-    else
-        log "$_ORGNAME/$_REPONAME is up to date."
+    #else
+    #    log "$_ORGNAME/$_REPONAME is up to date."
     fi
   fi
 
