@@ -93,7 +93,7 @@ DownloadUnpack(){
       fi
 
       # Download the file
-      log "Downloading https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
+      #log "Downloading https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz"
       curl -s -L -o ${REPO_NAME}.tar.gz https://github.com/${ORG_NAME}/${REPO_NAME}/archive/${LATEST_VERSION}.tar.gz >/dev/null
       if [ $? != 0 ]; then
         log "Error during download"
