@@ -6,6 +6,11 @@ source /usr/local/osbox/bin/fn/log.fn
 source /usr/local/osbox/bin/fn/IsOnline.fn
 
 
+if [ ! -f /etc/osbox/.deviceID ];then
+    echo "$(cat /proc/sys/kernel/random/uuid)">/etc/osbox/.deviceID
+fi
+
+
 ##################################################################################################
 ## Kill the swoole process if it hasnt ended yet.
 if [ -f /run/swoole.pid ];then
