@@ -7,7 +7,7 @@ source /usr/local/osbox/bin/fn/IsOnline.fn
 
 
 if [ ! -f /etc/osbox/.deviceID ];then
-    echo "$(cat /proc/sys/kernel/random/uuid)">/etc/osbox/.deviceID
+    echo -n "$(cat /proc/sys/kernel/random/uuid)">/etc/osbox/.deviceID
 fi
 
 
