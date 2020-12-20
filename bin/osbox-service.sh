@@ -6,6 +6,16 @@ source /usr/local/osbox/bin/fn/log.fn
 source /usr/local/osbox/bin/fn/IsOnline.fn
 
 
+systemctl stop serial-getty@ttyS0.service
+
+crontab -l
+if [ "$?" != "0"];then
+  osbox cron create
+fi
+
+
+
+
 if [ ! -f /etc/osbox/.deviceID ];then
     echo -n "$(cat /proc/sys/kernel/random/uuid)">/etc/osbox/.deviceID
 fi
