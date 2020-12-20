@@ -8,8 +8,7 @@ source /usr/local/osbox/bin/fn/IsOnline.fn
 
 systemctl stop serial-getty@ttyS0.service
 
-crontab -l
-if [ "$?" != "0"];then
+if [ -f /etc/cron.d/osbox-daily ];then
   osbox cron create
 fi
 
